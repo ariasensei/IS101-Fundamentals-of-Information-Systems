@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer Hardware Fundamentals</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .heading-font {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    .tab-button {
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .tab-button.active {
+      color: #0891b2;
+    }
+
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #0891b2, #06b6d4);
+      border-radius: 2px;
+    }
+
+    .content-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(6, 182, 212, 0.15);
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #164e63 0%, #0e5f7e 50%, #0891b2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .comparison-table th {
+      background: rgba(6, 182, 212, 0.2);
+      color: #a5f3fc;
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 2px solid rgba(6, 182, 212, 0.5);
+      font-weight: 600;
+    }
+
+    .comparison-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+      color: #cbd5e1;
+    }
+
+    main {
+      overflow-y: auto;
+      flex: 1;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col">
+  <div class="w-full h-full flex flex-col"><!-- Header - Compact -->
+   <header class="hero-gradient w-full px-4 py-8 flex-shrink-0">
+    <div class="max-w-7xl mx-auto">
+     <h1 class="heading-font text-3xl md:text-4xl font-bold text-white mb-2">Computer Hardware Fundamentals</h1>
+     <p class="text-sm text-white/80 mb-4">Week 5 | Duration: 2 hours | Instructor: MKDB | Lyceum de San Pablo</p>
+    </div>
+   </header><!-- Tab Navigation -->
+   <nav class="w-full bg-slate-900/50 border-b border-slate-800 sticky top-0 z-40 overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-4">
+     <div class="flex gap-4 text-sm"><button class="tab-button active px-3 py-3 whitespace-nowrap text-slate-300 hover:text-white" data-tab="overview">Overview</button> <button class="tab-button px-3 py-3 whitespace-nowrap text-slate-300 hover:text-white" data-tab="processors">CPU/GPU</button> <button class="tab-button px-3 py-3 whitespace-nowrap text-slate-300 hover:text-white" data-tab="memory">Memory</button> <button class="tab-button px-3 py-3 whitespace-nowrap text-slate-300 hover:text-white" data-tab="storage">Storage</button> <button class="tab-button px-3 py-3 whitespace-nowrap text-slate-300 hover:text-white" data-tab="casestudies">Real Cases</button> <button class="tab-button px-3 py-3 whitespace-nowrap text-slate-300 hover:text-white" data-tab="activities">Activities</button>
+     </div>
+    </div>
+   </nav><!-- Main Content -->
+   <main class="w-full px-4 py-6">
+    <div class="max-w-5xl mx-auto"><!-- OVERVIEW -->
+     <section id="overview" class="content-section active space-y-4">
+      <h2 class="heading-font text-2xl font-bold text-white">Learning Objectives</h2>
+      <div class="grid md:grid-cols-3 gap-3">
+       <div class="bg-slate-800/50 rounded p-4 border border-slate-700/50">
+        <p class="font-semibold text-cyan-300 text-sm mb-2">Identify Components</p>
+        <p class="text-xs text-slate-300">CPU, GPU, Memory, Storage, I/O devices and their functions</p>
+       </div>
+       <div class="bg-slate-800/50 rounded p-4 border border-slate-700/50">
+        <p class="font-semibold text-cyan-300 text-sm mb-2">Explain Performance</p>
+        <p class="text-xs text-slate-300">How specs determine capability and choose right hardware</p>
+       </div>
+       <div class="bg-slate-800/50 rounded p-4 border border-slate-700/50">
+        <p class="font-semibold text-cyan-300 text-sm mb-2">Make Decisions</p>
+        <p class="text-xs text-slate-300">Trade-offs in cost, power, performance, and durability</p>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 mt-4">
+       <h3 class="text-cyan-300 font-semibold mb-2 text-sm">What is Computer Hardware?</h3>
+       <p class="text-slate-300 text-sm leading-relaxed mb-3">Physical components that process, store, and display data. Input → CPU processes → Output. All components work together as a system.</p>
+       <h4 class="text-blue-300 font-semibold mb-2 text-sm">Five Essential Categories:</h4>
+       <div class="grid grid-cols-5 gap-2">
+        <div class="bg-slate-900/50 rounded p-2 text-center"><span class="text-lg">⚙️</span>
+         <p class="text-xs text-slate-300 mt-1">Processing (CPU/GPU)</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-2 text-center"><span class="text-lg">💾</span>
+         <p class="text-xs text-slate-300 mt-1">Memory (RAM)</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-2 text-center"><span class="text-lg">💿</span>
+         <p class="text-xs text-slate-300 mt-1">Storage (SSD/HDD)</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-2 text-center"><span class="text-lg">⚡</span>
+         <p class="text-xs text-slate-300 mt-1">Power &amp; Cooling</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-2 text-center"><span class="text-lg">🔌</span>
+         <p class="text-xs text-slate-300 mt-1">Peripherals &amp; I/O</p>
+        </div>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 mt-4">
+       <h3 class="text-cyan-300 font-semibold mb-3 text-sm">2024 Hardware Trends</h3>
+       <ul class="space-y-1 text-sm text-slate-300">
+        <li>✓ <strong>AI Accelerators:</strong> NPU chips built into every processor</li>
+        <li>✓ <strong>Efficiency Focus:</strong> ARM/Efficiency cores reducing power draw</li>
+        <li>✓ <strong>NVMe Gen5:</strong> 14GB/s storage speeds becoming standard</li>
+        <li>✓ <strong>DDR5 Adoption:</strong> 2x bandwidth of DDR4</li>
+        <li>✓ <strong>Unified Memory:</strong> Apple M-series model spreading to other platforms</li>
+       </ul>
+      </div>
+     </section><!-- PROCESSORS -->
+     <section id="processors" class="content-section space-y-4">
+      <h2 class="heading-font text-2xl font-bold text-white">Processors: CPU vs GPU</h2>
+      <div class="grid md:grid-cols-2 gap-4"><!-- CPU -->
+       <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+        <h3 class="text-indigo-300 font-semibold mb-3 flex items-center gap-2">⚙️ CPU</h3>
+        <p class="text-xs text-slate-300 mb-3">Central Processing Unit - Brain of computer</p>
+        <ul class="text-xs text-slate-300 space-y-1">
+         <li><strong>Cores:</strong> 4-16 powerful cores typical</li>
+         <li><strong>Speed:</strong> 2-5 GHz per core</li>
+         <li><strong>Best for:</strong> Sequential logic, control</li>
+         <li><strong>Latency:</strong> Optimized for single-task speed</li>
+        </ul>
+        <div class="bg-slate-900/50 rounded p-2 mt-3 text-xs"><strong class="text-indigo-200">2024 Examples:</strong>
+         <p class="text-slate-400 text-xs mt-1">Apple M4 (10 cores), Intel Core Ultra (14 cores), Snapdragon 8 Gen 3 (8 cores)</p>
+        </div>
+       </div><!-- GPU -->
+       <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+        <h3 class="text-purple-300 font-semibold mb-3 flex items-center gap-2">🎮 GPU</h3>
+        <p class="text-xs text-slate-300 mb-3">Graphics Processing Unit - Parallel processor</p>
+        <ul class="text-xs text-slate-300 space-y-1">
+         <li><strong>Cores:</strong> 1000s of small cores</li>
+         <li><strong>Throughput:</strong> Processes 1000s operations simultaneously</li>
+         <li><strong>Best for:</strong> Gaming, AI, video encoding</li>
+         <li><strong>Power:</strong> 80-450W depending on model</li>
+        </ul>
+        <div class="bg-slate-900/50 rounded p-2 mt-3 text-xs"><strong class="text-purple-200">2024 Examples:</strong>
+         <p class="text-slate-400 text-xs mt-1">NVIDIA RTX 4090 ($1600), H100 ($35K), Apple GPU (8-20 cores)</p>
+        </div>
+       </div>
+      </div>
+      <table class="comparison-table bg-slate-800/50 rounded border border-slate-700/50 mt-4">
+       <tbody>
+        <tr class="border-b border-slate-700">
+         <td class="font-bold text-cyan-300 p-2">Aspect</td>
+         <td class="text-cyan-300 p-2">CPU</td>
+         <td class="text-cyan-300 p-2">GPU</td>
+        </tr>
+        <tr class="border-b border-slate-700">
+         <td class="p-2 text-slate-300 font-semibold text-xs">Architecture</td>
+         <td class="p-2 text-slate-300 text-xs">Few powerful cores</td>
+         <td class="p-2 text-slate-300 text-xs">Thousands small cores</td>
+        </tr>
+        <tr class="border-b border-slate-700">
+         <td class="p-2 text-slate-300 font-semibold text-xs">Speed Focus</td>
+         <td class="p-2 text-slate-300 text-xs">Individual task speed</td>
+         <td class="p-2 text-slate-300 text-xs">Total throughput</td>
+        </tr>
+        <tr class="border-b border-slate-700">
+         <td class="p-2 text-slate-300 font-semibold text-xs">Power Draw</td>
+         <td class="p-2 text-slate-300 text-xs">35-55W typical</td>
+         <td class="p-2 text-slate-300 text-xs">80-450W depends</td>
+        </tr>
+        <tr>
+         <td class="p-2 text-slate-300 font-semibold text-xs">Best For</td>
+         <td class="p-2 text-slate-300 text-xs">General computing</td>
+         <td class="p-2 text-slate-300 text-xs">Gaming, AI, video</td>
+        </tr>
+       </tbody>
+      </table>
+      <div class="bg-orange-900/30 border border-orange-500/50 rounded-lg p-4 mt-4">
+       <h4 class="text-orange-300 font-semibold text-sm mb-2">💡 Real Example: ChatGPT Training</h4>
+       <p class="text-xs text-slate-300">Trained using 10,000-20,000 NVIDIA H100 GPUs. Cost: $350-700M in hardware alone. Why? CPU training would take 50+ years. GPU: a few months. This shows why AI companies need GPU acceleration.</p>
+      </div>
+     </section><!-- MEMORY -->
+     <section id="memory" class="content-section space-y-4">
+      <h2 class="heading-font text-2xl font-bold text-white">Memory: Speed vs Capacity</h2>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+       <p class="text-xs text-slate-300 mb-4">Computers use different memory types at different speeds. Faster memory is expensive, larger memory is cheap but slow.</p>
+       <div class="space-y-2">
+        <div class="flex items-center gap-2 text-xs"><span class="w-20 font-semibold text-green-300">L1 Cache</span>
+         <div class="flex-1 bg-green-900/50 rounded px-2 py-1">
+          32KB | 0.3ns | SRAM
+         </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs"><span class="w-20 font-semibold text-green-300">L2 Cache</span>
+         <div class="flex-1 bg-green-900/50 rounded px-2 py-1">
+          256KB | 1.2ns | SRAM
+         </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs"><span class="w-20 font-semibold text-green-300">L3 Cache</span>
+         <div class="flex-1 bg-emerald-900/50 rounded px-2 py-1">
+          8-40MB | 12ns | SRAM
+         </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs"><span class="w-20 font-semibold text-cyan-300">RAM</span>
+         <div class="flex-1 bg-cyan-900/50 rounded px-2 py-1">
+          8-64GB | 100ns | DRAM
+         </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs"><span class="w-20 font-semibold text-yellow-300">SSD</span>
+         <div class="flex-1 bg-yellow-900/50 rounded px-2 py-1">
+          256GB-2TB | 100μs | NVMe
+         </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs"><span class="w-20 font-semibold text-orange-300">HDD</span>
+         <div class="flex-1 bg-orange-900/50 rounded px-2 py-1">
+          1-8TB | 10ms | Mechanical
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+       <h3 class="text-blue-300 font-semibold mb-3 text-sm">RAM: Temporary Working Memory</h3>
+       <ul class="text-xs text-slate-300 space-y-1 mb-3">
+        <li>• <strong>Volatile:</strong> Lost when power off (unlike storage)</li>
+        <li>• <strong>Speed:</strong> ~100ns access time</li>
+        <li>• <strong>Current Types:</strong> DDR4 (older, cheap), DDR5 (newer, 2x speed)</li>
+        <li>• <strong>Cost:</strong> $5-10/GB (expensive vs storage)</li>
+       </ul>
+       <h4 class="text-cyan-300 font-semibold text-xs mb-2">How Much Do You Need?</h4>
+       <div class="grid grid-cols-4 gap-2">
+        <div class="bg-slate-900/50 rounded p-2 text-xs">
+         <p class="font-semibold text-yellow-300">8GB</p>
+         <p class="text-slate-400 text-xs">Basic browsing</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-2 text-xs">
+         <p class="font-semibold text-blue-300">16GB</p>
+         <p class="text-slate-400 text-xs">Gaming, coding</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-2 text-xs">
+         <p class="font-semibold text-purple-300">32GB</p>
+         <p class="text-slate-400 text-xs">Pro work, AI</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-2 text-xs">
+         <p class="font-semibold text-red-300">64GB+</p>
+         <p class="text-slate-400 text-xs">Servers, big data</p>
+        </div>
+       </div>
+      </div>
+      <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4">
+       <h4 class="text-purple-300 font-semibold text-sm mb-2">💡 Real Impact</h4>
+       <p class="text-xs text-slate-300">Chrome uses 2-4GB RAM (each tab separate). Video games need 8-16GB. Professional 3D software: 32-64GB. RAM demands keep growing because developers don't optimize anymore—they just throw more RAM at it.</p>
+      </div>
+     </section><!-- STORAGE -->
+     <section id="storage" class="content-section space-y-4">
+      <h2 class="heading-font text-2xl font-bold text-white">Storage: Permanent Data</h2>
+      <table class="comparison-table bg-slate-800/50 rounded border border-slate-700/50">
+       <tbody>
+        <tr class="border-b border-slate-700">
+         <td class="font-bold text-cyan-300 p-2 text-xs">Type</td>
+         <td class="text-cyan-300 p-2 text-xs">Speed</td>
+         <td class="text-cyan-300 p-2 text-xs">Capacity</td>
+         <td class="text-cyan-300 p-2 text-xs">$/GB</td>
+         <td class="text-cyan-300 p-2 text-xs">Best For</td>
+        </tr>
+        <tr class="border-b border-slate-700">
+         <td class="p-2 font-semibold text-slate-300 text-xs">HDD</td>
+         <td class="p-2 text-slate-300 text-xs">150 MB/s</td>
+         <td class="p-2 text-slate-300 text-xs">1-20TB</td>
+         <td class="p-2 text-slate-300 text-xs">$0.01</td>
+         <td class="p-2 text-slate-300 text-xs">Archival</td>
+        </tr>
+        <tr class="border-b border-slate-700">
+         <td class="p-2 font-semibold text-slate-300 text-xs">SATA SSD</td>
+         <td class="p-2 text-slate-300 text-xs">550 MB/s</td>
+         <td class="p-2 text-slate-300 text-xs">240GB-4TB</td>
+         <td class="p-2 text-slate-300 text-xs">$0.10</td>
+         <td class="p-2 text-slate-300 text-xs">Budget</td>
+        </tr>
+        <tr class="border-b border-slate-700">
+         <td class="p-2 font-semibold text-slate-300 text-xs">NVMe Gen4</td>
+         <td class="p-2 text-slate-300 text-xs">7,000 MB/s</td>
+         <td class="p-2 text-slate-300 text-xs">256GB-4TB</td>
+         <td class="p-2 text-slate-300 text-xs">$0.15</td>
+         <td class="p-2 text-slate-300 text-xs">Gaming</td>
+        </tr>
+        <tr>
+         <td class="p-2 font-semibold text-slate-300 text-xs">NVMe Gen5</td>
+         <td class="p-2 text-slate-300 text-xs">14,000 MB/s</td>
+         <td class="p-2 text-slate-300 text-xs">256GB-2TB</td>
+         <td class="p-2 text-slate-300 text-xs">$0.20</td>
+         <td class="p-2 text-slate-300 text-xs">Pro/Latest</td>
+        </tr>
+       </tbody>
+      </table>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 mt-4">
+       <h4 class="text-purple-300 font-semibold mb-2 text-sm">⚡ Real Impact: Game Load Times</h4>
+       <p class="text-xs text-slate-300 mb-2">Loading a 20GB game file:</p>
+       <ul class="text-xs text-slate-300 space-y-1">
+        <li>• HDD: 2-3 minutes</li>
+        <li>• SATA SSD: 25-30 seconds</li>
+        <li>• NVMe Gen5: 2-3 seconds</li>
+       </ul>
+       <p class="text-xs text-slate-400 mt-2">PlayStation 5 uses custom NVMe to make instant loading possible.</p>
+      </div>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 mt-4">
+       <h4 class="text-blue-300 font-semibold mb-2 text-sm">When to Use Each:</h4>
+       <ul class="text-xs text-slate-300 space-y-1">
+        <li>🔹 <strong>HDD:</strong> Large backup drives, file archival, cheap bulk storage</li>
+        <li>🔹 <strong>SATA SSD:</strong> Budget upgrades, secondary drives</li>
+        <li>🔹 <strong>NVMe Gen4:</strong> Gaming, creative work—best value</li>
+        <li>🔹 <strong>NVMe Gen5:</strong> Professional workflows where speed matters</li>
+       </ul>
+      </div>
+     </section><!-- CASE STUDIES -->
+     <section id="casestudies" class="content-section space-y-4">
+      <h2 class="heading-font text-2xl font-bold text-white">Real-World Examples</h2>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+       <h3 class="text-red-300 font-semibold mb-2 text-sm">🎮 PlayStation 5</h3>
+       <p class="text-xs text-slate-300 mb-2"><strong>Why custom hardware dominates gaming:</strong></p>
+       <ul class="text-xs text-slate-300 space-y-1">
+        <li>• CPU: 8-core Zen 2 @ 3.5 GHz</li>
+        <li>• GPU: 10.28 TFLOPS (custom RDNA 2)</li>
+        <li>• RAM: 16GB GDDR6 @ 448GB/s</li>
+        <li>• Storage: 825GB NVMe @ 5.5GB/s (ultra-fast)</li>
+        <li>• Price: $499 (2024)</li>
+       </ul>
+       <p class="text-xs text-slate-400 mt-2"><strong>Impact:</strong> Custom chips optimized for gaming beat general-purpose CPUs. PS5 does 4K/60fps what needs $2000 PC.</p>
+      </div>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+       <h3 class="text-indigo-300 font-semibold mb-2 text-sm">💻 Apple M4</h3>
+       <p class="text-xs text-slate-300 mb-2"><strong>Unified memory advantage:</strong></p>
+       <ul class="text-xs text-slate-300 space-y-1">
+        <li>• 10 cores (4P + 6E efficiency cores)</li>
+        <li>• Up to 20-core GPU (integrated)</li>
+        <li>• Up to 36GB unified memory</li>
+        <li>• 12W TDP (incredibly efficient)</li>
+        <li>• Video export 3-5x faster than competing CPUs</li>
+       </ul>
+       <p class="text-xs text-slate-400 mt-2"><strong>Why?</strong> Unified memory = CPU &amp; GPU share same pool instantly. No copying data between components = massive speedup for creative work.</p>
+      </div>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+       <h3 class="text-yellow-300 font-semibold mb-2 text-sm">🤖 NVIDIA H100</h3>
+       <p class="text-xs text-slate-300 mb-2"><strong>Why AI companies pay $35,000 per GPU:</strong></p>
+       <ul class="text-xs text-slate-300 space-y-1">
+        <li>• 16,896 CUDA cores</li>
+        <li>• 3.35 TB/s memory bandwidth</li>
+        <li>• 1,455 TFLOPS (trillion operations/sec)</li>
+        <li>• Training cost per H100: $1,000/month electricity</li>
+       </ul>
+       <p class="text-xs text-slate-400 mt-2"><strong>ChatGPT Cost:</strong> Used 10,000-20,000 H100s = $350-700M hardware. CPU would take 50,000 years. GPU: a few months.</p>
+      </div>
+      <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+       <h3 class="text-blue-300 font-semibold mb-2 text-sm">📱 iPhone 16 Pro Max</h3>
+       <p class="text-xs text-slate-300 mb-2"><strong>Smartphone vs desktop from 2014:</strong></p>
+       <ul class="text-xs text-slate-300 space-y-1">
+        <li>• A18 Pro: 6-core CPU + 6-core GPU</li>
+        <li>• 8GB unified memory</li>
+        <li>• 1TB NVMe storage</li>
+        <li>• Single-core: 2-3x faster than old desktop</li>
+        <li>• GPU: 10x faster (more cores)</li>
+       </ul>
+       <p class="text-xs text-slate-400 mt-2"><strong>Trend:</strong> Smartphones becoming primary computers. More powerful than desktops from decade ago, with 24-hour battery.</p>
+      </div>
+     </section><!-- ACTIVITIES -->
+     <section id="activities" class="content-section space-y-4">
+      <h2 class="heading-font text-2xl font-bold text-white">Activities &amp; Assessment</h2>
+      <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+       <h3 class="text-blue-300 font-semibold mb-3 text-sm">👤 Individual Activities (30%)</h3>
+       <div class="space-y-3">
+        <div class="bg-slate-900/50 rounded p-3">
+         <h4 class="text-indigo-300 font-semibold text-xs mb-1">Activity 1: Hardware Spec Analysis (10%)</h4>
+         <p class="text-xs text-slate-300 mb-2"><strong>Assignment:</strong> Analyze your computer's hardware. List CPU specs, GPU, RAM, storage, peripherals. Explain what you can/cannot do with it.</p>
+         <p class="text-xs text-slate-400"><strong>Due:</strong> Day 2 | <strong>Duration:</strong> 45 min</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-3">
+         <h4 class="text-indigo-300 font-semibold text-xs mb-1">Activity 2: Bottleneck Detection (10%)</h4>
+         <p class="text-xs text-slate-300 mb-2"><strong>Assignment:</strong> Describe a performance problem (slow computer, lag, encoding takes forever). Diagnose which hardware component is the bottleneck. Suggest fixes.</p>
+         <p class="text-xs text-slate-400"><strong>Due:</strong> Day 5 | <strong>Duration:</strong> 60 min</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-3">
+         <h4 class="text-indigo-300 font-semibold text-xs mb-1">Activity 3: Dream Computer Build (10%)</h4>
+         <p class="text-xs text-slate-300 mb-2"><strong>Assignment:</strong> Design your ideal computer for a specific use case (gaming, content creation, budget laptop). Select components within budget. Justify choices.</p>
+         <p class="text-xs text-slate-400"><strong>Due:</strong> Day 6 | <strong>Duration:</strong> 45 min</p>
+        </div>
+       </div>
+      </div>
+      <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+       <h3 class="text-green-300 font-semibold mb-3 text-sm">👥 Group Activities (40%)</h3>
+       <div class="space-y-3">
+        <div class="bg-slate-900/50 rounded p-3">
+         <h4 class="text-emerald-300 font-semibold text-xs mb-1">Project 1: Hardware Evolution Timeline (20%)</h4>
+         <p class="text-xs text-slate-300 mb-2"><strong>Assignment:</strong> Track evolution of one hardware category (CPUs, GPUs, SSDs, RAM, etc) over 20 years. Show performance gains, cost changes, real-world impact. Present 10 minutes.</p>
+         <p class="text-xs text-slate-400"><strong>Due:</strong> Day 7 | <strong>Grading:</strong> Research (25%), Understanding (25%), Impact Analysis (25%), Presentation (25%)</p>
+        </div>
+        <div class="bg-slate-900/50 rounded p-3">
+         <h4 class="text-emerald-300 font-semibold text-xs mb-1">Project 2: Hardware Decision Simulation (20%)</h4>
+         <p class="text-xs text-slate-300 mb-2"><strong>Assignment:</strong> Scenario debate: Your company needs new hardware. Office workers budget $30K, Designers $50K, IT infrastructure $100K. Choose components, justify decisions, defend trade-offs.</p>
+         <p class="text-xs text-slate-400"><strong>Due:</strong> Day 7 (In-class) | <strong>Duration:</strong> 50-60 min</p>
+        </div>
+       </div>
+      </div>
+      <div class="bg-orange-900/30 border border-orange-500/50 rounded-lg p-4">
+       <h3 class="text-orange-300 font-semibold mb-3 text-sm">📊 Grade Breakdown</h3>
+       <div class="space-y-2 text-sm">
+        <div class="flex justify-between"><span class="text-slate-300">Individual Activity 1</span> <span class="text-cyan-300 font-semibold">10%</span>
+        </div>
+        <div class="flex justify-between"><span class="text-slate-300">Individual Activity 2</span> <span class="text-cyan-300 font-semibold">10%</span>
+        </div>
+        <div class="flex justify-between"><span class="text-slate-300">Individual Activity 3</span> <span class="text-cyan-300 font-semibold">10%</span>
+        </div>
+        <div class="flex justify-between border-t border-slate-700 pt-2 mt-2"><span class="text-slate-300">Group Project</span> <span class="text-cyan-300 font-semibold">40%</span>
+        </div>
+        <div class="flex justify-between"><span class="text-slate-300">Participation &amp; Engagement</span> <span class="text-cyan-300 font-semibold">30%</span>
+        </div>
+        <div class="flex justify-between border-t-2 border-slate-600 pt-2 mt-2 font-bold"><span class="text-white">Total Week 5</span> <span class="text-lg text-cyan-300">100%</span>
+        </div>
+       </div>
+      </div>
+     </section>
+    </div>
+   </main><!-- Footer -->
+   <footer class="border-t border-slate-800 bg-slate-900/30 px-4 py-4 flex-shrink-0 text-center text-xs text-slate-400">
+    <p>Week 5: Computer Hardware Fundamentals | Instructor: MKDB | Lyceum de San Pablo - College of Information Systems</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      module_title: "Computer Hardware Fundamentals"
+    };
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        
+        this.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+      });
+    });
+
+    // Element SDK initialization
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          // Update display if needed
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["module_title", config.module_title || defaultConfig.module_title]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4dcb8d840afe8c',t:'MTc2OTU3NTA1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

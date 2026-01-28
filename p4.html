@@ -1,0 +1,1315 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components of Information Systems</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .heading-font {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .title-font {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .tab-button {
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .tab-button.active {
+      color: #10b981;
+    }
+
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      border-radius: 2px;
+    }
+
+    .content-section {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
+    }
+
+    .component-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+      border: 2px solid rgba(16, 185, 129, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .component-card:hover {
+      border-color: #10b981;
+      box-shadow: 0 15px 40px rgba(16, 185, 129, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .component-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+      font-size: 2.5rem;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #0f766e 0%, #15803d 50%, #10b981 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .component-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #a7f3d0;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .integration-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+      border: 2px dashed rgba(16, 185, 129, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .integration-box:hover {
+      border-color: #10b981;
+      box-shadow: 0 15px 40px rgba(16, 185, 129, 0.15);
+    }
+
+    .case-study-box {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+      border-left: 5px solid #10b981;
+      transition: all 0.3s ease;
+    }
+
+    .case-study-box:hover {
+      border-left-color: #06b6d4;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+    }
+
+    .activity-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+      border-left: 4px solid #10b981;
+      transition: all 0.3s ease;
+    }
+
+    .activity-box:hover {
+      border-left-color: #06b6d4;
+      box-shadow: 0 10px 30px rgba(34, 197, 94, 0.15);
+    }
+
+    .highlight-section {
+      background: linear-gradient(90deg, rgba(34, 197, 94, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+      border-left: 4px solid #10b981;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .comparison-table th {
+      background: rgba(16, 185, 129, 0.2);
+      color: #a7f3d0;
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 2px solid rgba(16, 185, 129, 0.5);
+      font-weight: 600;
+    }
+
+    .comparison-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+      color: #cbd5e1;
+    }
+
+    .comparison-table tr:hover {
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .future-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: #fbbf24;
+      color: #78350f;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .interconnect-diagram {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .component-node {
+      position: relative;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+      border: 2px solid rgba(16, 185, 129, 0.5);
+      border-radius: 12px;
+      min-width: 150px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .connector {
+      color: #06b6d4;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .real-world-example {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-auto">
+  <div class="w-full min-h-full"><!-- Header -->
+   <header class="hero-gradient w-full px-6 py-16 text-white relative">
+    <div class="max-w-7xl mx-auto relative z-10">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-md">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+      </div><span class="text-sm font-semibold opacity-90" id="course-code-display">1S101 - Week 4</span>
+     </div>
+     <h1 class="title-font text-5xl md:text-6xl font-bold mb-4" id="module-title">Components of Information Systems</h1>
+     <p class="text-lg text-white/80 max-w-2xl mb-6">Understand the five critical components (Hardware, Software, Data, People, Process) and how they integrate to create powerful business solutions</p>
+     <div class="flex flex-col md:flex-row md:items-center gap-6 text-white/90 text-sm">
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg><span>Duration: 2 hours</span>
+      </div>
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+       </svg><span id="instructor-display">Instructor: MKDB</span>
+      </div>
+     </div>
+     <div class="mt-8 text-white/80 text-sm flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg><span id="institution-display">Lyceum de San Pablo - College of Information Systems</span>
+     </div>
+    </div>
+   </header><!-- Navigation Tabs -->
+   <div class="w-full bg-slate-900/50 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="flex overflow-x-auto gap-8"><button class="tab-button active px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="overview"> Overview </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="components"> Five Components </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="integration"> Integration &amp; Workflows </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="casestudies"> Real-World Cases </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="activities"> Activities </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="resources"> Resources </button>
+     </div>
+    </div>
+   </div><!-- Content -->
+   <main class="w-full px-6 py-12">
+    <div class="max-w-7xl mx-auto"><!-- Overview Tab -->
+     <section id="overview" class="content-section active">
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+       <div class="card-hover stat-card rounded-xl p-6 border">
+        <div class="flex items-center gap-3 mb-4">
+         <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+         </svg>
+         <h3 class="heading-font text-lg font-semibold text-white">Learning Objectives</h3>
+        </div>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>✓ Identify 5 IS components</li>
+         <li>✓ Explain each component's role</li>
+         <li>✓ Understand component relationships</li>
+         <li>✓ Apply to real businesses</li>
+        </ul>
+       </div>
+       <div class="card-hover stat-card rounded-xl p-6 border">
+        <div class="flex items-center gap-3 mb-4">
+         <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+         </svg>
+         <h3 class="heading-font text-lg font-semibold text-white">Five Components</h3>
+        </div>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>🔧 Hardware</li>
+         <li>💾 Software</li>
+         <li>📊 Data</li>
+         <li>👥 People</li>
+         <li>⚙️ Process</li>
+        </ul>
+       </div>
+       <div class="card-hover stat-card rounded-xl p-6 border">
+        <div class="flex items-center gap-3 mb-4">
+         <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m2-1l-2-1m2 1v2.5" />
+         </svg>
+         <h3 class="heading-font text-lg font-semibold text-white">Integration Approach</h3>
+        </div>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>✓ Synergistic relationships</li>
+         <li>✓ Workflow optimization</li>
+         <li>✓ Business value creation</li>
+         <li>✓ Continuous improvement</li>
+        </ul>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h2 class="heading-font text-3xl font-bold text-white mb-4">What Are IS Components?</h2>
+       <p class="text-slate-300 leading-relaxed mb-6">An Information System is more than just computers and software. It's an integrated combination of five interdependent elements working together to collect, process, store, and deliver information that enables organizations to operate effectively and make better decisions.</p>
+       <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30 mb-6">
+        <h3 class="text-emerald-300 font-semibold mb-4 flex items-center gap-2"><span class="text-2xl">🎯</span> The Foundation</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">Think of IS components like a car: the engine (Hardware) converts fuel into motion. The engine control system (Software) optimizes performance. The fuel tank stores the energy (Data). The driver (People) operates the car. And the driving route (Process) determines where we go. Remove any one component, and the system fails. A Ferrari with no driver won't reach anywhere. A brilliant driver in a broken car can't move. All five must work in harmony.</p>
+       </div>
+       <h3 class="heading-font text-2xl font-bold text-white mb-6">The Five Components at a Glance</h3>
+       <div class="grid md:grid-cols-5 gap-4">
+        <div class="bg-gradient-to-br from-red-900/30 to-orange-900/30 rounded-lg p-4 border border-red-500/30 text-center"><span class="text-3xl block mb-2">🔧</span>
+         <h4 class="text-orange-300 font-bold text-sm">Hardware</h4>
+         <p class="text-slate-400 text-xs mt-2">Physical devices: servers, computers, networks</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 rounded-lg p-4 border border-blue-500/30 text-center"><span class="text-3xl block mb-2">💾</span>
+         <h4 class="text-blue-300 font-bold text-sm">Software</h4>
+         <p class="text-slate-400 text-xs mt-2">Programs: applications, operating systems</p>
+        </div>
+        <div class="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-lg p-4 border border-purple-500/30 text-center"><span class="text-3xl block mb-2">📊</span>
+         <h4 class="text-purple-300 font-bold text-sm">Data</h4>
+         <p class="text-slate-400 text-xs mt-2">Information: facts, numbers, records</p>
+        </div>
+        <div class="bg-gradient-to-br from-green-900/30 to-emerald-900/30 rounded-lg p-4 border border-green-500/30 text-center"><span class="text-3xl block mb-2">👥</span>
+         <h4 class="text-green-300 font-bold text-sm">People</h4>
+         <p class="text-slate-400 text-xs mt-2">Users: developers, administrators, employees</p>
+        </div>
+        <div class="bg-gradient-to-br from-yellow-900/30 to-amber-900/30 rounded-lg p-4 border border-yellow-500/30 text-center"><span class="text-3xl block mb-2">⚙️</span>
+         <h4 class="text-yellow-300 font-bold text-sm">Process</h4>
+         <p class="text-slate-400 text-xs mt-2">Methods: workflows, procedures, rules</p>
+        </div>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h2 class="heading-font text-2xl font-bold text-white mb-6">Why Understanding Components Matters</h2>
+       <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-emerald-900/30 border border-emerald-500/50 rounded-lg p-4">
+         <h4 class="text-emerald-300 font-semibold mb-3">🏢 For Business Leaders</h4>
+         <p class="text-slate-300 text-sm">Understanding IS components helps you make smart investments. You avoid buying expensive servers if your real problem is poor processes. You know where to invest to maximize ROI.</p>
+        </div>
+        <div class="bg-cyan-900/30 border border-cyan-500/50 rounded-lg p-4">
+         <h4 class="text-cyan-300 font-semibold mb-3">💼 For IT Professionals</h4>
+         <p class="text-slate-300 text-sm">Knowing how components interact helps you solve problems holistically. A slow system might not need faster hardware—it might need better software optimization or improved data structure.</p>
+        </div>
+        <div class="bg-teal-900/30 border border-teal-500/50 rounded-lg p-4">
+         <h4 class="text-teal-300 font-semibold mb-3">📈 For Career Growth</h4>
+         <p class="text-slate-300 text-sm">Systems thinking is valuable in any role. Product managers understand how features depend on infrastructure. Data analysts understand how processes generate the data they analyze.</p>
+        </div>
+        <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+         <h4 class="text-green-300 font-semibold mb-3">🚀 For Digital Transformation</h4>
+         <p class="text-slate-300 text-sm">Companies transforming digitally often fail because they only change one component (e.g., new software) without updating others (people skills, processes). Understanding the interplay ensures successful change.</p>
+        </div>
+       </div>
+      </div>
+     </section><!-- Five Components Tab -->
+     <section id="components" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">The Five Components of Information Systems</h2><!-- Hardware -->
+      <div class="component-card rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-6 mb-6">
+        <div class="component-icon">
+         🔧
+        </div>
+        <div class="flex-1"><span class="component-badge">Component 1</span>
+         <h3 class="heading-font text-3xl font-bold text-white mt-3">Hardware</h3>
+         <p class="text-slate-300 mt-2">The Physical Foundation</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-orange-300 font-semibold mb-4">What It Includes</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>🖥️ <strong>Servers</strong> - Store data &amp; run applications</li>
+          <li>💻 <strong>Desktop/Laptop</strong> - User work devices</li>
+          <li>📱 <strong>Mobile Devices</strong> - Phones, tablets</li>
+          <li>🌐 <strong>Network Equipment</strong> - Routers, switches, cables</li>
+          <li>💾 <strong>Storage Devices</strong> - Hard drives, SSDs, cloud storage</li>
+          <li>🖨️ <strong>Peripherals</strong> - Printers, scanners, cameras</li>
+         </ul>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-orange-300 font-semibold mb-4">Key Characteristics</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li><strong>Tangible:</strong> You can touch and see it</li>
+          <li><strong>Depreciates:</strong> Loses value over time</li>
+          <li><strong>Requires maintenance:</strong> Physical upkeep needed</li>
+          <li><strong>Has lifespan:</strong> Eventually becomes obsolete</li>
+          <li><strong>Capacity limits:</strong> Processing, storage, memory bounds</li>
+         </ul>
+        </div>
+       </div>
+       <div class="highlight-section mb-6">
+        <h4 class="text-emerald-300 font-semibold mb-2">2024 Hardware Evolution</h4>
+        <p class="text-slate-300 text-sm">Traditional hardware is being replaced: Edge computing (processing at data source), Quantum processors (exponential computing power), AI accelerators (specialized chips), Serverless architecture (no visible hardware). Companies like AWS abstract hardware away—customers don't buy servers anymore; they buy computing power.</p>
+       </div>
+       <div class="real-world-example">
+        <h5 class="text-blue-300 font-semibold mb-2">📱 Real Example: Amazon AWS</h5>
+        <p class="text-slate-300 text-sm">In the 1990s, Amazon operated physical servers in their offices. This was expensive and inflexible. In 2006, they realized they could monetize their excess hardware capacity by renting it. AWS was born. Now, thousands of companies use AWS hardware without owning a single server. This shift from owning hardware (CapEx) to renting it (OpEx) transformed the industry.</p>
+       </div>
+      </div><!-- Software -->
+      <div class="component-card rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-6 mb-6">
+        <div class="component-icon">
+         💾
+        </div>
+        <div class="flex-1"><span class="component-badge">Component 2</span>
+         <h3 class="heading-font text-3xl font-bold text-white mt-3">Software</h3>
+         <p class="text-slate-300 mt-2">The Logic &amp; Instructions</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-blue-300 font-semibold mb-4">What It Includes</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>🖲️ <strong>Operating Systems</strong> - Windows, macOS, Linux, iOS</li>
+          <li>📊 <strong>Business Applications</strong> - SAP, Oracle, Salesforce</li>
+          <li>🛠️ <strong>Utility Software</strong> - Antivirus, backup tools</li>
+          <li>💬 <strong>Productivity Tools</strong> - Excel, Word, Google Workspace</li>
+          <li>🌐 <strong>Web Applications</strong> - Email, cloud storage, collaboration</li>
+          <li>👨‍💻 <strong>Custom Code</strong> - Programs built for specific needs</li>
+         </ul>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-blue-300 font-semibold mb-4">Key Characteristics</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li><strong>Intangible:</strong> Can't hold it physically</li>
+          <li><strong>Doesn't depreciate:</strong> Never loses value (if maintained)</li>
+          <li><strong>Scalable:</strong> Can serve 1 or 1M users</li>
+          <li><strong>Customizable:</strong> Can be modified for needs</li>
+          <li><strong>Updates available:</strong> Improvements over time</li>
+         </ul>
+        </div>
+       </div>
+       <div class="highlight-section mb-6">
+        <h4 class="text-emerald-300 font-semibold mb-2">2024 Software Trends</h4>
+        <p class="text-slate-300 text-sm">AI-powered software (GitHub Copilot writing code automatically), Low-code/no-code platforms (building software without programming), Open-source dominance (Linux, Apache, Docker), Cloud-native applications (serverless functions). Traditional enterprise software is being disrupted by more flexible, faster-deploying solutions.</p>
+       </div>
+       <div class="real-world-example">
+        <h5 class="text-blue-300 font-semibold mb-2">💰 Real Example: Microsoft's Cloud Transformation</h5>
+        <p class="text-slate-300 text-sm">In 2000s, Microsoft made money selling software licenses (one-time purchase). This created a dilemma: once everyone owned Office, growth slowed. Solution? Transform to subscription model (Office 365, now Microsoft 365). Users pay monthly. Microsoft gets predictable recurring revenue. The software is the same, but the business model (process) changed—showing how software and process components interact.</p>
+       </div>
+      </div><!-- Data -->
+      <div class="component-card rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-6 mb-6">
+        <div class="component-icon">
+         📊
+        </div>
+        <div class="flex-1"><span class="component-badge">Component 3</span>
+         <h3 class="heading-font text-3xl font-bold text-white mt-3">Data</h3>
+         <p class="text-slate-300 mt-2">The Information Asset</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-purple-300 font-semibold mb-4">What It Includes</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>👤 <strong>Customer Data</strong> - Names, emails, preferences</li>
+          <li>💳 <strong>Transaction Data</strong> - Purchases, payments, refunds</li>
+          <li>📈 <strong>Sales Data</strong> - Revenue, performance metrics</li>
+          <li>🏢 <strong>Operational Data</strong> - Inventory, supply chain</li>
+          <li>💼 <strong>Financial Data</strong> - Budgets, expenses, forecasts</li>
+          <li>📱 <strong>Behavioral Data</strong> - Website clicks, app usage</li>
+         </ul>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-purple-300 font-semibold mb-4">Key Characteristics</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li><strong>Growing exponentially:</strong> Terabytes to petabytes</li>
+          <li><strong>High value:</strong> Data is the new oil</li>
+          <li><strong>Requires protection:</strong> Security, privacy, compliance</li>
+          <li><strong>Needs organization:</strong> Databases, data lakes, warehouses</li>
+          <li><strong>Must be accurate:</strong> Garbage in = garbage out</li>
+         </ul>
+        </div>
+       </div>
+       <div class="highlight-section mb-6">
+        <h4 class="text-emerald-300 font-semibold mb-2">2024 Data Challenges</h4>
+        <p class="text-slate-300 text-sm">Data privacy regulations (GDPR, CCPA), data quality issues (80% of data work is cleaning), data security breaches ($4.4M average cost), AI data requirements (algorithms need massive training datasets). The component that used to be managed casually now drives strategic business decisions and regulatory compliance.</p>
+       </div>
+       <div class="real-world-example">
+        <h5 class="text-blue-300 font-semibold mb-2">🎯 Real Example: Netflix's Data Advantage</h5>
+        <p class="text-slate-300 text-sm">Netflix doesn't just store data about what you watch. They collect: what you pause on, how long you hover, what you skip, what time you watch, on what device. They process billions of data points to power recommendations. This data asset (along with their ML software) is worth billions. A competitor without this data asset would need years to catch up. Data became Netflix's competitive moat.</p>
+       </div>
+      </div><!-- People -->
+      <div class="component-card rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-6 mb-6">
+        <div class="component-icon">
+         👥
+        </div>
+        <div class="flex-1"><span class="component-badge">Component 4</span>
+         <h3 class="heading-font text-3xl font-bold text-white mt-3">People</h3>
+         <p class="text-slate-300 mt-2">The Human Element</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-green-300 font-semibold mb-4">Who's Involved</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>👨‍💻 <strong>IT Staff</strong> - Developers, admins, network engineers</li>
+          <li>👔 <strong>Business Users</strong> - Managers, analysts, sales teams</li>
+          <li>⚙️ <strong>Operations</strong> - Maintenance, support, monitoring</li>
+          <li>🎨 <strong>Designers</strong> - UX/UI, user experience</li>
+          <li>📊 <strong>Analysts</strong> - Data scientists, business intelligence</li>
+          <li>🔐 <strong>Security Team</strong> - Compliance, risk management</li>
+         </ul>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-green-300 font-semibold mb-4">Key Responsibilities</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li><strong>Design:</strong> Planning systems architecture</li>
+          <li><strong>Build:</strong> Creating code and configurations</li>
+          <li><strong>Operate:</strong> Running systems 24/7</li>
+          <li><strong>Maintain:</strong> Updates, patches, improvements</li>
+          <li><strong>Support:</strong> Help desk and training users</li>
+          <li><strong>Innovate:</strong> Finding new ways to use technology</li>
+         </ul>
+        </div>
+       </div>
+       <div class="highlight-section mb-6">
+        <h4 class="text-emerald-300 font-semibold mb-2">2024 People Challenges</h4>
+        <p class="text-slate-300 text-sm">Massive talent shortage (180,000+ unfilled tech jobs in US), skill gaps (AI/ML expertise scarce), burnout (24/7 on-call), automation anxiety (will AI replace my job?). The best hardware and software fail without skilled, motivated people. Companies that invest in their people win.</p>
+       </div>
+       <div class="real-world-example">
+        <h5 class="text-blue-300 font-semibold mb-2">🌟 Real Example: Google's Talent Investment</h5>
+        <p class="text-slate-300 text-sm">Google spends billions on employee development, free meals, campus facilities, and hiring top talent. Why? They understand the "people component" is their biggest asset. One brilliant engineer can build a service worth $1B. Google's success comes from attracting and retaining exceptional people. Without them, their hardware and software would be ordinary.</p>
+       </div>
+      </div><!-- Process -->
+      <div class="component-card rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-6 mb-6">
+        <div class="component-icon">
+         ⚙️
+        </div>
+        <div class="flex-1"><span class="component-badge">Component 5</span>
+         <h3 class="heading-font text-3xl font-bold text-white mt-3">Process</h3>
+         <p class="text-slate-300 mt-2">The Business Logic &amp; Workflows</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-yellow-300 font-semibold mb-4">What It Includes</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>📋 <strong>Workflows</strong> - Step-by-step procedures</li>
+          <li>🎯 <strong>Business Rules</strong> - Decision logic</li>
+          <li>🔄 <strong>Data Flow</strong> - Information movement paths</li>
+          <li>⏱️ <strong>Scheduling</strong> - When things happen</li>
+          <li>✅ <strong>Quality Standards</strong> - How well things should work</li>
+          <li>📚 <strong>Documentation</strong> - How to do things</li>
+         </ul>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+         <h4 class="text-yellow-300 font-semibold mb-4">Key Characteristics</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li><strong>Often invisible:</strong> Not physical like hardware</li>
+          <li><strong>Embedded in software:</strong> Codified in applications</li>
+          <li><strong>Continuously evolving:</strong> Changed based on lessons</li>
+          <li><strong>Critical to efficiency:</strong> Bad processes waste time</li>
+          <li><strong>Difficult to change:</strong> Requires cultural shifts</li>
+         </ul>
+        </div>
+       </div>
+       <div class="highlight-section mb-6">
+        <h4 class="text-emerald-300 font-semibold mb-2">2024 Process Innovation</h4>
+        <p class="text-slate-300 text-sm">Automation (RPA - Robotic Process Automation), AI workflows (decisions made by algorithms), Agile/DevOps (faster deployment cycles), API-first design (modular processes), Low-code automation (business users create workflows). Digital transformation is really about process transformation first, technology second.</p>
+       </div>
+       <div class="real-world-example">
+        <h5 class="text-blue-300 font-semibold mb-2">🚀 Real Example: Amazon's Two-Pizza Rule</h5>
+        <p class="text-slate-300 text-sm">Amazon has a process rule: no meeting should have more than 2 pizzas' worth of people (about 8-10 people). This process ensures decisions are made quickly with minimal overhead. It's a simple rule (people component knows it), but it's embedded in AWS software (approval workflows), shapes how data flows (minimal handoffs), drives hardware decisions (distributed systems design). One process rule influenced all other components.</p>
+       </div>
+      </div>
+     </section><!-- Integration Tab -->
+     <section id="integration" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">How Components Integrate &amp; Work Together</h2>
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6">The Interconnected System</h3>
+       <p class="text-slate-300 mb-6">The five components don't work in isolation. They're deeply interconnected. A change in one component often requires changes in others. Understanding these connections helps you see why "buying new software" alone won't fix business problems.</p>
+       <div class="integration-box rounded-xl p-8 border-2">
+        <div class="text-center mb-8">
+         <h4 class="text-emerald-300 font-semibold mb-6">How the Components Connect</h4>
+        </div>
+        <div class="space-y-6"><!-- Connection 1 -->
+         <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30">
+          <h5 class="text-emerald-400 font-semibold mb-3">🔗 Hardware ↔ Software</h5>
+          <p class="text-slate-300 text-sm mb-3">Software runs ON hardware. If software requires GPU acceleration but you have old servers without GPUs, software performance suffers. Conversely, hardware without appropriate software is useless.</p>
+          <p class="text-slate-400 text-xs bg-slate-800/50 p-2 rounded"><strong>Example:</strong> Game developers create graphics software optimized for RTX GPUs. If your PC has an RTX 4090 (hardware) but plays a game designed for basic GPUs, you're wasting hardware potential. Software and hardware must match.</p>
+         </div><!-- Connection 2 -->
+         <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30">
+          <h5 class="text-blue-400 font-semibold mb-3">🔗 Software ↔ Data</h5>
+          <p class="text-slate-300 text-sm mb-3">Software processes and manages data. Poor data quality makes software useless (garbage in = garbage out). Good software can help maintain data quality by validating inputs and enforcing rules.</p>
+          <p class="text-slate-400 text-xs bg-slate-800/50 p-2 rounded"><strong>Example:</strong> Email validation software checks if email addresses follow the correct format before storing them. Bad software accepts "notanemail" and corrupts your data. Good software validates during entry.</p>
+         </div><!-- Connection 3 -->
+         <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30">
+          <h5 class="text-purple-400 font-semibold mb-3">🔗 Data ↔ People</h5>
+          <p class="text-slate-300 text-sm mb-3">People create, use, and interpret data. Without people, data just sits idle. People need training to use data properly. Bad data literacy means people make poor decisions.</p>
+          <p class="text-slate-400 text-xs bg-slate-800/50 p-2 rounded"><strong>Example:</strong> A sales team might misinterpret a report showing declining revenue. They blame marketing when it's actually a data entry error (January numbers entered twice). Good people understand data limitations.</p>
+         </div><!-- Connection 4 -->
+         <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30">
+          <h5 class="text-green-400 font-semibold mb-3">🔗 People ↔ Process</h5>
+          <p class="text-slate-300 text-sm mb-3">Processes are designed BY people and executed BY people. If a process is too complicated, people will circumvent it ("shadow processes"). Good processes empower people; bad processes frustrate them.</p>
+          <p class="text-slate-400 text-xs bg-slate-800/50 p-2 rounded"><strong>Example:</strong> A company creates an approval process requiring 5 sign-offs for small purchases. Workers find workarounds (splitting orders, informal approvals). Simpler process = people follow it.</p>
+         </div><!-- Connection 5 -->
+         <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30">
+          <h5 class="text-yellow-400 font-semibold mb-3">🔗 Process ↔ Hardware</h5>
+          <p class="text-slate-300 text-sm mb-3">Processes determine what hardware you need. A company processing 1M transactions/day needs different hardware than one processing 100 transactions/day. Process drives hardware requirements.</p>
+          <p class="text-slate-400 text-xs bg-slate-800/50 p-2 rounded"><strong>Example:</strong> Netflix's process of recommending shows requires processing billions of user actions. This demands massive compute power (hardware). If they didn't do recommendations, they'd need much less hardware.</p>
+         </div>
+        </div>
+       </div>
+      </div><!-- Case Study Flow -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6">A Real Workflow: How Components Work Together</h3>
+       <p class="text-slate-300 mb-6">Let's trace a customer ordering coffee on a mobile app to see all five components in action:</p>
+       <div class="space-y-4">
+        <div class="bg-slate-900/50 rounded-lg p-4 border-l-4 border-red-500">
+         <h5 class="text-red-300 font-semibold mb-2">1️⃣ Customer opens app (Hardware)</h5>
+         <p class="text-slate-300 text-sm">Customer's smartphone (hardware) opens the Starbucks app. The phone's processor, memory, and screen display the menu.</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border-l-4 border-blue-500">
+         <h5 class="text-blue-300 font-semibold mb-2">2️⃣ App displays menu (Software)</h5>
+         <p class="text-slate-300 text-sm">The mobile app (software) connects to Starbucks servers (hardware) and requests the menu. The app code (software) formats and displays options.</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border-l-4 border-purple-500">
+         <h5 class="text-purple-300 font-semibold mb-2">3️⃣ Customer selects order (Data)</h5>
+         <p class="text-slate-300 text-sm">Customer's choice is captured as data: "1x tall latte, 2x sugar". This data is stored in Starbucks database.</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border-l-4 border-yellow-500">
+         <h5 class="text-yellow-300 font-semibold mb-2">4️⃣ Payment processed (Process)</h5>
+         <p class="text-slate-300 text-sm">The payment process (workflow) is triggered: validate order → charge card → confirm payment → send to store. This orchestrates all other components.</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border-l-4 border-green-500">
+         <h5 class="text-green-300 font-semibold mb-2">5️⃣ Barista notified (People)</h5>
+         <p class="text-slate-300 text-sm">A worker (person) at the store receives the order notification on a screen (hardware) and starts making the coffee, following their procedure (process).</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border-l-4 border-cyan-500">
+         <h5 class="text-cyan-300 font-semibold mb-2">6️⃣ Order ready (Feedback Loop)</h5>
+         <p class="text-slate-300 text-sm">Barista marks order complete. Software updates data (order status). Customer gets notification (on their hardware). Process captures feedback for improving future orders.</p>
+        </div>
+       </div>
+      </div><!-- Breakdown Risk -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6">What Happens If One Component Fails?</h3>
+       <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-slate-900/50 rounded-lg p-6 border border-red-500/30">
+         <h5 class="text-red-300 font-semibold mb-3">❌ Hardware Fails</h5>
+         <p class="text-slate-300 text-sm mb-2">Starbucks app servers crash. Even though software, data, people are ready, customers can't access the app. Orders stop.</p>
+         <p class="text-slate-400 text-xs">Impact: Total system down, revenue loss, customer frustration</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-6 border border-blue-500/30">
+         <h5 class="text-blue-300 font-semibold mb-3">❌ Software Bugs</h5>
+         <p class="text-slate-300 text-sm mb-2">App crashes after payment submission. Order data not saved. Good hardware and people can't help.</p>
+         <p class="text-slate-400 text-xs">Impact: Corrupted transactions, refund chaos, trust erosion</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-6 border border-purple-500/30">
+         <h5 class="text-purple-300 font-semibold mb-3">❌ Data Corrupted</h5>
+         <p class="text-slate-300 text-sm mb-2">Order data gets mixed up. Wrong orders sent to stores. Customers receive someone else's order.</p>
+         <p class="text-slate-400 text-xs">Impact: Customer dissatisfaction, operational chaos, compliance issues</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-6 border border-green-500/30">
+         <h5 class="text-green-300 font-semibold mb-3">❌ People Shortage</h5>
+         <p class="text-slate-300 text-sm mb-2">Orders received perfectly, but not enough baristas to make them. Queue grows for hours.</p>
+         <p class="text-slate-400 text-xs">Impact: Delivery delays, customer frustration, negative reviews</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-6 border border-yellow-500/30">
+         <h5 class="text-yellow-300 font-semibold mb-3">❌ Process Error</h5>
+         <p class="text-slate-300 text-sm mb-2">Baristas don't follow the order-taking process. Payments not validated before sending to store. Customers dispute charges.</p>
+         <p class="text-slate-400 text-xs">Impact: Revenue leakage, refund costs, operational confusion</p>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-6 border border-cyan-500/30">
+         <h5 class="text-cyan-300 font-semibold mb-3">⚠️ Key Lesson</h5>
+         <p class="text-slate-300 text-sm mb-2">All five components must work. The IS is only as strong as its weakest component. Companies must invest in all five.</p>
+         <p class="text-slate-400 text-xs">This is why digital transformation is hard—you can't skip components</p>
+        </div>
+       </div>
+      </div>
+     </section><!-- Real-World Case Studies Tab -->
+     <section id="casestudies" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">Real-World Case Studies: Components in Action</h2><!-- Case Study 1: Netflix -->
+      <div class="case-study-box rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-4 mb-6"><span class="text-4xl">🎬</span>
+        <div>
+         <h3 class="heading-font text-2xl font-bold text-white">Netflix: The Streaming Giant</h3>
+         <p class="text-slate-300">How five components power 280M+ subscribers</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-5 gap-4 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-red-300 font-semibold text-sm mb-2">🔧 Hardware</h5>
+         <p class="text-slate-300 text-xs">AWS servers worldwide, CDNs for video delivery, 100+ data centers</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-blue-300 font-semibold text-sm mb-2">💾 Software</h5>
+         <p class="text-slate-300 text-xs">Recommendation algorithm, streaming player, mobile app</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-purple-300 font-semibold text-sm mb-2">📊 Data</h5>
+         <p class="text-slate-300 text-xs">Billions of watch history records, user preferences, behavior patterns</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-green-300 font-semibold text-sm mb-2">👥 People</h5>
+         <p class="text-slate-300 text-xs">12,000+ employees: engineers, content creators, analysts</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-yellow-300 font-semibold text-sm mb-2">⚙️ Process</h5>
+         <p class="text-slate-300 text-xs">Personalized recommendations, quality-adaptive streaming, regional releases</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30 mb-4">
+        <h4 class="text-emerald-300 font-semibold mb-3">How Components Work Together</h4>
+        <div class="space-y-2 text-slate-300 text-sm">
+         <p><strong>1. Data Collection:</strong> People (Netflix team) built software that collects data on your watch behavior. This data is stored on hardware (AWS servers).</p>
+         <p><strong>2. AI Processing:</strong> Software algorithms process the collected data using machine learning. They find patterns in billions of data points.</p>
+         <p><strong>3. Personalization:</strong> The process determines: when to show recommendations, which content, in what order.</p>
+         <p><strong>4. Delivery:</strong> Hardware (CDNs) delivers the recommended video to your device based on your internet speed (process).</p>
+        </div>
+       </div>
+       <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+        <h5 class="text-green-300 font-semibold mb-2">🎯 Why Netflix Won Over Blockbuster</h5>
+        <p class="text-slate-300 text-sm">Blockbuster had hardware (stores) and people (staff), but their process was linear: rent, return, restock. Netflix reimagined all five components: cloud hardware eliminated stores, software enabled personalization, data drove recommendations, new processes optimized delivery. Blockbuster couldn't compete because they tried to fix only one component (technology) without transforming the others.</p>
+       </div>
+      </div><!-- Case Study 2: Uber -->
+      <div class="case-study-box rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-4 mb-6"><span class="text-4xl">🚗</span>
+        <div>
+         <h3 class="heading-font text-2xl font-bold text-white">Uber: Disrupting Transportation</h3>
+         <p class="text-slate-300">How components transformed a century-old industry</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-5 gap-4 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-red-300 font-semibold text-sm mb-2">🔧 Hardware</h5>
+         <p class="text-slate-300 text-xs">Mobile phones + GPS satellites + cloud servers</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-blue-300 font-semibold text-sm mb-2">💾 Software</h5>
+         <p class="text-slate-300 text-xs">Mobile app, matching algorithm, payment processing</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-purple-300 font-semibold text-sm mb-2">📊 Data</h5>
+         <p class="text-slate-300 text-xs">Driver locations, trip history, user ratings, surge demand patterns</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-green-300 font-semibold text-sm mb-2">👥 People</h5>
+         <p class="text-slate-300 text-xs">Millions of drivers worldwide + Uber staff</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-yellow-300 font-semibold text-sm mb-2">⚙️ Process</h5>
+         <p class="text-slate-300 text-xs">Match algorithm, surge pricing, driver rating system</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30 mb-4">
+        <h4 class="text-emerald-300 font-semibold mb-3">The Component Innovation</h4>
+        <div class="space-y-2 text-slate-300 text-sm">
+         <p><strong>Traditional Taxi (Old Process):</strong> Call dispatcher → Wait on street → Haggle price → Hand-written receipt</p>
+         <p><strong>Uber (New Process):</strong> App request → Algorithm matches nearest driver → GPS tracking → Digital payment → Auto-receipt</p>
+         <p><strong>Component Transformation:</strong> Replaced people dispatcher (humans) with software algorithm + hardware GPS, changed financial process (cashless), eliminated haggling via data-driven pricing.</p>
+        </div>
+       </div>
+       <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+        <h5 class="text-green-300 font-semibold mb-2">💡 Why Traditional Taxis Lost</h5>
+        <p class="text-slate-300 text-sm">Taxi companies were hardware-heavy (owned vehicles), people-heavy (dispatchers, drivers), but process-weak (inefficient matching). They couldn't add software/algorithm overnight because their entire business model was built on the old process. Uber had no legacy constraints—they built all five components optimized for the new process. This is why disruption often comes from outside industries.</p>
+       </div>
+      </div><!-- Case Study 3: COVID Impact on Components -->
+      <div class="case-study-box rounded-xl p-8 border mb-8">
+       <div class="flex items-start gap-4 mb-6"><span class="text-4xl">🌍</span>
+        <div>
+         <h3 class="heading-font text-2xl font-bold text-white">COVID-19 Pandemic: Component Dependency Exposed</h3>
+         <p class="text-slate-300">Why some companies thrived while others failed</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-green-900/30 border border-green-500/30 rounded-lg p-6">
+         <h5 class="text-green-300 font-semibold mb-3">✅ Companies That Survived (Cloud-Based)</h5>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Zoom, Slack, Microsoft Teams</li>
+          <li>• Already cloud-native (hardware decoupled)</li>
+          <li>• Software already enabled remote use</li>
+          <li>• Processes already digital</li>
+          <li>• People already distributed</li>
+         </ul>
+        </div>
+        <div class="bg-red-900/30 border border-red-500/30 rounded-lg p-6">
+         <h5 class="text-red-300 font-semibold mb-3">❌ Companies That Struggled (On-Premise)</h5>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Many legacy enterprises</li>
+          <li>• Hardware locked in offices</li>
+          <li>• Software required physical access</li>
+          <li>• Processes designed for in-person</li>
+          <li>• People unprepared for remote work</li>
+         </ul>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30 mb-4">
+        <h4 class="text-emerald-300 font-semibold mb-3">The Component Lesson</h4>
+        <p class="text-slate-300 text-sm mb-3">Companies with legacy on-premise infrastructure couldn't quickly pivot. The five components were tightly coupled:</p>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li><strong>Hardware:</strong> Servers in office buildings (couldn't bring home)</li>
+         <li><strong>Software:</strong> Designed for office network access</li>
+         <li><strong>Data:</strong> Security policies required VPN connection to office</li>
+         <li><strong>People:</strong> Trained only for office work</li>
+         <li><strong>Process:</strong> Required physical presence and signatures</li>
+        </ul>
+        <p class="text-slate-300 text-sm mt-3">Companies that had already decoupled components (cloud hardware, remote-capable software, digital data access, trained remote workers, digital processes) thrived.</p>
+       </div>
+       <div class="bg-cyan-900/30 border border-cyan-500/50 rounded-lg p-4">
+        <h5 class="text-cyan-300 font-semibold mb-2">🔮 The Future Lesson</h5>
+        <p class="text-slate-300 text-sm">Companies that design components to be flexible and interchangeable survive disruptions. Tightly coupled components are fragile. COVID accelerated cloud adoption by 5 years because companies realized the value of flexible components.</p>
+       </div>
+      </div><!-- Case Study 4: AI Integration -->
+      <div class="case-study-box rounded-xl p-8 border">
+       <div class="flex items-start gap-4 mb-6"><span class="text-4xl">🤖</span>
+        <div>
+         <h3 class="heading-font text-2xl font-bold text-white">ChatGPT / AI: 2024 Component Transformation</h3>
+         <p class="text-slate-300">How AI is reshaping all five components</p>
+        </div>
+       </div>
+       <div class="grid md:grid-cols-5 gap-4 mb-6">
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-red-300 font-semibold text-sm mb-2">🔧 Hardware</h5>
+         <p class="text-slate-300 text-xs">GPUs needed for training, edge accelerators for inference</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-blue-300 font-semibold text-sm mb-2">💾 Software</h5>
+         <p class="text-slate-300 text-xs">AI models, LLMs, copilots, automated coding tools</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-purple-300 font-semibold text-sm mb-2">📊 Data</h5>
+         <p class="text-slate-300 text-xs">Massive training datasets, labeled data, feedback loops</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-green-300 font-semibold text-sm mb-2">👥 People</h5>
+         <p class="text-slate-300 text-xs">Prompt engineers, ML specialists, ethical reviewers</p>
+        </div>
+        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+         <h5 class="text-yellow-300 font-semibold text-sm mb-2">⚙️ Process</h5>
+         <p class="text-slate-300 text-xs">AI-driven workflows, automated decisions, new governance</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30 mb-4">
+        <h4 class="text-emerald-300 font-semibold mb-3">AI's Impact on Each Component</h4>
+        <div class="space-y-3 text-slate-300 text-sm">
+         <p><strong>Hardware:</strong> Demand for GPUs (especially NVIDIA) has skyrocketed. Companies investing billions in AI infrastructure.</p>
+         <p><strong>Software:</strong> GitHub Copilot generates code, ChatGPT does analysis, AI agents make decisions automatically. Human developers now manage AI output.</p>
+         <p><strong>Data:</strong> AI models require enormous training datasets. Data quality has become critical. Privacy concerns exploding.</p>
+         <p><strong>People:</strong> Demand for AI specialists skyrocketing (salaries doubled in 2023-2024). Traditional roles at risk. Urgent need for retraining.</p>
+         <p><strong>Process:</strong> AI reshapes workflows. Decision-making increasingly automated. New ethical processes for AI governance emerging.</p>
+        </div>
+       </div>
+       <div class="bg-orange-900/30 border border-orange-500/50 rounded-lg p-4">
+        <h5 class="text-orange-300 font-semibold mb-2">⚠️ The Disruption Risk</h5>
+        <p class="text-slate-300 text-sm mb-2">Companies that don't invest in all five AI components will be disrupted:</p>
+        <ul class="text-slate-300 text-sm space-y-1">
+         <li>• No hardware investment = can't train/run AI models</li>
+         <li>• No software investment = stuck with old applications</li>
+         <li>• No data investment = garbage training leads to poor results</li>
+         <li>• No people investment = can't build AI teams</li>
+         <li>• No process investment = AI deployed without governance = risks</li>
+        </ul>
+       </div>
+      </div>
+     </section><!-- Activities Tab -->
+     <section id="activities" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">Learning Activities</h2><!-- Individual Activities -->
+      <div class="mb-16">
+       <h3 class="heading-font text-2xl font-bold text-white mb-8 flex items-center gap-3"><span class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center text-blue-300">👤</span> Individual Activities</h3>
+       <div class="space-y-6"><!-- Activity 1 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/30">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-blue-500/30 text-blue-300 rounded-full text-xs font-semibold mb-3">Individual</span>
+           <h4 class="heading-font text-xl font-bold text-white">Activity 1: Component Mapping</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 45 minutes | <strong>Deadline:</strong> Day 2</p>
+          </div><span class="text-3xl">🗺️</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Choose a business or app you use daily (Spotify, Gmail, Shopee, Lazada, etc.) and map out its five IS components.</p>
+          <ol class="text-slate-300 text-sm space-y-2 list-decimal list-inside">
+           <li>Identify and describe the HARDWARE involved</li>
+           <li>Identify and describe the SOFTWARE used</li>
+           <li>Describe the DATA the system processes</li>
+           <li>Identify the PEOPLE involved (jobs created by this system)</li>
+           <li>Explain the PROCESSES (workflows, business logic)</li>
+           <li>Explain how these five components work together</li>
+           <li>Submit as: 1-2 page document or visual diagram</li>
+          </ol>
+         </div>
+         <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+          <h6 class="text-blue-300 font-semibold mb-2">💡 Example: Spotify</h6>
+          <ul class="text-slate-300 text-xs space-y-1">
+           <li>🔧 Hardware: AWS servers, user phones, routers</li>
+           <li>💾 Software: Mobile app, recommendation engine</li>
+           <li>📊 Data: Song plays, user preferences, library metadata</li>
+           <li>👥 People: Engineers, musicians, support staff</li>
+           <li>⚙️ Process: Personalized playlists, royalty calculation</li>
+          </ul>
+         </div>
+        </div><!-- Activity 2 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/30">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-purple-500/30 text-purple-300 rounded-full text-xs font-semibold mb-3">Individual</span>
+           <h4 class="heading-font text-xl font-bold text-white">Activity 2: Component Failure Analysis</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 60 minutes | <strong>Deadline:</strong> Day 5</p>
+          </div><span class="text-3xl">⚠️</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Describe a real technology outage or failure you experienced or know about. Analyze which component(s) failed.</p>
+          <div class="space-y-3 text-slate-300 text-sm mb-4">
+           <p><strong>Part 1: Describe the incident</strong></p>
+           <ul class="list-disc list-inside text-xs">
+            <li>What service/app failed?</li>
+            <li>What was the impact?</li>
+            <li>How long did it last?</li>
+           </ul>
+           <p><strong>Part 2: Identify which component(s) failed</strong></p>
+           <ul class="list-disc list-inside text-xs">
+            <li>Was it hardware (servers crashed)?</li>
+            <li>Was it software (bug, crash)?</li>
+            <li>Was it data (corruption, loss)?</li>
+            <li>Was it people (mistake, unavailability)?</li>
+            <li>Was it process (wrong procedure)?</li>
+           </ul>
+           <p><strong>Part 3: Analyze the ripple effects</strong></p>
+           <ul class="list-disc list-inside text-xs">
+            <li>How did the failure affect other components?</li>
+            <li>What should have been prevented it?</li>
+           </ul>
+          </div>
+          <div class="bg-slate-900/50 rounded p-3">
+           <h6 class="text-slate-300 font-semibold text-sm mb-2">Examples of incidents:</h6>
+           <ul class="text-slate-300 text-xs space-y-1">
+            <li>• Facebook/Instagram outage 2021 (hardware/process failure)</li>
+            <li>• Zoom crashes during pandemic (software/hardware overload)</li>
+            <li>• Twitter API shutdown (software/process change)</li>
+            <li>• Personal: app crash, slow server, bugs, account locks</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-4">
+          <p class="text-yellow-200 text-sm"><strong>Grade Criteria:</strong> Accuracy of component identification (40%), Depth of analysis (35%), Understanding of ripple effects (25%)</p>
+         </div>
+        </div><!-- Activity 3 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/30">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold mb-3">Individual</span>
+           <h4 class="heading-font text-xl font-bold text-white">Activity 3: Industry Transformation Study</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 45 minutes | <strong>Deadline:</strong> Day 6</p>
+          </div><span class="text-3xl">🔄</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Choose an industry that technology has disrupted. Show how the five components changed that industry.</p>
+          <div class="bg-slate-900/50 rounded p-3 mb-4">
+           <h6 class="text-indigo-300 font-semibold text-sm mb-2">Choose one:</h6>
+           <div class="grid md:grid-cols-2 gap-2 text-slate-300 text-xs"><label class="flex items-center gap-2"> <input type="checkbox" class="w-4 h-4"> <span>Retail (Stores → E-commerce)</span> </label> <label class="flex items-center gap-2"> <input type="checkbox" class="w-4 h-4"> <span>Banking (Branches → Mobile)</span> </label> <label class="flex items-center gap-2"> <input type="checkbox" class="w-4 h-4"> <span>Photography (Film → Digital)</span> </label> <label class="flex items-center gap-2"> <input type="checkbox" class="w-4 h-4"> <span>Taxi (Dispatch → Uber)</span> </label> <label class="flex items-center gap-2"> <input type="checkbox" class="w-4 h-4"> <span>Education (Classroom → Online)</span> </label> <label class="flex items-center gap-2"> <input type="checkbox" class="w-4 h-4"> <span>Entertainment (Cable → Streaming)</span> </label>
+           </div>
+          </div>
+          <div class="bg-slate-900/50 rounded p-3">
+           <h6 class="text-slate-300 font-semibold text-sm mb-2">Your analysis should include:</h6>
+           <ul class="text-slate-300 text-xs space-y-1">
+            <li>✓ "Before" - Traditional industry components</li>
+            <li>✓ "After" - How technology changed each component</li>
+            <li>✓ Which component changed FIRST?</li>
+            <li>✓ How did other components adapt?</li>
+            <li>✓ Winners and losers (companies/jobs)</li>
+            <li>✓ What's next for this industry?</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4">
+          <h6 class="text-purple-300 font-semibold mb-2">💡 Hint:</h6>
+          <p class="text-slate-300 text-sm">Usually, one component changes FIRST (e.g., mobile hardware), which forces changes in others. The industry leaders often miss this because they're optimized for old components. Disruption happens at component intersections.</p>
+         </div>
+        </div>
+       </div>
+      </div><!-- Group Activities -->
+      <div>
+       <h3 class="heading-font text-2xl font-bold text-white mb-8 flex items-center gap-3"><span class="w-8 h-8 rounded-full bg-green-500/30 flex items-center justify-center text-green-300">👥</span> Group Activities (3-4 students per group)</h3>
+       <div class="space-y-6"><!-- Group Activity 1 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/50">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold mb-3">Group Activity</span>
+           <h4 class="heading-font text-xl font-bold text-white">Group Project: "Five Components Presentation"</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 3-4 hours collaborative | <strong>Presentation:</strong> Day 7 (10 minutes)</p>
+          </div><span class="text-3xl">🎯</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Choose a company/service and create a detailed presentation showing how its five IS components work together to create business value.</p>
+          <div class="bg-slate-900/50 rounded p-3 mb-4">
+           <h6 class="text-indigo-300 font-semibold text-sm mb-2">Choose your company:</h6>
+           <div class="grid md:grid-cols-2 gap-2 text-slate-300 text-xs">
+            <p>✓ Apple (iPhone ecosystem)</p>
+            <p>✓ Amazon (E-commerce &amp; AWS)</p>
+            <p>✓ Google (Search &amp; Ads)</p>
+            <p>✓ Meta/Facebook (Social media)</p>
+            <p>✓ Grab (Ride-sharing in SE Asia)</p>
+            <p>✓ Shopee (E-commerce platform)</p>
+            <p>✓ GCash (Mobile payments)</p>
+            <p>✓ Any local company you know</p>
+           </div>
+          </div>
+          <div class="bg-slate-900/50 rounded p-3">
+           <h6 class="text-slate-300 font-semibold text-sm mb-2">Your presentation must include:</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>✓ Detailed component breakdown (1 slide each)</li>
+            <li>✓ Interaction diagram (how components connect)</li>
+            <li>✓ Component optimization (why this company wins)</li>
+            <li>✓ Real workflow example (customer journey through components)</li>
+            <li>✓ What happens if one component fails</li>
+            <li>✓ Future component evolution (next 5 years)</li>
+            <li>✓ Creative format (slides, video, interactive demo, poster)</li>
+           </ul>
+          </div>
+         </div>
+         <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+           <h6 class="text-blue-300 font-semibold mb-2">Deliverables:</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>📊 Presentation (10 minutes)</li>
+            <li>📝 Written summary (1-2 pages)</li>
+            <li>🎨 Visual diagram (components &amp; connections)</li>
+            <li>💬 Q&amp;A prepared</li>
+           </ul>
+          </div>
+          <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+           <h6 class="text-green-300 font-semibold mb-2">Grading (Total: 40%):</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>Research &amp; accuracy (25%)</li>
+            <li>Component understanding (25%)</li>
+            <li>Systems thinking (25%)</li>
+            <li>Teamwork &amp; presentation (25%)</li>
+           </ul>
+          </div>
+         </div>
+        </div><!-- Group Activity 2 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/50">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold mb-3">Group Activity</span>
+           <h4 class="heading-font text-xl font-bold text-white">Group Exercise: "Component Crisis Management"</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Format:</strong> In-class simulation | <strong>Duration:</strong> 40-50 minutes (Day 7)</p>
+          </div><span class="text-3xl">🚨</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-6">
+          <h5 class="text-green-300 font-semibold mb-4">📋 Scenario-Based Exercise:</h5>
+          <p class="text-slate-300 text-sm mb-4">Your group is the crisis management team for a company. A major component failure has occurred. You have 15 minutes to diagnose and propose solutions.</p>
+          <div class="space-y-3 mb-4">
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-red-500">
+            <h6 class="text-red-300 font-semibold mb-1">Scenario A: Hardware Failure</h6>
+            <p class="text-slate-300 text-sm">Main data center catches fire. All servers offline. No backups available. The company has no data access for 24+ hours. How do you recover? What components are affected?</p>
+           </div>
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-blue-500">
+            <h6 class="text-blue-300 font-semibold mb-1">Scenario B: Software Malware</h6>
+            <p class="text-slate-300 text-sm">Ransomware locks all company systems. Files encrypted. Hackers demand $2M ransom. Company data is hostage. How do you respond? What components need recovery priority?</p>
+           </div>
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-purple-500">
+            <h6 class="text-purple-300 font-semibold mb-1">Scenario C: Data Breach</h6>
+            <p class="text-slate-300 text-sm">10M customer records (names, credit cards, addresses) leaked publicly. Regulatory fines incoming. Customer trust destroyed. Media outrage. How do you respond? What failed?</p>
+           </div>
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-green-500">
+            <h6 class="text-green-300 font-semibold mb-1">Scenario D: Key Personnel Leave</h6>
+            <p class="text-slate-300 text-sm">Your entire senior engineering team quits suddenly. No documentation left behind. Current projects stalled. New team doesn't understand systems. How do you recover operations?</p>
+           </div>
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-yellow-500">
+            <h6 class="text-yellow-300 font-semibold mb-1">Scenario E: Process Breakdown</h6>
+            <p class="text-slate-300 text-sm">Someone accidentally changes the billing process. All invoices now incorrect. Customers overcharged or undercharged. Financial chaos. Audit coming in 1 week. How do you fix it?</p>
+           </div>
+          </div>
+          <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4">
+           <h6 class="text-purple-300 font-semibold mb-2">Your group response should address:</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>🔍 Which components failed and why</li>
+            <li>📊 Immediate ripple effects to other components</li>
+            <li>🛠️ Emergency recovery steps (first 24 hours)</li>
+            <li>🚀 Medium-term recovery (1 week)</li>
+            <li>🔐 Long-term prevention (next 6 months)</li>
+            <li>💼 Business continuity and customer communication</li>
+           </ul>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Resources Tab -->
+     <section id="resources" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">Learning Resources &amp; References</h2><!-- Key Videos -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg> Recommended Videos</h3>
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 card-hover">
+         <h4 class="text-indigo-300 font-semibold mb-3">📺 Company Deep Dives</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• "How Netflix Works" - Component breakdown</li>
+          <li>• "Inside Google's Data Centers" - Hardware tour</li>
+          <li>• "Uber Engineering" - Software &amp; process</li>
+          <li>• "AWS Architecture" - Cloud infrastructure</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 card-hover">
+         <h4 class="text-purple-300 font-semibold mb-3">🎓 Educational Series</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Khan Academy: "Computer Science"</li>
+          <li>• MIT OpenCourseWare: "IS &amp; Technology"</li>
+          <li>• YouTube: "How Systems Work" series</li>
+          <li>• TED Talks: "The Future of Technology"</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Reading Materials -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg> Essential Readings</h3>
+       <div class="space-y-4">
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-indigo-300 font-semibold mb-2">📖 Textbook Chapters</h4>
+         <ul class="text-slate-300 text-sm space-y-1">
+          <li>• Chapter 2: "Components of IS" (course textbook)</li>
+          <li>• Chapter 3: "Hardware Components"</li>
+          <li>• Chapter 4: "Software Types &amp; Applications"</li>
+          <li>• Chapter 5: "Database &amp; Data Management"</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-purple-300 font-semibold mb-2">📰 Case Studies &amp; Articles</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Harvard Business Review: "How Netflix Transformed"</li>
+          <li>• McKinsey: "Digital Transformation Playbook"</li>
+          <li>• MIT Sloan: "IS Strategy for Organizations"</li>
+          <li>• Wired: "Inside the Cloud" (AWS, Azure, GCP)</li>
+          <li>• Forbes: "AI's Component Disruption 2024"</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-green-300 font-semibold mb-2">🎯 Business Perspectives</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• "The Goal" by Eliyahu Goldratt (Process thinking)</li>
+          <li>• "Lean Enterprise" (Efficiency optimization)</li>
+          <li>• "Systems Thinking" by Peter Senge</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Assessment Information -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg> Assessment &amp; Grading (Week 4)</h3>
+       <div class="grid md:grid-cols-3 gap-6 mb-6">
+        <div class="stat-card rounded-lg p-6 border">
+         <h4 class="text-emerald-300 font-semibold mb-2">Individual Activities</h4>
+         <p class="text-slate-300 text-sm mb-3">3 assignments worth 30% of grade</p>
+         <p class="stat-number">30%</p>
+        </div>
+        <div class="stat-card rounded-lg p-6 border">
+         <h4 class="text-cyan-300 font-semibold mb-2">Group Project</h4>
+         <p class="text-slate-300 text-sm mb-3">Presentation &amp; collaboration</p>
+         <p class="stat-number">40%</p>
+        </div>
+        <div class="stat-card rounded-lg p-6 border">
+         <h4 class="text-green-300 font-semibold mb-2">Participation</h4>
+         <p class="text-slate-300 text-sm mb-3">Discussion &amp; engagement</p>
+         <p class="stat-number">30%</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30">
+        <h4 class="text-slate-200 font-semibold mb-4">Week 4 Grade Breakdown:</h4>
+        <div class="space-y-3">
+         <div class="flex items-center justify-between"><span class="text-slate-300">Activity 1: Component Mapping</span> <span class="text-emerald-300 font-semibold">10%</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-slate-300">Activity 2: Component Failure Analysis</span> <span class="text-emerald-300 font-semibold">10%</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-slate-300">Activity 3: Industry Transformation Study</span> <span class="text-emerald-300 font-semibold">10%</span>
+         </div>
+         <div class="border-t border-slate-700 pt-3 mt-3 flex items-center justify-between"><span class="text-slate-300">Group Presentation &amp; Exercise</span> <span class="text-cyan-300 font-semibold">40%</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-slate-300">Class Participation &amp; Engagement</span> <span class="text-green-300 font-semibold">30%</span>
+         </div>
+         <div class="border-t-2 border-slate-600 pt-3 mt-3 flex items-center justify-between font-bold"><span class="text-white">Total Week 4 Grade</span> <span class="text-lg text-emerald-300">100%</span>
+         </div>
+        </div>
+        <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4 mt-4">
+         <p class="text-green-200 text-sm"><strong>Note:</strong> This module grade contributes to your overall 1S101 course grade (typically 20% of total). Comprehensive final exam covers all modules at course end.</p>
+        </div>
+       </div>
+      </div>
+     </section>
+    </div>
+   </main><!-- Footer -->
+   <footer class="w-full px-6 py-8 border-t border-slate-800 mt-16">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Course Info</h4>
+       <p class="text-slate-400 text-sm">1S101 - Fundamentals of Information Systems<br>
+        Week 4: Components of IS</p>
+      </div>
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Contact</h4>
+       <p class="text-slate-400 text-sm" id="contact-info">Instructor: MKDB<br>
+        Email: mkbasa_faculty@mstip.edu.ph</p>
+      </div>
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Resources</h4>
+       <p class="text-slate-400 text-sm">Library Portal | LMS | Discussion Forum</p>
+      </div>
+     </div>
+     <div class="border-t border-slate-700 pt-6 text-center">
+      <p class="text-slate-500 text-xs">© 2024 Lyceum de San Pablo - College of Information Systems. All rights reserved.</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      module_title: "Components of Information Systems",
+      course_code: "1S101 - Week 4",
+      instructor_name: "MKDB",
+      institution_name: "Lyceum de San Pablo - College of Information Systems"
+    };
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        
+        this.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Element SDK initialization
+    const onConfigChange = async (config) => {
+      document.getElementById('module-title').textContent = config.module_title || defaultConfig.module_title;
+      document.getElementById('course-code-display').textContent = config.course_code || defaultConfig.course_code;
+      document.getElementById('instructor-display').textContent = `Instructor: ${config.instructor_name || defaultConfig.instructor_name}`;
+      document.getElementById('institution-display').textContent = config.institution_name || defaultConfig.institution_name;
+    };
+
+    const mapToCapabilities = (config) => ({
+      recolorables: [],
+      borderables: [],
+      fontEditable: undefined,
+      fontSizeable: undefined
+    });
+
+    const mapToEditPanelValues = (config) => new Map([
+      ["module_title", config.module_title || defaultConfig.module_title],
+      ["course_code", config.course_code || defaultConfig.course_code],
+      ["instructor_name", config.instructor_name || defaultConfig.instructor_name],
+      ["institution_name", config.institution_name || defaultConfig.institution_name]
+    ]);
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4dc161f6001fac',t:'MTc2OTU3NDYzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IS101 -Fundamentals of Information Systems</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+    
+    .heading-font {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .module-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .module-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    .week-link {
+      transition: all 0.2s ease;
+    }
+    
+    .week-link:hover {
+      transform: translateX(8px);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-pattern {
+      background-color: #0f172a;
+      background-image: 
+        radial-gradient(at 47% 33%, #1e3a5f 0, transparent 59%), 
+        radial-gradient(at 82% 65%, #1e1b4b 0, transparent 55%);
+    }
+    
+    .glow-effect {
+      box-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-in {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-slate-950 overflow-auto">
+  <div class="w-full min-h-full"><!-- Hero Section -->
+   <header class="hero-pattern w-full py-16 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30">
+     <svg class="w-full h-full" viewbox="0 0 100 100" preserveaspectratio="none"><defs>
+       <pattern id="grid" width="10" height="10" patternunits="userSpaceOnUse">
+        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(99, 102, 241, 0.1)" stroke-width="0.5" />
+       </pattern>
+      </defs> <rect width="100" height="100" fill="url(#grid)" />
+     </svg>
+    </div>
+    <div class="max-w-5xl mx-auto relative z-10">
+     <div class="flex items-center gap-3 mb-4 animate-in">
+      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+       <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+       </svg>
+      </div><span class="text-indigo-400 font-medium tracking-wide uppercase text-sm" id="course-code">IS101</span>
+     </div>
+     <h1 class="heading-font text-4xl md:text-5xl font-bold text-white mb-4 animate-in delay-1" id="course-title">Fundamentals of Information Systems</h1>
+     <div class="flex flex-wrap items-center gap-6 text-slate-300 animate-in delay-2">
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+       </svg><span id="instructor-name">Instructor: MKDB</span>
+      </div>
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+       </svg><span id="institution-name">Lyceum De San Pablo - College of Information Systems</span>
+      </div>
+     </div>
+    </div>
+   </header><!-- Course Description -->
+   <section class="w-full px-6 py-10 bg-slate-900/50">
+    <div class="max-w-5xl mx-auto">
+     <div class="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50 glow-effect">
+      <h2 class="heading-font text-lg font-semibold text-indigo-400 mb-3 flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg> Course Description</h2>
+      <p class="text-slate-300 leading-relaxed text-sm md:text-base">This course introduces students to the fundamental concepts of Information Systems (IS) and their role in supporting business operations and decision-making in modern organizations. It covers the components, evolution, and applications of information systems, including hardware, software, networks, operating systems, enterprise systems, and office productivity tools. The course also emphasizes information management, data quality, security, ethics, and emerging technologies used in today's digital enterprises.</p>
+     </div>
+    </div>
+   </section><!-- Module Cards -->
+   <main class="w-full px-6 py-12">
+    <div class="max-w-5xl mx-auto space-y-8"><!-- Prelims -->
+     <div class="module-card bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-3xl p-8 border border-slate-700/50 glow-effect">
+      <div class="flex items-center gap-4 mb-6">
+       <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg">
+        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+       </div>
+       <div>
+        <h2 class="heading-font text-2xl font-bold text-white">Prelims</h2>
+        <p class="text-emerald-400 text-sm font-medium">Foundation &amp; Core Concepts</p>
+       </div>
+      </div>
+      <div class="space-y-3"><a href="p1.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-emerald-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold text-sm">1-2</span> <span class="text-slate-200 group-hover:text-white">Introduction to Information Systems &amp; Basic IT Concepts</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="p3.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-emerald-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold text-sm">3</span> <span class="text-slate-200 group-hover:text-white">History &amp; Evolution of Information Systems</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="p4.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-emerald-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold text-sm">4</span> <span class="text-slate-200 group-hover:text-white">Components of IS (Hardware, Software, Data, People, Process)</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="p5.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-emerald-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold text-sm">5</span> <span class="text-slate-200 group-hover:text-white">Computer Hardware Fundamentals</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a>
+      </div>
+     </div><!-- Midterms -->
+     <div class="module-card bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-3xl p-8 border border-slate-700/50 glow-effect">
+      <div class="flex items-center gap-4 mb-6">
+       <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
+        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+        </svg>
+       </div>
+       <div>
+        <h2 class="heading-font text-2xl font-bold text-white">Midterms</h2>
+        <p class="text-blue-400 text-sm font-medium">Systems &amp; Productivity Tools</p>
+       </div>
+      </div>
+      <div class="space-y-3"><a href="m1.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-blue-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold text-sm">1</span> <span class="text-slate-200 group-hover:text-white">Networking &amp; Communications Technologies</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="m2.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-blue-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold text-sm">2</span> <span class="text-slate-200 group-hover:text-white">Operating Systems Concepts</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="m3.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-blue-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold text-sm">3</span> <span class="text-slate-200 group-hover:text-white">Enterprise IS: TPS, MIS, DSS, ERP, CRM, SCM</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="m4.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-blue-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold text-sm">4</span> <span class="text-slate-200 group-hover:text-white">Office Productivity: Word Processing (Advanced)</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="m5.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-blue-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold text-sm">5</span> <span class="text-slate-200 group-hover:text-white">Office Productivity: Spreadsheets (Formulas &amp; Charts)</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a>
+      </div>
+     </div><!-- Finals -->
+     <div class="module-card bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-3xl p-8 border border-slate-700/50 glow-effect">
+      <div class="flex items-center gap-4 mb-6">
+       <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
+        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+       </div>
+       <div>
+        <h2 class="heading-font text-2xl font-bold text-white">Finals</h2>
+        <p class="text-purple-400 text-sm font-medium">Advanced Topics &amp; Emerging Tech</p>
+       </div>
+      </div>
+      <div class="space-y-3"><a href="f1.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-purple-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-semibold text-sm">1</span> <span class="text-slate-200 group-hover:text-white">Office Productivity: Presentation Design &amp; Technical Writing</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="f2.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-purple-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-semibold text-sm">2</span> <span class="text-slate-200 group-hover:text-white">Office Productivity: Simple Database Applications</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="f3.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-purple-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-semibold text-sm">3</span> <span class="text-slate-200 group-hover:text-white">Information Management &amp; Data Quality</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="f4.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-purple-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-semibold text-sm">4</span> <span class="text-slate-200 group-hover:text-white">Information Systems Security &amp; Ethics</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a> <a href="f5.html" class="week-link flex items-center justify-between p-4 bg-slate-900/50 rounded-xl border border-slate-700/30 hover:border-purple-500/50 hover:bg-slate-900 group">
+        <div class="flex items-center gap-4"><span class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-semibold text-sm">5</span> <span class="text-slate-200 group-hover:text-white">Emerging Technologies (Cloud, AI, IoT, Industry 4.0)</span>
+        </div>
+        <svg class="w-5 h-5 text-slate-500 group-hover:text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></a>
+      </div>
+     </div>
+    </div>
+   </main><!-- Footer -->
+   <footer class="w-full px-6 py-8 border-t border-slate-800">
+    <div class="max-w-5xl mx-auto text-center">
+     <p class="text-slate-500 text-sm">© 2026 Lyceum De San Pablo - College of Information Systems</p>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      course_code: "IS101",
+      course_title: "IS101 -Fundamentals of Information Systems",
+      instructor_name: "Instructor: MKDB",
+      institution_name: "Lyceum De San Pablo - College of Information Systems"
+    };
+
+    async function onConfigChange(config) {
+      document.getElementById('course-code').textContent = config.course_code || defaultConfig.course_code;
+      document.getElementById('course-title').textContent = config.course_title || defaultConfig.course_title;
+      document.getElementById('instructor-name').textContent = config.instructor_name || defaultConfig.instructor_name;
+      document.getElementById('institution-name').textContent = config.institution_name || defaultConfig.institution_name;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["course_code", config.course_code || defaultConfig.course_code],
+        ["course_title", config.course_title || defaultConfig.course_title],
+        ["instructor_name", config.instructor_name || defaultConfig.instructor_name],
+        ["institution_name", config.institution_name || defaultConfig.institution_name]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4d902964ff8d09',t:'MTc2OTU3MjYyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

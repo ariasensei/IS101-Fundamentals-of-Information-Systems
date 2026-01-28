@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Information Systems &amp; Basic IT Concepts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .heading-font {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .tab-button {
+      transition: all 0.3s ease;
+    }
+
+    .tab-button.active {
+      border-bottom: 3px solid #6366f1;
+      color: #6366f1;
+    }
+
+    .content-section {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+    }
+
+    .case-study-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+      border-left: 4px solid #6366f1;
+    }
+
+    .activity-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+      border-left: 4px solid #22c55e;
+    }
+
+    .concept-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin: 0.25rem;
+    }
+
+    .concept-badge-ilo {
+      background-color: rgba(99, 102, 241, 0.2);
+      color: #6366f1;
+    }
+
+    .concept-badge-key {
+      background-color: rgba(168, 85, 247, 0.2);
+      color: #a855f7;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .timeline-item {
+      margin-bottom: 2rem;
+      padding-left: 2rem;
+      border-left: 2px solid #e5e7eb;
+    }
+
+    .timeline-item.active {
+      border-left-color: #6366f1;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -8px;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #e5e7eb;
+      border: 2px solid white;
+    }
+
+    .timeline-item.active .timeline-dot {
+      background-color: #6366f1;
+    }
+
+    .real-world-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem;
+      background: #fbbf24;
+      color: #78350f;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-auto">
+  <div class="w-full min-h-full"><!-- Header -->
+   <header class="hero-gradient w-full px-6 py-12 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+     <svg class="w-full h-full" viewbox="0 0 100 100" preserveaspectratio="none"><defs>
+       <pattern id="grid" width="10" height="10" patternunits="userSpaceOnUse">
+        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="0.5" />
+       </pattern>
+      </defs> <rect width="100" height="100" fill="url(#grid)" />
+     </svg>
+    </div>
+    <div class="max-w-6xl mx-auto relative z-10">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-md">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+       </svg>
+      </div><span class="text-sm font-semibold opacity-90">IS101 - Week 1 &amp; 2</span>
+     </div>
+     <h1 class="heading-font text-4xl md:text-5xl font-bold mb-4" id="module-title">Introduction to Information Systems &amp; Basic IT Concepts</h1>
+     <div class="flex flex-col md:flex-row md:items-center gap-4 text-white/90 text-sm">
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg><span>Duration: 2 hours/week</span>
+      </div>
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+       </svg><span id="instructor-display">Instructor: MKDB</span>
+      </div>
+     </div>
+     <div class="mt-6 text-white/80 text-sm">
+      <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg><span id="institution-display">Lyceum de San Pablo - College of Information Systems</span>
+     </div>
+    </div>
+   </header><!-- Navigation Tabs -->
+   <div class="w-full bg-slate-800/50 border-b border-slate-700 sticky top-0 z-40 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-6">
+     <div class="flex overflow-x-auto gap-8"><button class="tab-button active px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white" data-tab="overview"> Overview </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white" data-tab="concepts"> Core Concepts </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white" data-tab="case-study"> Case Studies </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white" data-tab="activities"> Activities </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white" data-tab="resources"> Resources </button>
+     </div>
+    </div>
+   </div><!-- Content -->
+   <main class="w-full px-6 py-12">
+    <div class="max-w-6xl mx-auto"><!-- Overview Tab -->
+     <section id="overview" class="content-section active">
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
+       <div class="card-hover bg-gradient-to-br from-blue-900/20 to-blue-800/20 rounded-xl p-6 border border-blue-700/30">
+        <div class="w-12 h-12 rounded-lg bg-blue-500/30 flex items-center justify-center mb-4">
+         <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+         </svg>
+        </div>
+        <h3 class="heading-font text-lg font-semibold text-white mb-2">Learning Outcomes</h3>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>✓ Understand IS fundamentals</li>
+         <li>✓ Identify IT components</li>
+         <li>✓ Analyze real-world applications</li>
+        </ul>
+       </div>
+       <div class="card-hover bg-gradient-to-br from-purple-900/20 to-purple-800/20 rounded-xl p-6 border border-purple-700/30">
+        <div class="w-12 h-12 rounded-lg bg-purple-500/30 flex items-center justify-center mb-4">
+         <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m6 2a8 8 0 11-16 0 8 8 0 0116 0zm-7 11h2v2h-2v-2zm-5-4h2v4h-2v-4zm10-4h2v6h-2v-6z" />
+         </svg>
+        </div>
+        <h3 class="heading-font text-lg font-semibold text-white mb-2">Key Topics</h3>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>• Information Systems</li>
+         <li>• Hardware &amp; Software</li>
+         <li>• Data &amp; Networks</li>
+        </ul>
+       </div>
+       <div class="card-hover bg-gradient-to-br from-green-900/20 to-green-800/20 rounded-xl p-6 border border-green-700/30">
+        <div class="w-12 h-12 rounded-lg bg-green-500/30 flex items-center justify-center mb-4">
+         <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+         </svg>
+        </div>
+        <h3 class="heading-font text-lg font-semibold text-white mb-2">Activities</h3>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>• Individual assignments</li>
+         <li>• Group projects</li>
+         <li>• Case discussions</li>
+        </ul>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h2 class="heading-font text-2xl font-bold text-white mb-4">Module Overview</h2>
+       <p class="text-slate-300 leading-relaxed mb-6">This module introduces you to the fundamental concepts of Information Systems (IS) in today's digital world. As we navigate an increasingly technology-driven economy, understanding how information systems work is crucial for any business professional. From Netflix's recommendation algorithms to Amazon's supply chain management, information systems are the backbone of modern organizations.</p>
+       <p class="text-slate-300 leading-relaxed mb-6">In this two-week module, you'll learn what constitutes an information system, the key components that make them work, and how they drive business value. We'll explore real-world examples from companies like Meta, Google, and emerging startups to understand practical applications.</p>
+       <div class="bg-indigo-500/20 border border-indigo-500/50 rounded-lg p-4 mb-4">
+        <p class="text-slate-200 text-sm"><span class="font-semibold text-indigo-300">💡 Current Context (2024-2025):</span> As AI and automation reshape businesses globally, understanding IS foundations is more important than ever. We'll discuss how companies adapt to these changes.</p>
+       </div>
+      </div>
+     </section><!-- Core Concepts Tab -->
+     <section id="concepts" class="content-section">
+      <h2 class="heading-font text-3xl font-bold text-white mb-8">Core Concepts &amp; Definitions</h2><!-- What is IS -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <div class="flex items-start gap-4 mb-4">
+        <div class="w-12 h-12 rounded-lg bg-indigo-500/30 flex items-center justify-center flex-shrink-0">
+         <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+         </svg>
+        </div>
+        <div class="flex-1">
+         <h3 class="heading-font text-2xl font-bold text-white mb-2">What is an Information System?</h3><span class="real-world-indicator">Current Relevance</span>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 mb-4">
+        <p class="text-slate-200 mb-4">An Information System (IS) is an integrated set of components for collecting, storing, processing, and delivering information to support decision-making and organizational control. In simple terms: <strong>it's any system that uses technology to handle data</strong>.</p>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div class="bg-slate-800/50 rounded-lg p-4">
+          <h4 class="text-indigo-300 font-semibold mb-2">Traditional View (Pre-2020)</h4>
+          <p class="text-sm text-slate-300">Enterprise systems, databases, desktop computers, and on-site servers managing business operations.</p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 border border-yellow-500/30">
+          <h4 class="text-yellow-300 font-semibold mb-2">Modern View (2024)</h4>
+          <p class="text-sm text-slate-300">Cloud systems, AI/ML platforms, mobile apps, IoT devices, and real-time analytics platforms enabling remote work and global operations.</p>
+         </div>
+        </div>
+       </div>
+       <div class="bg-blue-900/20 border border-blue-500/50 rounded-lg p-4">
+        <p class="text-blue-200 text-sm"><strong>Example:</strong> Spotify's IS includes servers storing millions of songs, algorithms recommending music, user databases, payment systems, and mobile apps—all working together to deliver personalized music experiences to 600M+ users globally.</p>
+       </div>
+      </div><!-- IS Components -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6">The 5 Components of an Information System</h3>
+       <div class="space-y-4"><!-- Component 1 -->
+        <div class="card-hover bg-gradient-to-r from-red-900/20 to-red-800/20 rounded-lg p-6 border border-red-700/30">
+         <div class="flex items-center gap-3 mb-3"><span class="flex items-center justify-center w-8 h-8 rounded-full bg-red-500/30 text-red-300 font-bold text-sm">1</span>
+          <h4 class="heading-font text-lg font-semibold text-white">Hardware</h4>
+         </div>
+         <p class="text-slate-300 mb-3">Physical devices—servers, computers, mobile phones, network equipment, IoT sensors.</p>
+         <div class="bg-slate-900/50 rounded p-3">
+          <p class="text-sm text-slate-400"><strong class="text-slate-200">2024 Trend:</strong> From data centers to edge computing. Companies like Meta and Google are using specialized AI chips (TPUs, custom processors) instead of traditional CPUs.</p>
+         </div>
+        </div><!-- Component 2 -->
+        <div class="card-hover bg-gradient-to-r from-orange-900/20 to-orange-800/20 rounded-lg p-6 border border-orange-700/30">
+         <div class="flex items-center gap-3 mb-3"><span class="flex items-center justify-center w-8 h-8 rounded-full bg-orange-500/30 text-orange-300 font-bold text-sm">2</span>
+          <h4 class="heading-font text-lg font-semibold text-white">Software</h4>
+         </div>
+         <p class="text-slate-300 mb-3">Programs and applications—operating systems, business apps, AI models, mobile apps.</p>
+         <div class="bg-slate-900/50 rounded p-3">
+          <p class="text-sm text-slate-400"><strong class="text-slate-200">2024 Trend:</strong> Cloud-based SaaS (Salesforce, Microsoft 365), open-source solutions, and AI-powered software replacing traditional enterprise licenses.</p>
+         </div>
+        </div><!-- Component 3 -->
+        <div class="card-hover bg-gradient-to-r from-yellow-900/20 to-yellow-800/20 rounded-lg p-6 border border-yellow-700/30">
+         <div class="flex items-center gap-3 mb-3"><span class="flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500/30 text-yellow-300 font-bold text-sm">3</span>
+          <h4 class="heading-font text-lg font-semibold text-white">Data</h4>
+         </div>
+         <p class="text-slate-300 mb-3">Information processed and stored—customer records, transactions, analytics, unstructured content.</p>
+         <div class="bg-slate-900/50 rounded p-3">
+          <p class="text-sm text-slate-400"><strong class="text-slate-200">2024 Trend:</strong> Data is now the "new oil." Big data, real-time analytics, and data privacy (GDPR, local regulations) are critical concerns for all organizations.</p>
+         </div>
+        </div><!-- Component 4 -->
+        <div class="card-hover bg-gradient-to-r from-green-900/20 to-green-800/20 rounded-lg p-6 border border-green-700/30">
+         <div class="flex items-center gap-3 mb-3"><span class="flex items-center justify-center w-8 h-8 rounded-full bg-green-500/30 text-green-300 font-bold text-sm">4</span>
+          <h4 class="heading-font text-lg font-semibold text-white">People</h4>
+         </div>
+         <p class="text-slate-300 mb-3">Users, IT professionals, data scientists, managers—those who interact with and support the system.</p>
+         <div class="bg-slate-900/50 rounded p-3">
+          <p class="text-sm text-slate-400"><strong class="text-slate-200">2024 Trend:</strong> Digital transformation requires new skills. Companies struggle to find AI specialists, cybersecurity experts, and digital-savvy leaders.</p>
+         </div>
+        </div><!-- Component 5 -->
+        <div class="card-hover bg-gradient-to-r from-blue-900/20 to-blue-800/20 rounded-lg p-6 border border-blue-700/30">
+         <div class="flex items-center gap-3 mb-3"><span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/30 text-blue-300 font-bold text-sm">5</span>
+          <h4 class="heading-font text-lg font-semibold text-white">Process</h4>
+         </div>
+         <p class="text-slate-300 mb-3">Business procedures and workflows—how the system supports and automates business operations.</p>
+         <div class="bg-slate-900/50 rounded p-3">
+          <p class="text-sm text-slate-400"><strong class="text-slate-200">2024 Trend:</strong> Business Process Management (BPM) and automation are reshaping workflows. RPA (Robotic Process Automation) handles repetitive tasks, freeing humans for creative work.</p>
+         </div>
+        </div>
+       </div>
+      </div><!-- Types of IT Systems -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6">How Systems Work Together: The IT Stack</h3>
+       <div class="bg-gradient-to-b from-slate-900/50 to-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+        <div class="space-y-3 text-sm">
+         <div class="flex items-center gap-3 p-3 bg-slate-800/50 rounded border-l-4 border-purple-500"><span class="text-purple-400 font-bold">🖥️</span> <span class="text-slate-300"><strong>Infrastructure Layer:</strong> Servers, networks, storage (AWS, Azure, Google Cloud)</span>
+         </div>
+         <div class="flex items-center gap-3 p-3 bg-slate-800/50 rounded border-l-4 border-blue-500"><span class="text-blue-400 font-bold">⚙️</span> <span class="text-slate-300"><strong>Platform Layer:</strong> Databases, APIs, middleware connecting different systems</span>
+         </div>
+         <div class="flex items-center gap-3 p-3 bg-slate-800/50 rounded border-l-4 border-green-500"><span class="text-green-400 font-bold">📱</span> <span class="text-slate-300"><strong>Application Layer:</strong> Business software, mobile apps, user-facing tools</span>
+         </div>
+         <div class="flex items-center gap-3 p-3 bg-slate-800/50 rounded border-l-4 border-yellow-500"><span class="text-yellow-400 font-bold">👤</span> <span class="text-slate-300"><strong>User Layer:</strong> Employees, customers, partners interacting with applications</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Case Studies Tab -->
+     <section id="case-study" class="content-section">
+      <h2 class="heading-font text-3xl font-bold text-white mb-8">Real-World Case Studies</h2><!-- Netflix Case Study -->
+      <div class="case-study-box rounded-xl p-8 mb-8 border border-indigo-500/30">
+       <div class="flex items-start gap-4 mb-4">
+        <div class="w-14 h-14 rounded-lg bg-red-500/30 flex items-center justify-center flex-shrink-0">
+         <svg class="w-7 h-7 text-red-400" fill="currentColor" viewbox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="heading-font text-2xl font-bold text-white">Case Study 1: Netflix's Information System</h3>
+         <p class="text-indigo-300 text-sm mt-2">How a streaming giant uses IS to compete globally</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 space-y-4">
+        <div>
+         <h4 class="text-indigo-300 font-semibold mb-2">The Challenge</h4>
+         <p class="text-slate-300 text-sm">Netflix needs to serve 280M+ subscribers worldwide, recommending personalized content in &lt;10 milliseconds, while managing bandwidth for 4K streaming across 190+ countries.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div>
+          <h4 class="text-green-300 font-semibold mb-2">✓ IS Components in Action</h4>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li><strong>Hardware:</strong> Global data centers, CDNs</li>
+           <li><strong>Software:</strong> ML algorithms, cloud platforms</li>
+           <li><strong>Data:</strong> User behavior, viewing history</li>
+           <li><strong>People:</strong> Data scientists, engineers</li>
+           <li><strong>Process:</strong> Content recommendation</li>
+          </ul>
+         </div>
+         <div>
+          <h4 class="text-yellow-300 font-semibold mb-2">💡 Business Impact</h4>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li>💰 $33B+ revenue (2023)</li>
+           <li>📊 75% of watch time from recommendations</li>
+           <li>🌍 Available in 190+ countries</li>
+           <li>⚡ Reduced churn through personalization</li>
+           <li>🚀 Competitive advantage via data</li>
+          </ul>
+         </div>
+        </div>
+        <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+         <p class="text-blue-200 text-sm"><strong>Key Insight:</strong> Netflix's success isn't just about streaming video—it's about their IS's ability to understand customer preferences at scale and deliver personalized recommendations, keeping subscribers engaged.</p>
+        </div>
+       </div>
+      </div><!-- Amazon Case Study -->
+      <div class="case-study-box rounded-xl p-8 mb-8 border border-orange-500/30">
+       <div class="flex items-start gap-4 mb-4">
+        <div class="w-14 h-14 rounded-lg bg-orange-500/30 flex items-center justify-center flex-shrink-0">
+         <svg class="w-7 h-7 text-orange-400" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="heading-font text-2xl font-bold text-white">Case Study 2: Amazon's Supply Chain IS</h3>
+         <p class="text-orange-300 text-sm mt-2">Information systems enabling same-day delivery at scale</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 space-y-4">
+        <div>
+         <h4 class="text-orange-300 font-semibold mb-2">The Challenge</h4>
+         <p class="text-slate-300 text-sm">Amazon fulfills millions of orders daily across 150+ countries. How do they promise 1-2 day delivery without pre-knowing what customers will order?</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div>
+          <h4 class="text-green-300 font-semibold mb-2">✓ IS Innovation</h4>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li><strong>IoT Sensors:</strong> Real-time inventory tracking</li>
+           <li><strong>AI Predictions:</strong> Anticipatory shipping</li>
+           <li><strong>Robotics:</strong> Automated warehouses</li>
+           <li><strong>Data Analytics:</strong> Demand forecasting</li>
+           <li><strong>Mobile Apps:</strong> Real-time tracking for customers</li>
+          </ul>
+         </div>
+         <div>
+          <h4 class="text-yellow-300 font-semibold mb-2">💡 Business Outcomes</h4>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li>🚚 15+ fulfillment centers per region</li>
+           <li>⚡ 2-hour delivery in major cities</li>
+           <li>📈 50%+ of orders shipped same-day</li>
+           <li>💼 $575B+ revenue (2023)</li>
+           <li>👥 1.5M+ employees globally</li>
+          </ul>
+         </div>
+        </div>
+        <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4">
+         <p class="text-purple-200 text-sm"><strong>Key Insight:</strong> Amazon's IS connects customer orders with supply chain operations in real-time, using data to pre-position products closer to customers before they even complete their purchase.</p>
+        </div>
+       </div>
+      </div><!-- TikTok Case Study -->
+      <div class="case-study-box rounded-xl p-8 border border-pink-500/30">
+       <div class="flex items-start gap-4 mb-4">
+        <div class="w-14 h-14 rounded-lg bg-pink-500/30 flex items-center justify-center flex-shrink-0">
+         <svg class="w-7 h-7 text-pink-400" fill="currentColor" viewbox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v13.67a2.89 2.89 0 0 1-5.08 1.86 2.89 2.89 0 0 1 5.08-1.97V9.75a6.54 6.54 0 0 0-3.86 1.06 6.56 6.56 0 0 0-1.62 8.66 6.52 6.52 0 0 0 8.54 1.92 6.51 6.51 0 0 0 1.63-8.78l-.03-.15V6.69z" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="heading-font text-2xl font-bold text-white">Case Study 3: TikTok's Algorithm &amp; Data Processing</h3>
+         <p class="text-pink-300 text-sm mt-2">2024 Controversy: How IS impacts society and regulation</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 space-y-4">
+        <div>
+         <h4 class="text-pink-300 font-semibold mb-2">The Challenge</h4>
+         <p class="text-slate-300 text-sm">TikTok processes billions of videos daily, using AI to determine which content each user sees. In 2024, governments worldwide questioned data privacy and security implications.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div>
+          <h4 class="text-green-300 font-semibold mb-2">✓ IS Capabilities</h4>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li><strong>AI/ML:</strong> Video classification &amp; recommendations</li>
+           <li><strong>Data Processing:</strong> 1B+ daily active users</li>
+           <li><strong>Cloud Infrastructure:</strong> Global content distribution</li>
+           <li><strong>User Analytics:</strong> Behavior tracking</li>
+           <li><strong>Monetization:</strong> Targeted ad delivery</li>
+          </ul>
+         </div>
+         <div>
+          <h4 class="text-red-300 font-semibold mb-2">⚠️ Regulatory Issues (2024)</h4>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li>🛡️ Data privacy concerns (GDPR, US regulations)</li>
+           <li>🔐 National security &amp; data sovereignty</li>
+           <li>👶 Protection of minors (algorithm safety)</li>
+           <li>💾 Data storage location issues</li>
+           <li>📋 Transparency demands from governments</li>
+          </ul>
+         </div>
+        </div>
+        <div class="bg-red-900/30 border border-red-500/50 rounded-lg p-4">
+         <p class="text-red-200 text-sm"><strong>Key Insight:</strong> Modern IS raises ethical and legal questions. Companies must balance innovation with privacy, security, and societal impact. This shapes future regulations and business practices.</p>
+        </div>
+       </div>
+      </div>
+     </section><!-- Activities Tab -->
+     <section id="activities" class="content-section">
+      <h2 class="heading-font text-3xl font-bold text-white mb-8">Learning Activities</h2><!-- Individual Activities -->
+      <div class="mb-12">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center text-blue-300">👤</span> Individual Activities</h3><!-- Activity 1 -->
+       <div class="activity-box rounded-xl p-6 mb-6 border border-green-500/30">
+        <div class="flex items-start gap-4 mb-4"><span class="inline-block px-3 py-1 bg-blue-500/30 text-blue-300 rounded-full text-xs font-semibold">Week 1</span>
+        </div>
+        <h4 class="heading-font text-lg font-bold text-white mb-3">Activity 1.1: Identify IS in Your Daily Life</h4>
+        <p class="text-slate-300 mb-4"><strong>Duration:</strong> 30-45 minutes | <strong>Deadline:</strong> End of Week 1</p>
+        <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+         <h5 class="text-green-300 font-semibold mb-2">📋 Instructions:</h5>
+         <ol class="text-slate-300 text-sm space-y-2 list-decimal list-inside">
+          <li>Document 5 information systems you interact with daily (e.g., banking apps, social media, online shopping)</li>
+          <li>For each system, identify the 5 components (Hardware, Software, Data, People, Process)</li>
+          <li>Create a 1-page summary explaining how one of these systems creates business value</li>
+          <li>Submit as a PDF document</li>
+         </ol>
+        </div>
+        <div class="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-4">
+         <p class="text-yellow-200 text-sm"><strong>💡 Example:</strong> For Spotify: Hardware = servers hosting music files, Software = recommendation algorithm, Data = listening history, People = musicians + users, Process = music discovery and playback</p>
+        </div>
+       </div><!-- Activity 2 -->
+       <div class="activity-box rounded-xl p-6 mb-6 border border-green-500/30">
+        <div class="flex items-start gap-4 mb-4"><span class="inline-block px-3 py-1 bg-blue-500/30 text-blue-300 rounded-full text-xs font-semibold">Week 2</span>
+        </div>
+        <h4 class="heading-font text-lg font-bold text-white mb-3">Activity 2.1: IT Stack Mapping Exercise</h4>
+        <p class="text-slate-300 mb-4"><strong>Duration:</strong> 45-60 minutes | <strong>Deadline:</strong> Mid-Week 2</p>
+        <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+         <h5 class="text-green-300 font-semibold mb-2">📋 Instructions:</h5>
+         <ol class="text-slate-300 text-sm space-y-2 list-decimal list-inside">
+          <li>Choose a company from the provided list (Netflix, Amazon, Shopee, or GCash)</li>
+          <li>Research and document their IT stack across 4 layers: Infrastructure, Platform, Application, User</li>
+          <li>Create a visual diagram (can be hand-drawn or digital) showing how data flows through their system</li>
+          <li>Write 2-3 sentences explaining how each layer supports the company's business model</li>
+          <li>Submit both diagram and written explanation</li>
+         </ol>
+        </div>
+        <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+         <p class="text-blue-200 text-sm"><strong>🎯 Learning Goal:</strong> Understand how different technology layers work together to enable business functionality. Connect technical infrastructure to business outcomes.</p>
+        </div>
+       </div><!-- Activity 3 -->
+       <div class="activity-box rounded-xl p-6 border border-green-500/30">
+        <div class="flex items-start gap-4 mb-4"><span class="inline-block px-3 py-1 bg-purple-500/30 text-purple-300 rounded-full text-xs font-semibold">Week 2</span>
+        </div>
+        <h4 class="heading-font text-lg font-bold text-white mb-3">Activity 3.1: Current Events Analysis</h4>
+        <p class="text-slate-300 mb-4"><strong>Duration:</strong> 30 minutes | <strong>Deadline:</strong> End of Week 2</p>
+        <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+         <h5 class="text-green-300 font-semibold mb-2">📋 Instructions:</h5>
+         <ol class="text-slate-300 text-sm space-y-2 list-decimal list-inside">
+          <li>Find a recent news article (2024) about an IT system or company using technology (e.g., AI in healthcare, cloud computing adoption, data breaches)</li>
+          <li>Summarize the article in 150-200 words</li>
+          <li>Identify which IS components are mentioned or relevant to the story</li>
+          <li>Explain why this technology matters for businesses today</li>
+          <li>Share link and summary on the class discussion forum</li>
+         </ol>
+        </div>
+        <div class="bg-orange-900/30 border border-orange-500/50 rounded-lg p-4">
+         <p class="text-orange-200 text-sm"><strong>📰 Sample Topics:</strong> ChatGPT adoption in businesses | Apple Intelligence | AI regulation | Cybersecurity breaches | Cloud migration | Web3/Blockchain | Quantum Computing</p>
+        </div>
+       </div>
+      </div><!-- Group Activities -->
+      <div>
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="w-8 h-8 rounded-full bg-green-500/30 flex items-center justify-center text-green-300">👥</span> Group Activities (3-4 students per group)</h3><!-- Group Activity 1 -->
+       <div class="activity-box rounded-xl p-6 mb-6 border border-green-500/50">
+        <div class="flex items-start gap-4 mb-4"><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold">Weeks 1-2</span>
+        </div>
+        <h4 class="heading-font text-lg font-bold text-white mb-3">Group Project 1: IS Case Study Presentation</h4>
+        <p class="text-slate-300 mb-4"><strong>Duration:</strong> 3-4 hours collaborative work | <strong>Presentation:</strong> End of Week 2 (5-7 minutes)</p>
+        <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+         <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+         <p class="text-slate-300 text-sm mb-3">Your group will select a Philippine-based company and analyze how their IS enables business success. The company must be:</p>
+         <ul class="text-slate-300 text-sm space-y-2 list-disc list-inside mb-4">
+          <li>Based in the Philippines (or have major operations here)</li>
+          <li>Known for using technology effectively</li>
+          <li>Examples: GCash, Shopee Philippines, AirAsia, Philippine Airlines, Grab, or any large local enterprise</li>
+         </ul>
+         <div class="bg-slate-900/50 rounded p-3 mb-3">
+          <h6 class="text-indigo-300 font-semibold mb-2">Your presentation should cover:</h6>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li>✓ Company background and industry</li>
+           <li>✓ The 5 IS components used by the company</li>
+           <li>✓ How their IS creates competitive advantage</li>
+           <li>✓ Challenges they face (security, scalability, regulation)</li>
+           <li>✓ Future opportunities (emerging technologies)</li>
+          </ul>
+         </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4 mb-4">
+         <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+          <h6 class="text-blue-300 font-semibold mb-2">Deliverables:</h6>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li>📊 PowerPoint (10-12 slides)</li>
+           <li>📄 Research summary (2-3 pages)</li>
+           <li>🎥 5-7 minute presentation</li>
+           <li>💬 Q&amp;A with classmates</li>
+          </ul>
+         </div>
+         <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+          <h6 class="text-green-300 font-semibold mb-2">Assessment Criteria:</h6>
+          <ul class="text-slate-300 text-sm space-y-1">
+           <li>Research quality (30%)</li>
+           <li>Presentation clarity (25%)</li>
+           <li>IS analysis depth (25%)</li>
+           <li>Teamwork &amp; collaboration (20%)</li>
+          </ul>
+         </div>
+        </div>
+        <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4">
+         <p class="text-purple-200 text-sm"><strong>💡 Why This Matters:</strong> You'll learn that IS isn't just about technology—it's about how organizations strategically use information to achieve business goals. This is a real-world skill employers value.</p>
+        </div>
+       </div><!-- Group Activity 2 -->
+       <div class="activity-box rounded-xl p-6 border border-green-500/50">
+        <div class="flex items-start gap-4 mb-4"><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold">Week 2</span>
+        </div>
+        <h4 class="heading-font text-lg font-bold text-white mb-3">Group Activity 2: "IS Crisis Management" Simulation</h4>
+        <p class="text-slate-300 mb-4"><strong>Duration:</strong> 2-3 hours | <strong>Format:</strong> Interactive class session (Week 2)</p>
+        <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+         <h5 class="text-green-300 font-semibold mb-3">📋 Scenario:</h5>
+         <p class="text-slate-300 text-sm mb-4">Each group receives a crisis scenario and must quickly develop a response plan using IS concepts:</p>
+         <div class="space-y-3">
+          <div class="bg-slate-900/50 rounded p-3 border-l-4 border-red-500">
+           <p class="text-slate-200 font-semibold text-sm mb-1">Scenario A: Data Breach</p>
+           <p class="text-slate-400 text-sm">A major retailer's customer database is hacked. How should they respond using their IS infrastructure?</p>
+          </div>
+          <div class="bg-slate-900/50 rounded p-3 border-l-4 border-orange-500">
+           <p class="text-slate-200 font-semibold text-sm mb-1">Scenario B: System Outage</p>
+           <p class="text-slate-400 text-sm">A banking app goes down during peak hours. How can their IS recovery procedures minimize damage?</p>
+          </div>
+          <div class="bg-slate-900/50 rounded p-3 border-l-4 border-yellow-500">
+           <p class="text-slate-200 font-semibold text-sm mb-1">Scenario C: Regulatory Compliance</p>
+           <p class="text-slate-400 text-sm">A company must comply with new data privacy laws. How should they restructure their IS?</p>
+          </div>
+         </div>
+        </div>
+        <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+         <h6 class="text-blue-300 font-semibold mb-2">Your group will present:</h6>
+         <ul class="text-slate-300 text-sm space-y-1">
+          <li>The immediate response (what should happen first?)</li>
+          <li>Which IS components are critical to the response?</li>
+          <li>Long-term solution and prevention strategy</li>
+          <li>Expected business impact</li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </section><!-- Resources Tab -->
+     <section id="resources" class="content-section">
+      <h2 class="heading-font text-3xl font-bold text-white mb-8">Learning Resources &amp; References</h2><!-- Reading Materials -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg> Recommended Readings</h3>
+       <div class="space-y-4">
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-indigo-300 font-semibold mb-2">📚 Textbook Chapters</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li><strong>Textbook:</strong> Information Systems Today (7th Edition)</li>
+          <li>Chapter 1: Information Systems in Business Today</li>
+          <li>Chapter 2: Global Information Systems and Infrastructure</li>
+          <li><em class="text-slate-400">Available in the library and online portal</em></li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-purple-300 font-semibold mb-2">🌐 Online Resources</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Harvard Business Review - Technology &amp; Innovation articles</li>
+          <li>• TechCrunch - Latest tech news and analysis</li>
+          <li>• LinkedIn Learning - "Introduction to IT" course</li>
+          <li>• YouTube: "Information Systems Explained" (Khan Academy style)</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-green-300 font-semibold mb-2">📰 Current News Sources</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Forbes Technology section</li>
+          <li>• The Verge (tech trends and analysis)</li>
+          <li>• GCN (Government Technology)</li>
+          <li>• Philippine IT News portals (InterAksyon, BusinessWorld Tech)</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Key Terminology -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg> Key Terminology (Glossary)</h3>
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-slate-900/50 rounded-lg p-4">
+         <div class="space-y-3">
+          <div>
+           <h4 class="text-indigo-300 font-semibold text-sm">API (Application Programming Interface)</h4>
+           <p class="text-slate-400 text-xs">Software that allows different applications to communicate and share data</p>
+          </div>
+          <div>
+           <h4 class="text-indigo-300 font-semibold text-sm">Cloud Computing</h4>
+           <p class="text-slate-400 text-xs">Using remote servers (the cloud) to store and process data instead of local computers</p>
+          </div>
+          <div>
+           <h4 class="text-indigo-300 font-semibold text-sm">AI/ML (Artificial Intelligence/Machine Learning)</h4>
+           <p class="text-slate-400 text-xs">Systems that learn from data and make decisions without explicit programming</p>
+          </div>
+          <div>
+           <h4 class="text-indigo-300 font-semibold text-sm">IoT (Internet of Things)</h4>
+           <p class="text-slate-400 text-xs">Physical devices embedded with sensors that connect and exchange data over the internet</p>
+          </div>
+         </div>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4">
+         <div class="space-y-3">
+          <div>
+           <h4 class="text-purple-300 font-semibold text-sm">Big Data</h4>
+           <p class="text-slate-400 text-xs">Extremely large datasets that require new tools and techniques to process and analyze</p>
+          </div>
+          <div>
+           <h4 class="text-purple-300 font-semibold text-sm">Cybersecurity</h4>
+           <p class="text-slate-400 text-xs">Protection of computer systems and data from unauthorized access and attacks</p>
+          </div>
+          <div>
+           <h4 class="text-purple-300 font-semibold text-sm">ERP (Enterprise Resource Planning)</h4>
+           <p class="text-slate-400 text-xs">Integrated software that manages all business processes across an organization</p>
+          </div>
+          <div>
+           <h4 class="text-purple-300 font-semibold text-sm">Database</h4>
+           <p class="text-slate-400 text-xs">Organized collection of structured data stored and accessed electronically</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Assessment Info -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg> Assessment &amp; Grading</h3>
+       <div class="grid md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-blue-900/30 rounded-lg p-4 border border-blue-500/50">
+         <h4 class="text-blue-300 font-semibold mb-2">Individual Activities</h4>
+         <p class="text-slate-300 text-sm mb-3">Assignments 1.1, 2.1, 3.1</p>
+         <p class="text-blue-200 font-semibold text-lg">30%</p>
+        </div>
+        <div class="bg-green-900/30 rounded-lg p-4 border border-green-500/50">
+         <h4 class="text-green-300 font-semibold mb-2">Group Project</h4>
+         <p class="text-slate-300 text-sm mb-3">Case Study Presentation</p>
+         <p class="text-green-200 font-semibold text-lg">40%</p>
+        </div>
+        <div class="bg-purple-900/30 rounded-lg p-4 border border-purple-500/50">
+         <h4 class="text-purple-300 font-semibold mb-2">Participation</h4>
+         <p class="text-slate-300 text-sm mb-3">Discussion, Simulation, News Forum</p>
+         <p class="text-purple-200 font-semibold text-lg">30%</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+        <h4 class="text-slate-200 font-semibold mb-3">Grading Scale</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-sm">
+         <div>
+          <p class="text-green-400 font-semibold">90-100</p>
+          <p class="text-slate-400">A (Excellent)</p>
+         </div>
+         <div>
+          <p class="text-green-400 font-semibold">80-89</p>
+          <p class="text-slate-400">B (Good)</p>
+         </div>
+         <div>
+          <p class="text-yellow-400 font-semibold">70-79</p>
+          <p class="text-slate-400">C (Satisfactory)</p>
+         </div>
+         <div>
+          <p class="text-red-400 font-semibold">Below 70</p>
+          <p class="text-slate-400">F (Incomplete)</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section>
+    </div>
+   </main><!-- Footer -->
+   <footer class="w-full px-6 py-8 border-t border-slate-800 mt-12">
+    <div class="max-w-6xl mx-auto">
+     <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Course Info</h4>
+       <p class="text-slate-400 text-sm">IS101 -IS101 -Fundamentals of Information Systems<br>
+        Weeks 1 &amp; 2: Introduction to IS</p>
+      </div>
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Contact</h4>
+       <p class="text-slate-400 text-sm" id="contact-info">Instructor: MKDB<br>
+        </p>
+      </div>
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Resources</h4>
+       <p class="text-slate-400 text-sm">Library Portal | LMS | Discussion Forum</p>
+      </div>
+     </div>
+     <div class="border-t border-slate-700 pt-6 text-center">
+      <p class="text-slate-500 text-xs">© 2024 Lyceum de San Pablo - College of Information Systems. All rights reserved.</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      module_title: "Introduction to Information Systems & Basic IT Concepts",
+      instructor_name: "MKDB",
+      institution_name: "Lyceum de San Pablo - College of Information Systems"
+    };
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        
+        this.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+      });
+    });
+
+    // Element SDK initialization
+    const onConfigChange = async (config) => {
+      document.getElementById('module-title').textContent = config.module_title || defaultConfig.module_title;
+      document.getElementById('instructor-display').textContent = `Instructor: ${config.instructor_name || defaultConfig.instructor_name}`;
+      document.getElementById('institution-display').textContent = config.institution_name || defaultConfig.institution_name;
+    };
+
+    const mapToCapabilities = (config) => ({
+      recolorables: [],
+      borderables: [],
+      fontEditable: undefined,
+      fontSizeable: undefined
+    });
+
+    const mapToEditPanelValues = (config) => new Map([
+      ["module_title", config.module_title || defaultConfig.module_title],
+      ["instructor_name", config.instructor_name || defaultConfig.instructor_name],
+      ["institution_name", config.institution_name || defaultConfig.institution_name]
+    ]);
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4d974fb6138d09',t:'MTc2OTU3MjkxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

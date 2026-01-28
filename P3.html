@@ -1,0 +1,1212 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History &amp; Evolution of Information Systems</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .heading-font {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .title-font {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .tab-button {
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .tab-button.active {
+      color: #6366f1;
+    }
+
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #6366f1, #a855f7);
+      border-radius: 2px;
+    }
+
+    .content-section {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+    }
+
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .timeline-item {
+      margin-bottom: 3rem;
+      padding-left: 60px;
+      border-left: 3px solid #334155;
+      position: relative;
+      animation: slideInLeft 0.6s ease backwards;
+    }
+
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+    .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+    .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -18px;
+      top: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border: 4px solid #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.75rem;
+    }
+
+    .era-section {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+      border-left: 5px solid #6366f1;
+      transition: all 0.3s ease;
+    }
+
+    .era-section:hover {
+      border-left-color: #a855f7;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    }
+
+    .evolution-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%);
+      border: 2px solid rgba(99, 102, 241, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .evolution-box:hover {
+      border-color: #6366f1;
+      box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+    }
+
+    .activity-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+      border-left: 4px solid #22c55e;
+      transition: all 0.3s ease;
+    }
+
+    .activity-box:hover {
+      border-left-color: #16a34a;
+      box-shadow: 0 10px 30px rgba(34, 197, 94, 0.15);
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6366f1 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .tech-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .era-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.5);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #a5b4fc;
+    }
+
+    .comparison-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .comparison-card:hover {
+      border-color: #6366f1;
+      background: linear-gradient(135deg, #1e293b 0%, #1e1b4b 100%);
+    }
+
+    .highlight-box {
+      background: linear-gradient(90deg, rgba(34, 197, 94, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+      border-left: 4px solid #22c55e;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .future-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: #fbbf24;
+      color: #78350f;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 overflow-auto">
+  <div class="w-full min-h-full"><!-- Header -->
+   <header class="hero-gradient w-full px-6 py-16 text-white relative">
+    <div class="max-w-7xl mx-auto relative z-10">
+     <div class="flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-md">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+      </div><span class="text-sm font-semibold opacity-90" id="course-code-display">1S101 - Week 3</span>
+     </div>
+     <h1 class="title-font text-5xl md:text-6xl font-bold mb-4" id="module-title">History &amp; Evolution of Information Systems</h1>
+     <p class="text-lg text-white/80 max-w-2xl mb-6">From mechanical calculators to cloud computing: Trace how technological innovations have shaped organizations and transformed the way we work</p>
+     <div class="flex flex-col md:flex-row md:items-center gap-6 text-white/90 text-sm">
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg><span>Duration: 2 hours</span>
+      </div>
+      <div class="flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+       </svg><span id="instructor-display">Instructor: MKDB</span>
+      </div>
+     </div>
+     <div class="mt-8 text-white/80 text-sm flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+      </svg><span id="institution-display">Lyceum de San Pablo - College of Information Systems</span>
+     </div>
+    </div>
+   </header><!-- Navigation Tabs -->
+   <div class="w-full bg-slate-900/50 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-6">
+     <div class="flex overflow-x-auto gap-8"><button class="tab-button active px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="overview"> Overview </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="eras"> Historical Eras </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="transformation"> Organizational Impact </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="activities"> Activities </button> <button class="tab-button px-1 py-4 border-b-2 whitespace-nowrap text-slate-300 hover:text-white transition-colors" data-tab="resources"> Resources </button>
+     </div>
+    </div>
+   </div><!-- Content -->
+   <main class="w-full px-6 py-12">
+    <div class="max-w-7xl mx-auto"><!-- Overview Tab -->
+     <section id="overview" class="content-section active">
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+       <div class="card-hover stat-card rounded-xl p-6 border">
+        <div class="flex items-center gap-3 mb-4">
+         <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+         </svg>
+         <h3 class="heading-font text-lg font-semibold text-white">Module Objectives</h3>
+        </div>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>✓ Trace IS development from 1950s-2024</li>
+         <li>✓ Understand technological breakthroughs</li>
+         <li>✓ Analyze org transformation impact</li>
+         <li>✓ Predict future IS trends</li>
+        </ul>
+       </div>
+       <div class="card-hover stat-card rounded-xl p-6 border">
+        <div class="flex items-center gap-3 mb-4">
+         <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+         </svg>
+         <h3 class="heading-font text-lg font-semibold text-white">Key Eras</h3>
+        </div>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>• Mainframe Era (1950s-1980s)</li>
+         <li>• Personal Computing (1980s-1990s)</li>
+         <li>• Internet/Web Era (1990s-2000s)</li>
+         <li>• Cloud &amp; AI Era (2010s-2024)</li>
+        </ul>
+       </div>
+       <div class="card-hover stat-card rounded-xl p-6 border">
+        <div class="flex items-center gap-3 mb-4">
+         <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m2-1l-2-1m2 1v2.5" />
+         </svg>
+         <h3 class="heading-font text-lg font-semibold text-white">Why It Matters</h3>
+        </div>
+        <ul class="text-slate-300 text-sm space-y-2">
+         <li>✓ Predict future technologies</li>
+         <li>✓ Plan organizational strategy</li>
+         <li>✓ Understand current systems</li>
+         <li>✓ Make informed decisions</li>
+        </ul>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h2 class="heading-font text-3xl font-bold text-white mb-4">Why Study IS History?</h2>
+       <p class="text-slate-300 leading-relaxed mb-6">Understanding the history of Information Systems is like understanding the human evolution—it helps us see how we got here and where we're heading. Each era brought major breakthroughs that fundamentally changed how businesses operate:</p>
+       <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+         <h4 class="text-blue-300 font-semibold mb-2">📊 The Business Impact</h4>
+         <p class="text-slate-300 text-sm">Companies that understand IS evolution make better technology investments. They avoid repeating past mistakes and capitalize on emerging opportunities faster.</p>
+        </div>
+        <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4">
+         <h4 class="text-purple-300 font-semibold mb-2">🔮 Future Prediction</h4>
+         <p class="text-slate-300 text-sm">History shows patterns. By analyzing past technology adoption, we can predict what will matter next—quantum computing, AI, edge computing, etc.</p>
+        </div>
+       </div>
+       <div class="highlight-box">
+        <p class="text-slate-200 text-sm"><strong>2024 Reality:</strong> Every major business transformation traces back to an IS innovation. Netflix replaced Blockbuster (streaming tech). Uber replaced taxi systems (mobile + GPS). Understanding this history is crucial for your career in information systems.</p>
+       </div>
+      </div>
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h2 class="heading-font text-2xl font-bold text-white mb-6">The Six Major Eras of Information Systems</h2>
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-gradient-to-br from-red-900/30 to-orange-900/30 rounded-lg p-4 border border-red-500/30"><span class="era-badge">1950s-1960s</span>
+         <h4 class="text-orange-300 font-bold mt-2">🖥️ Mainframe Era</h4>
+         <p class="text-slate-400 text-sm mt-1">Room-sized computers for large organizations</p>
+        </div>
+        <div class="bg-gradient-to-br from-yellow-900/30 to-amber-900/30 rounded-lg p-4 border border-yellow-500/30"><span class="era-badge">1970s-1980s</span>
+         <h4 class="text-yellow-300 font-bold mt-2">💾 Minicomputer Era</h4>
+         <p class="text-slate-400 text-sm mt-1">Smaller, more affordable computers</p>
+        </div>
+        <div class="bg-gradient-to-br from-green-900/30 to-teal-900/30 rounded-lg p-4 border border-green-500/30"><span class="era-badge">1980s-1990s</span>
+         <h4 class="text-green-300 font-bold mt-2">💻 PC Revolution</h4>
+         <p class="text-slate-400 text-sm mt-1">Personal computers in every office and home</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 rounded-lg p-4 border border-blue-500/30"><span class="era-badge">1990s-2000s</span>
+         <h4 class="text-blue-300 font-bold mt-2">🌐 Internet Era</h4>
+         <p class="text-slate-400 text-sm mt-1">Global connectivity and e-commerce boom</p>
+        </div>
+        <div class="bg-gradient-to-br from-purple-900/30 to-pink-900/30 rounded-lg p-4 border border-purple-500/30"><span class="era-badge">2000s-2010s</span>
+         <h4 class="text-purple-300 font-bold mt-2">☁️ Cloud Computing</h4>
+         <p class="text-slate-400 text-sm mt-1">On-demand computing and data storage</p>
+        </div>
+        <div class="bg-gradient-to-br from-indigo-900/30 to-violet-900/30 rounded-lg p-4 border border-indigo-500/30"><span class="era-badge">2010s-2024</span>
+         <h4 class="text-indigo-300 font-bold mt-2">🤖 AI &amp; Edge Era</h4>
+         <p class="text-slate-400 text-sm mt-1">AI, IoT, edge computing, real-time processing</p>
+        </div>
+       </div>
+      </div>
+     </section><!-- Historical Eras Tab -->
+     <section id="eras" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">The Six Eras of Information Systems</h2>
+      <div class="timeline space-y-0"><!-- Era 1: Mainframe -->
+       <div class="timeline-item">
+        <div class="timeline-dot">
+         1
+        </div>
+        <div class="era-section rounded-xl p-8 border border-red-500/30">
+         <div class="flex items-start gap-4 mb-4"><span class="era-badge">1950s-1960s</span>
+          <h3 class="heading-font text-2xl font-bold text-white">The Mainframe Era</h3>
+         </div>
+         <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+           <h4 class="text-orange-300 font-semibold mb-3">⚙️ The Technology</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• Room-sized computers (IBM System/360)</li>
+            <li>• Punch cards for input</li>
+            <li>• Mainframe cost: $1-3 million (1960s)</li>
+            <li>• Computing limited to large corporations</li>
+            <li>• Dedicated IT departments required</li>
+           </ul>
+          </div>
+          <div>
+           <h4 class="text-orange-300 font-semibold mb-3">💼 Business Impact</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>✓ Automated payroll processing</li>
+            <li>✓ First financial systems</li>
+            <li>✓ Centralized data management</li>
+            <li>✓ Created "DP Departments"</li>
+            <li>✓ Required formal training</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 border border-red-500/20">
+          <p class="text-slate-200 text-sm mb-2"><strong>📰 Real Example:</strong> NASA used IBM mainframes for the Apollo moon landing calculations (1960s). A single calculation took hours on a mainframe—today's smartphones are 1 million+ times faster!</p>
+         </div>
+        </div>
+       </div><!-- Era 2: Minicomputer -->
+       <div class="timeline-item">
+        <div class="timeline-dot">
+         2
+        </div>
+        <div class="era-section rounded-xl p-8 border border-yellow-500/30">
+         <div class="flex items-start gap-4 mb-4"><span class="era-badge">1970s-1980s</span>
+          <h3 class="heading-font text-2xl font-bold text-white">The Minicomputer Era</h3>
+         </div>
+         <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+           <h4 class="text-yellow-300 font-semibold mb-3">⚙️ The Technology</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• Refrigerator-sized computers</li>
+            <li>• DEC (Digital Equipment Corporation) PDP-11</li>
+            <li>• Cost: $100,000-300,000</li>
+            <li>• Departments could now own computers</li>
+            <li>• Unix operating system emerged</li>
+           </ul>
+          </div>
+          <div>
+           <h4 class="text-yellow-300 font-semibold mb-3">💼 Business Impact</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>✓ Decentralization of computing</li>
+            <li>✓ Manufacturing &amp; engineering got own systems</li>
+            <li>✓ Real-time data processing</li>
+            <li>✓ First department-level IS investments</li>
+            <li>✓ Beginning of business unit IT</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 border border-yellow-500/20">
+          <p class="text-slate-200 text-sm mb-2"><strong>📰 Real Example:</strong> DEC's PDP-11 was so successful that Ken Olson (founder) famously said "There is no reason anyone would want a computer in their home" in 1977—just before the PC revolution proved him spectacularly wrong!</p>
+         </div>
+        </div>
+       </div><!-- Era 3: PC Revolution -->
+       <div class="timeline-item">
+        <div class="timeline-dot">
+         3
+        </div>
+        <div class="era-section rounded-xl p-8 border border-green-500/30">
+         <div class="flex items-start gap-4 mb-4"><span class="era-badge">1980s-1990s</span>
+          <h3 class="heading-font text-2xl font-bold text-white">The Personal Computing Revolution</h3>
+         </div>
+         <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+           <h4 class="text-green-300 font-semibold mb-3">⚙️ The Technology</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• Apple II (1977) - $1,298</li>
+            <li>• IBM PC (1981) - $1,565</li>
+            <li>• Microsoft Windows &amp; Office</li>
+            <li>• Powerful enough for individual use</li>
+            <li>• Graphical user interfaces (GUIs)</li>
+           </ul>
+          </div>
+          <div>
+           <h4 class="text-green-300 font-semibold mb-3">💼 Business Impact</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>✓ Every employee got a computer</li>
+            <li>✓ "Power users" emerged in orgs</li>
+            <li>✓ Business department became IT buyers</li>
+            <li>✓ End-user computing shifted power</li>
+            <li>✓ Created shadow IT phenomenon</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 border border-green-500/20">
+          <p class="text-slate-200 text-sm mb-2"><strong>📰 Real Example:</strong> Lotus 1-2-3 (spreadsheet software, 1983) was so useful that businesses bought IBM PCs just to run it. This single app drove PC adoption across industries—showing how a killer app can transform technology adoption.</p>
+         </div>
+        </div>
+       </div><!-- Era 4: Internet -->
+       <div class="timeline-item">
+        <div class="timeline-dot">
+         4
+        </div>
+        <div class="era-section rounded-xl p-8 border border-blue-500/30">
+         <div class="flex items-start gap-4 mb-4"><span class="era-badge">1990s-2000s</span>
+          <h3 class="heading-font text-2xl font-bold text-white">The Internet &amp; Web Era</h3>
+         </div>
+         <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+           <h4 class="text-blue-300 font-semibold mb-3">⚙️ The Technology</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• World Wide Web (1989-1991)</li>
+            <li>• Netscape browser (1994)</li>
+            <li>• E-commerce platforms emerge</li>
+            <li>• Mobile internet begins</li>
+            <li>• Google, Amazon, eBay founded</li>
+           </ul>
+          </div>
+          <div>
+           <h4 class="text-blue-300 font-semibold mb-3">💼 Business Impact</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>✓ Global business became possible</li>
+            <li>✓ E-commerce disrupted retail</li>
+            <li>✓ Companies needed web presence</li>
+            <li>✓ .com bubble (1995-2000)</li>
+            <li>✓ Web became critical asset</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 border border-blue-500/20">
+          <p class="text-slate-200 text-sm mb-2"><strong>📰 Real Example:</strong> Amazon started in 1994 as online bookstore and now generates $575B+ in revenue. Netflix appeared in 1997 (DVD rental by mail) and today has 280M+ subscribers. The internet enabled entirely new business models to exist.</p>
+         </div>
+        </div>
+       </div><!-- Era 5: Cloud -->
+       <div class="timeline-item">
+        <div class="timeline-dot">
+         5
+        </div>
+        <div class="era-section rounded-xl p-8 border border-purple-500/30">
+         <div class="flex items-start gap-4 mb-4"><span class="era-badge">2000s-2010s</span>
+          <h3 class="heading-font text-2xl font-bold text-white">The Cloud Computing Era</h3>
+         </div>
+         <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+           <h4 class="text-purple-300 font-semibold mb-3">⚙️ The Technology</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• AWS launched (2006)</li>
+            <li>• Virtualization technologies</li>
+            <li>• Pay-as-you-go computing</li>
+            <li>• Salesforce, Office 365, Google Drive</li>
+            <li>• Mobile apps with cloud backends</li>
+           </ul>
+          </div>
+          <div>
+           <h4 class="text-purple-300 font-semibold mb-3">💼 Business Impact</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>✓ No need for on-site servers</li>
+            <li>✓ Startups could scale globally instantly</li>
+            <li>✓ Companies reduced IT staff</li>
+            <li>✓ Enabled remote work revolution</li>
+            <li>✓ Data security became critical</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 border border-purple-500/20">
+          <p class="text-slate-200 text-sm mb-2"><strong>📰 Real Example:</strong> Dropbox (2008) solved cloud file storage for consumers. Slack (2013) used AWS to build a chat app without any servers. These companies could scale from 0 to millions of users without massive infrastructure investments—impossible in earlier eras.</p>
+         </div>
+        </div>
+       </div><!-- Era 6: AI & Edge -->
+       <div class="timeline-item">
+        <div class="timeline-dot">
+         6
+        </div>
+        <div class="era-section rounded-xl p-8 border border-indigo-500/30">
+         <div class="flex items-start gap-4 mb-4"><span class="era-badge">2010s-2024</span>
+          <h3 class="heading-font text-2xl font-bold text-white">The AI &amp; Edge Computing Era</h3>
+         </div>
+         <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <div>
+           <h4 class="text-indigo-300 font-semibold mb-3">⚙️ The Technology</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• GPUs &amp; TPUs (specialized AI chips)</li>
+            <li>• Deep learning &amp; neural networks</li>
+            <li>• ChatGPT (Nov 2022) - 100M users in 2 months</li>
+            <li>• IoT sensors everywhere</li>
+            <li>• Edge computing (processing at source)</li>
+           </ul>
+          </div>
+          <div>
+           <h4 class="text-indigo-300 font-semibold mb-3">💼 Business Impact (2024)</h4>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>✓ Automating knowledge work</li>
+            <li>✓ New AI-first companies emerging</li>
+            <li>✓ Traditional industries disrupted</li>
+            <li>✓ Talent shortage for AI specialists</li>
+            <li>✓ Regulation &amp; ethics now critical</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-4 border border-indigo-500/20 mb-4">
+          <p class="text-slate-200 text-sm mb-2"><strong>📰 Real Example:</strong> ChatGPT reached 100 million users in 2 months (fastest adoption of any consumer app). Companies like Copilot, Gemini are already integrated into business tools. AI is no longer a "future technology"—it's reshaping work RIGHT NOW in 2024.</p>
+         </div>
+         <div class="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-4">
+          <div class="flex gap-3"><span class="text-yellow-400 text-2xl">⚠️</span>
+           <div>
+            <h5 class="text-yellow-300 font-semibold mb-1">The Challenge</h5>
+            <p class="text-slate-300 text-sm">This era brings both opportunity and risk. Businesses must adopt AI/ML or risk becoming obsolete, yet many workers fear job displacement. This creates an urgent need for continuous learning.</p>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Organizational Impact Tab -->
+     <section id="transformation" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">How IS Evolution Transformed Organizations</h2>
+      <div class="space-y-8"><!-- Transformation 1: Centralization to Decentralization -->
+       <div class="evolution-box rounded-xl p-8 border">
+        <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500">1</span> From Centralization to Decentralization</h3>
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+         <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+          <h4 class="text-blue-300 font-semibold mb-4">📊 Mainframe Era (1960s)</h4>
+          <ul class="text-slate-300 text-sm space-y-3">
+           <li>✓ One central IT department controlled all computing</li>
+           <li>✓ Business units depended entirely on IT</li>
+           <li>✓ IT was seen as "cost center"</li>
+           <li>✓ Business operations could take weeks to request changes</li>
+           <li>✓ IT had ALL the power in organization</li>
+          </ul>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+          <h4 class="text-green-300 font-semibold mb-4">🌐 Cloud &amp; Edge Era (2024)</h4>
+          <ul class="text-slate-300 text-sm space-y-3">
+           <li>✓ Business units buy their own cloud tools (Slack, Salesforce)</li>
+           <li>✓ No-code/low-code empowers business users</li>
+           <li>✓ IT is "enabler" supporting business innovation</li>
+           <li>✓ Changes deploy in minutes/seconds</li>
+           <li>✓ Business and IT work as partners</li>
+          </ul>
+         </div>
+        </div>
+        <div class="bg-indigo-900/30 border border-indigo-500/50 rounded-lg p-4">
+         <p class="text-indigo-200 text-sm"><strong>Impact:</strong> This shift changed organizational power dynamics. Companies moved from IT dictating what's possible to business needs driving technology choices. Today's organizations struggle with "shadow IT" where departments buy tools without IT approval.</p>
+        </div>
+       </div><!-- Transformation 2: Capital to Operating Expense -->
+       <div class="evolution-box rounded-xl p-8 border">
+        <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">2</span> From CapEx to OpEx</h3>
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+         <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+          <h4 class="text-purple-300 font-semibold mb-4">💰 Traditional Model (1980s-2000s)</h4>
+          <div class="space-y-3">
+           <div>
+            <p class="text-slate-400 text-xs uppercase font-bold">Cost Model</p>
+            <p class="text-slate-200 font-semibold">Capital Expenditure (CapEx)</p>
+           </div>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• Buy servers: $500,000 upfront</li>
+            <li>• Depreciate over 5 years</li>
+            <li>• Server becomes obsolete in 4 years</li>
+            <li>• Stuck with 1 year of outdated tech</li>
+            <li>• High financial risk</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+          <h4 class="text-green-300 font-semibold mb-4">🔄 Cloud Model (2024)</h4>
+          <div class="space-y-3">
+           <div>
+            <p class="text-slate-400 text-xs uppercase font-bold">Cost Model</p>
+            <p class="text-slate-200 font-semibold">Operating Expenditure (OpEx)</p>
+           </div>
+           <ul class="text-slate-300 text-sm space-y-2">
+            <li>• Pay $5,000/month for AWS</li>
+            <li>• Always use latest hardware</li>
+            <li>• Cancel anytime, no waste</li>
+            <li>• Low financial risk</li>
+            <li>• Scalability built-in</li>
+           </ul>
+          </div>
+         </div>
+        </div>
+        <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+         <p class="text-green-200 text-sm"><strong>Impact:</strong> This shift democratized technology. Startups no longer needed millions in upfront capital to compete. You could start a global company from your laptop using AWS. This enabled the startup boom of the 2010s-2020s.</p>
+        </div>
+       </div><!-- Transformation 3: IT Staffing -->
+       <div class="evolution-box rounded-xl p-8 border">
+        <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-red-500">3</span> IT Staffing Evolution</h3>
+        <div class="space-y-4">
+         <div class="bg-slate-800/50 rounded-lg p-4 border-l-4 border-orange-500">
+          <h4 class="text-orange-300 font-semibold mb-2">🖥️ Mainframe Era (1960s-1980s)</h4>
+          <p class="text-slate-300 text-sm">Companies had large IT departments: operators, programmers, data entry clerks, system administrators. IBM employed 400,000+ people at its peak.</p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 border-l-4 border-yellow-500">
+          <h4 class="text-yellow-300 font-semibold mb-2">💻 PC Era (1980s-1990s)</h4>
+          <p class="text-slate-300 text-sm">IT staffing exploded. Every company needed: network admins, help desk staff, system integrators. IT became major cost for businesses.</p>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 border-l-4 border-green-500">
+          <h4 class="text-green-300 font-semibold mb-2">☁️ Cloud Era (2010s-2024)</h4>
+          <p class="text-slate-300 text-sm">IT staffing DECREASED at traditional companies. AWS handles infrastructure. But NEW skills needed: data scientists, ML engineers, cloud architects. Massive talent shortage in these areas.</p>
+         </div>
+        </div>
+        <div class="stat-card rounded-lg p-6 mt-6 border">
+         <h4 class="text-slate-300 font-semibold mb-4">Employment Shift Impact</h4>
+         <div class="grid md:grid-cols-3 gap-4">
+          <div>
+           <p class="text-slate-400 text-xs uppercase font-bold mb-1">Declining Roles</p>
+           <p class="text-slate-200 font-semibold text-sm">System admins, data entry, help desk</p>
+          </div>
+          <div>
+           <p class="text-slate-400 text-xs uppercase font-bold mb-1">Growing Roles</p>
+           <p class="text-slate-200 font-semibold text-sm">Data scientists, AI engineers, cloud architects</p>
+          </div>
+          <div>
+           <p class="text-slate-400 text-xs uppercase font-bold mb-1">New Challenges</p>
+           <p class="text-slate-200 font-semibold text-sm">180,000+ unfilled tech jobs (US, 2024)</p>
+          </div>
+         </div>
+        </div>
+       </div><!-- Transformation 4: Speed to Market -->
+       <div class="evolution-box rounded-xl p-8 border">
+        <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500">4</span> Speed to Market &amp; Agility</h3>
+        <div class="grid md:grid-cols-3 gap-4">
+         <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+          <h4 class="text-slate-300 font-semibold mb-2">⏰ 1980s: Mainframe</h4>
+          <div class="space-y-2">
+           <div>
+            <p class="text-xs text-slate-400 uppercase">Dev Time</p>
+            <p class="stat-number">18-24 <span class="text-base text-slate-400">months</span></p>
+           </div>
+           <p class="text-slate-400 text-xs">Business request to production: nearly 2 years</p>
+          </div>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/30">
+          <h4 class="text-slate-300 font-semibold mb-2">⚡ 2000s: Internet</h4>
+          <div class="space-y-2">
+           <div>
+            <p class="text-xs text-slate-400 uppercase">Dev Time</p>
+            <p class="stat-number">3-6 <span class="text-base text-slate-400">months</span></p>
+           </div>
+           <p class="text-slate-400 text-xs">Faster, but still quarterly releases</p>
+          </div>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 border border-green-500/30">
+          <h4 class="text-green-300 font-semibold mb-2">🚀 2024: Cloud/DevOps</h4>
+          <div class="space-y-2">
+           <div>
+            <p class="text-xs text-slate-400 uppercase">Dev Time</p>
+            <p class="stat-number">1 <span class="text-base text-slate-400">day</span></p>
+           </div>
+           <p class="text-slate-400 text-xs">Continuous deployment: changes per hour/minute</p>
+          </div>
+         </div>
+        </div>
+        <div class="bg-cyan-900/30 border border-cyan-500/50 rounded-lg p-4 mt-6">
+         <p class="text-cyan-200 text-sm"><strong>Impact:</strong> Companies that deploy features fast win market share. Netflix can push 1,000+ updates per day. Traditional companies taking months to launch features get disrupted. This is why Blockbuster lost to Netflix, why taxis lost to Uber.</p>
+        </div>
+       </div><!-- Transformation 5: Global Operations -->
+       <div class="evolution-box rounded-xl p-8 border">
+        <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500">5</span> Global Operations &amp; Remote Work</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+         <div class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30">
+          <h4 class="text-teal-300 font-semibold mb-4">🏢 Pre-Cloud Era</h4>
+          <ul class="text-slate-300 text-sm space-y-2">
+           <li>✓ Each office needed servers</li>
+           <li>✓ IT staff in every location</li>
+           <li>✓ Data stored locally</li>
+           <li>✓ Remote access nearly impossible</li>
+           <li>✓ Teams must be co-located</li>
+          </ul>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-6 border border-emerald-500/30">
+          <h4 class="text-emerald-300 font-semibold mb-4">🌍 Cloud Era (2024)</h4>
+          <ul class="text-slate-300 text-sm space-y-2">
+           <li>✓ One global cloud infrastructure</li>
+           <li>✓ Minimal IT staff needed</li>
+           <li>✓ Centralized, accessible data</li>
+           <li>✓ Remote work seamless</li>
+           <li>✓ Teams distributed across countries</li>
+          </ul>
+         </div>
+        </div>
+        <div class="bg-teal-900/30 border border-teal-500/50 rounded-lg p-4 mt-6">
+         <p class="text-teal-200 text-sm"><strong>COVID-19 Lesson:</strong> Companies with cloud-based systems smoothly transitioned to remote work in 2020. Companies with legacy on-premise systems struggled. This accelerated cloud adoption by an estimated 5 years globally.</p>
+        </div>
+       </div>
+      </div><!-- Future Trends -->
+      <div class="mt-12 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 rounded-xl p-8 border border-indigo-500/50">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3"><span class="future-badge">Future</span> Next Transformation: What's Coming?</h3>
+       <div class="grid md:grid-cols-2 gap-6">
+        <div>
+         <h4 class="text-indigo-300 font-semibold mb-3">🔮 Predicted Next Era (2024-2030)</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Quantum computing for specific problems</li>
+          <li>• AI-first architecture (not AI-assisted)</li>
+          <li>• Autonomous systems making decisions</li>
+          <li>• Implicit interaction (no UI needed)</li>
+          <li>• Privacy-first computing models</li>
+         </ul>
+        </div>
+        <div>
+         <h4 class="text-purple-300 font-semibold mb-3">🏢 Organizational Impact</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• Knowledge workers augmented by AI</li>
+          <li>• New job categories emerge</li>
+          <li>• Continuous retraining mandatory</li>
+          <li>• Businesses shift to smaller teams</li>
+          <li>• Career paths become shorter</li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </section><!-- Activities Tab -->
+     <section id="activities" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">Learning Activities</h2><!-- Individual Activities -->
+      <div class="mb-16">
+       <h3 class="heading-font text-2xl font-bold text-white mb-8 flex items-center gap-3"><span class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center text-blue-300">👤</span> Individual Activities</h3>
+       <div class="space-y-6"><!-- Activity 1 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/30">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-blue-500/30 text-blue-300 rounded-full text-xs font-semibold mb-3">Individual</span>
+           <h4 class="heading-font text-xl font-bold text-white">Activity 1: Personal Tech Timeline</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 45 minutes | <strong>Deadline:</strong> Day 2</p>
+          </div><span class="text-3xl">⏱️</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Create a personal timeline of technology YOU'VE used in your lifetime and how it transformed your work/education.</p>
+          <ol class="text-slate-300 text-sm space-y-2 list-decimal list-inside">
+           <li>List 5-7 technologies you've personally used (phone, laptop, internet, social media, cloud tools)</li>
+           <li>For each, note the YEAR you started using it</li>
+           <li>Write how that technology changed the WAY you work/learn</li>
+           <li>Include 1-2 sentences explaining the organizational impact</li>
+           <li>Format as: Timeline document, poster, or digital presentation</li>
+          </ol>
+         </div>
+         <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+          <h6 class="text-blue-300 font-semibold mb-2">💡 Example:</h6>
+          <p class="text-slate-300 text-sm"><strong>2008:</strong> Got first smartphone (iPhone) → Could access email anywhere → Enabled flexible work schedules → Organizations realized remote work was possible</p>
+         </div>
+        </div><!-- Activity 2 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/30">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-purple-500/30 text-purple-300 rounded-full text-xs font-semibold mb-3">Individual</span>
+           <h4 class="heading-font text-xl font-bold text-white">Activity 2: ERA Company Analysis</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 60 minutes | <strong>Deadline:</strong> Day 5</p>
+          </div><span class="text-3xl">🏢</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Choose one company from your assigned ERA and write a 2-page analysis of how IS evolution shaped their success or failure.</p>
+          <div class="grid md:grid-cols-2 gap-4 mb-4">
+           <div class="bg-slate-900/50 rounded p-3">
+            <h6 class="text-indigo-300 font-semibold text-sm mb-2">Era 1-2: Mainframe/Minicomputer</h6>
+            <ul class="text-slate-400 text-xs space-y-1">
+             <li>• IBM (technology provider)</li>
+             <li>• General Motors (car manufacturing)</li>
+             <li>• Chase Bank (banking)</li>
+            </ul>
+           </div>
+           <div class="bg-slate-900/50 rounded p-3">
+            <h6 class="text-indigo-300 font-semibold text-sm mb-2">Era 3: PC Revolution</h6>
+            <ul class="text-slate-400 text-xs space-y-1">
+             <li>• Apple (company that won)</li>
+             <li>• DEC (company that lost)</li>
+             <li>• Microsoft (software provider)</li>
+            </ul>
+           </div>
+           <div class="bg-slate-900/50 rounded p-3">
+            <h6 class="text-indigo-300 font-semibold text-sm mb-2">Era 4: Internet</h6>
+            <ul class="text-slate-400 text-xs space-y-1">
+             <li>• Amazon (disrupted retail)</li>
+             <li>• Blockbuster (disrupted by Netflix)</li>
+             <li>• Google (search platform)</li>
+            </ul>
+           </div>
+           <div class="bg-slate-900/50 rounded p-3">
+            <h6 class="text-indigo-300 font-semibold text-sm mb-2">Era 5-6: Cloud/AI</h6>
+            <ul class="text-slate-400 text-xs space-y-1">
+             <li>• Netflix (cloud native)</li>
+             <li>• Uber (mobile + cloud)</li>
+             <li>• ChatGPT (AI breakthrough)</li>
+            </ul>
+           </div>
+          </div>
+          <div class="bg-slate-900/50 rounded p-3">
+           <h6 class="text-slate-300 font-semibold text-sm mb-2">Your analysis should address:</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>• What IS innovations was your company using?</li>
+            <li>• How did they gain/lose competitive advantage?</li>
+            <li>• Did they adapt to the next era? Why/why not?</li>
+            <li>• What should they have done differently?</li>
+           </ul>
+          </div>
+         </div>
+         <div class="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-4">
+          <p class="text-yellow-200 text-sm"><strong>Grade Criteria:</strong> Research quality (30%), Understanding of era/technology (30%), Business analysis (25%), Writing clarity (15%)</p>
+         </div>
+        </div><!-- Activity 3 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/30">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold mb-3">Individual</span>
+           <h4 class="heading-font text-xl font-bold text-white">Activity 3: Future IS Prediction</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 45 minutes | <strong>Deadline:</strong> Day 6</p>
+          </div><span class="text-3xl">🔮</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Based on the historical patterns you've learned, predict what IS will look like in 2030 and 2040.</p>
+          <ol class="text-slate-300 text-sm space-y-2 list-decimal list-inside">
+           <li>Identify 2-3 emerging technologies (Quantum Computing, Brain-Computer Interfaces, Autonomous Systems, etc.)</li>
+           <li>Explain how each follows historical patterns from previous eras</li>
+           <li>Predict organizational impacts by 2030 and 2040</li>
+           <li>Create a simple visual (timeline, infographic, or presentation)</li>
+           <li>Submit predictions with 3-4 supporting paragraphs</li>
+          </ol>
+         </div>
+         <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4">
+          <h6 class="text-purple-300 font-semibold mb-2">💡 Hint:</h6>
+          <p class="text-slate-300 text-sm">Each era took 10-20 years to mature. Mainframe dominated for 20+ years, PCs for 15 years, Internet for 20 years. What's the pattern? When will current technologies mature? What will replace them?</p>
+         </div>
+        </div>
+       </div>
+      </div><!-- Group Activities -->
+      <div>
+       <h3 class="heading-font text-2xl font-bold text-white mb-8 flex items-center gap-3"><span class="w-8 h-8 rounded-full bg-green-500/30 flex items-center justify-center text-green-300">👥</span> Group Activities (3-4 students per group)</h3>
+       <div class="space-y-6"><!-- Group Activity 1 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/50">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold mb-3">Group Activity</span>
+           <h4 class="heading-font text-xl font-bold text-white">Group Project: "IS Through the Ages" Presentation</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Duration:</strong> 3-4 hours collaborative | <strong>Presentation:</strong> Day 7 (8-10 minutes)</p>
+          </div><span class="text-3xl">🎬</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-4 mb-4">
+          <h5 class="text-green-300 font-semibold mb-3">📋 Assignment:</h5>
+          <p class="text-slate-300 text-sm mb-4">Create a creative presentation showing the evolution of IS through one specific lens: a company, an industry, or a business function.</p>
+          <div class="bg-slate-900/50 rounded p-3 mb-4">
+           <h6 class="text-indigo-300 font-semibold text-sm mb-2">Choose one perspective:</h6>
+           <div class="space-y-2"><label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="perspective" class="w-4 h-4"> <span class="text-slate-300 text-sm"><strong>Retail Industry:</strong> From department stores → e-commerce → AI personalization</span> </label> <label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="perspective" class="w-4 h-4"> <span class="text-slate-300 text-sm"><strong>Banking/Finance:</strong> From tellers → ATMs → Mobile banking → Crypto/AI</span> </label> <label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="perspective" class="w-4 h-4"> <span class="text-slate-300 text-sm"><strong>Healthcare:</strong> From paper records → EHR systems → Telemedicine → AI diagnostics</span> </label> <label class="flex items-center gap-2 cursor-pointer"> <input type="radio" name="perspective" class="w-4 h-4"> <span class="text-slate-300 text-sm"><strong>Workplace Collaboration:</strong> From in-person → Email → Slack/Teams → AI assistants</span> </label>
+           </div>
+          </div>
+          <div class="bg-slate-900/50 rounded p-3">
+           <h6 class="text-slate-300 font-semibold text-sm mb-2">Your presentation must include:</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>✓ Timeline from past era → now (8-10 slides minimum)</li>
+            <li>✓ Technology changes at each era</li>
+            <li>✓ Organizational impact (jobs, processes, customers)</li>
+            <li>✓ Real companies/examples</li>
+            <li>✓ Prediction for next 5-10 years</li>
+            <li>✓ Creative format (video, interactive, narrative, etc.)</li>
+           </ul>
+          </div>
+         </div>
+         <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-blue-900/30 border border-blue-500/50 rounded-lg p-4">
+           <h6 class="text-blue-300 font-semibold mb-2">Deliverables:</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>📊 Presentation (8-10 minutes)</li>
+            <li>📝 Written narrative (1 page)</li>
+            <li>🎨 Visual timeline/diagram</li>
+            <li>💬 Q&amp;A discussion</li>
+           </ul>
+          </div>
+          <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4">
+           <h6 class="text-green-300 font-semibold mb-2">Grading (Total: 40%):</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>Research &amp; accuracy (25%)</li>
+            <li>Clarity &amp; presentation (25%)</li>
+            <li>Analysis &amp; insights (30%)</li>
+            <li>Teamwork (20%)</li>
+           </ul>
+          </div>
+         </div>
+        </div><!-- Group Activity 2 -->
+        <div class="activity-box rounded-xl p-8 border border-green-500/50">
+         <div class="flex items-start justify-between mb-6">
+          <div><span class="inline-block px-3 py-1 bg-green-500/30 text-green-300 rounded-full text-xs font-semibold mb-3">Group Activity</span>
+           <h4 class="heading-font text-xl font-bold text-white">Group Discussion: "What If?" Scenario</h4>
+           <p class="text-slate-300 text-sm mt-2"><strong>Format:</strong> In-class discussion | <strong>Duration:</strong> 30-40 minutes (Day 7)</p>
+          </div><span class="text-3xl">💭</span>
+         </div>
+         <div class="bg-slate-800/50 rounded-lg p-6">
+          <h5 class="text-green-300 font-semibold mb-4">📋 Scenario-Based Discussion:</h5>
+          <p class="text-slate-300 text-sm mb-4">Your group will discuss a "What If?" scenario exploring how different IS decisions would have changed technology history.</p>
+          <div class="space-y-3">
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-red-500">
+            <h6 class="text-red-300 font-semibold mb-1">Scenario A: What if IBM had embraced the PC?</h6>
+            <p class="text-slate-300 text-sm">IBM created the PC in 1981 but failed to capitalize on it. What if they had invested heavily and dominated PCs like they dominated mainframes? Would we still have Microsoft and Apple today?</p>
+           </div>
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-blue-500">
+            <h6 class="text-blue-300 font-semibold mb-1">Scenario B: What if mobile phones had never been invented?</h6>
+            <p class="text-slate-300 text-sm">Smartphones transformed society. Without them, would we have cloud computing? Would ride-sharing (Uber) exist? Would remote work be possible? Trace the cascading effects.</p>
+           </div>
+           <div class="bg-slate-900/50 rounded p-4 border-l-4 border-green-500">
+            <h6 class="text-green-300 font-semibold mb-1">Scenario C: What if AI adoption stalled in 2024?</h6>
+            <p class="text-slate-300 text-sm">Imagine AI regulatory crackdowns or technical problems delayed AI adoption by 10 years. What industries would suffer most? Which would benefit? How would organizations adapt?</p>
+           </div>
+          </div>
+          <div class="bg-purple-900/30 border border-purple-500/50 rounded-lg p-4 mt-4">
+           <h6 class="text-purple-300 font-semibold mb-2">Guiding Questions:</h6>
+           <ul class="text-slate-300 text-sm space-y-1">
+            <li>• How would the alternative scenario change business?</li>
+            <li>• What companies would win/lose?</li>
+            <li>• How would jobs/careers be affected?</li>
+            <li>• Would society be better or worse off?</li>
+            <li>• What does this teach us about contingency in technology?</li>
+           </ul>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Resources Tab -->
+     <section id="resources" class="content-section">
+      <h2 class="heading-font text-4xl font-bold text-white mb-12">Learning Resources &amp; References</h2><!-- Key Videos -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg> Recommended Videos &amp; Documentaries</h3>
+       <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 card-hover">
+         <h4 class="text-indigo-300 font-semibold mb-2">🎬 Historical Overview</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• "Pirates of Silicon Valley" (1999) - Apple vs Microsoft history</li>
+          <li>• "Halt and Catch Fire" (TV series) - 1980s computer era drama</li>
+          <li>• "The Internet's Own Boy" - Aaron Swartz &amp; internet freedom</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 card-hover">
+         <h4 class="text-purple-300 font-semibold mb-2">📺 Technology Documentaries</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• "AlphaGo" (2016) - AI breakthrough in Go</li>
+          <li>• "Inside the Mind" - Google's history</li>
+          <li>• "The History of Computing" - Khan Academy series</li>
+         </ul>
+        </div>
+       </div>
+       <div class="bg-yellow-900/30 border border-yellow-500/50 rounded-lg p-4">
+        <p class="text-yellow-200 text-sm"><strong>💡 Tip:</strong> YouTube has excellent deep-dive videos on specific eras (search: "History of the Mainframe," "Personal Computer Revolution," "Cloud Computing explained")</p>
+       </div>
+      </div><!-- Reading Materials -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg> Essential Readings</h3>
+       <div class="space-y-4">
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-indigo-300 font-semibold mb-2">📖 Textbook Chapters</h4>
+         <ul class="text-slate-300 text-sm space-y-1">
+          <li>• Chapter 1: "History and Evolution of IS" (course textbook)</li>
+          <li>• Chapter 2: "Technology Infrastructure" (key terminology)</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-purple-300 font-semibold mb-2">📰 Articles &amp; Case Studies</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• "The History of IBM" - Britannica</li>
+          <li>• "Apple: Steve Jobs' Legacy" - Forbes</li>
+          <li>• "From Blockbuster to Netflix: Digital Disruption" - Harvard Business Review</li>
+          <li>• "The Rise of Cloud Computing" - McKinsey Quarterly</li>
+          <li>• "AI's Impact on Organizations" - 2024 Gartner Report</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30">
+         <h4 class="text-green-300 font-semibold mb-2">🎯 Business Perspectives</h4>
+         <ul class="text-slate-300 text-sm space-y-2">
+          <li>• "The Innovator's Dilemma" by Clayton Christensen</li>
+          <li>• "The Zero Marginal Cost Society" by Jeremy Rifkin (cloud computing impact)</li>
+          <li>• "Artificial Intelligence: The Next Frontier" - McKinsey 2023</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Interactive Resources -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50 mb-8">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5a4 4 0 100-8 4 4 0 000 8z" />
+        </svg> Interactive Learning Tools</h3>
+       <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-cyan-500/30 card-hover">
+         <h4 class="text-cyan-300 font-semibold mb-2">🌐 Websites</h4>
+         <ul class="text-slate-300 text-sm space-y-1">
+          <li>• Computer History Museum (online)</li>
+          <li>• IEEE History Center</li>
+          <li>• Wikipedia: Technology History</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-indigo-500/30 card-hover">
+         <h4 class="text-indigo-300 font-semibold mb-2">📊 Timeline Tools</h4>
+         <ul class="text-slate-300 text-sm space-y-1">
+          <li>• Timeline.js - Interactive timelines</li>
+          <li>• Timeglider - Digital timelines</li>
+          <li>• Canva templates</li>
+         </ul>
+        </div>
+        <div class="bg-slate-900/50 rounded-lg p-4 border border-green-500/30 card-hover">
+         <h4 class="text-green-300 font-semibold mb-2">💡 Podcasts</h4>
+         <ul class="text-slate-300 text-sm space-y-1">
+          <li>• "Stuff You Missed in History Class"</li>
+          <li>• "The Vergecast" (tech news)</li>
+          <li>• "Masters of Scale" (startup stories)</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Assessment Information -->
+      <div class="bg-slate-800/50 rounded-xl p-8 border border-slate-700/50">
+       <h3 class="heading-font text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg> Assessment &amp; Grading (Week 3)</h3>
+       <div class="grid md:grid-cols-3 gap-6 mb-6">
+        <div class="stat-card rounded-lg p-6 border">
+         <h4 class="text-indigo-300 font-semibold mb-2">Individual Activities</h4>
+         <p class="text-slate-300 text-sm mb-3">3 assignments worth 30% of grade</p>
+         <p class="stat-number">30%</p>
+        </div>
+        <div class="stat-card rounded-lg p-6 border">
+         <h4 class="text-green-300 font-semibold mb-2">Group Project</h4>
+         <p class="text-slate-300 text-sm mb-3">Presentation &amp; collaboration</p>
+         <p class="stat-number">40%</p>
+        </div>
+        <div class="stat-card rounded-lg p-6 border">
+         <h4 class="text-purple-300 font-semibold mb-2">Participation</h4>
+         <p class="text-slate-300 text-sm mb-3">Discussion &amp; engagement</p>
+         <p class="stat-number">30%</p>
+        </div>
+       </div>
+       <div class="bg-slate-900/50 rounded-lg p-6 border border-slate-700/30">
+        <h4 class="text-slate-200 font-semibold mb-4">Week 3 Grade Breakdown:</h4>
+        <div class="space-y-3">
+         <div class="flex items-center justify-between"><span class="text-slate-300">Activity 1: Personal Tech Timeline</span> <span class="text-indigo-300 font-semibold">10%</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-slate-300">Activity 2: Era Company Analysis</span> <span class="text-indigo-300 font-semibold">10%</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-slate-300">Activity 3: Future IS Prediction</span> <span class="text-indigo-300 font-semibold">10%</span>
+         </div>
+         <div class="border-t border-slate-700 pt-3 mt-3 flex items-center justify-between"><span class="text-slate-300">Group Presentation &amp; Discussion</span> <span class="text-green-300 font-semibold">40%</span>
+         </div>
+         <div class="flex items-center justify-between"><span class="text-slate-300">Class Participation &amp; Engagement</span> <span class="text-purple-300 font-semibold">30%</span>
+         </div>
+         <div class="border-t-2 border-slate-600 pt-3 mt-3 flex items-center justify-between font-bold"><span class="text-white">Total Week 3 Grade</span> <span class="text-lg text-indigo-300">100%</span>
+         </div>
+        </div>
+        <div class="bg-green-900/30 border border-green-500/50 rounded-lg p-4 mt-4">
+         <p class="text-green-200 text-sm"><strong>Note:</strong> This module grade contributes to your overall 1S101 course grade (typically 20% of total). Comprehensive final exam covers all modules at course end.</p>
+        </div>
+       </div>
+      </div>
+     </section>
+    </div>
+   </main><!-- Footer -->
+   <footer class="w-full px-6 py-8 border-t border-slate-800 mt-16">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Course Info</h4>
+       <p class="text-slate-400 text-sm">1S101 - Fundamentals of Information Systems<br>
+        Week 3: History &amp; Evolution of IS</p>
+      </div>
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Contact</h4>
+       <p class="text-slate-400 text-sm" id="contact-info">Instructor: MKDB<br>
+        </p>
+      </div>
+      <div>
+       <h4 class="heading-font text-sm font-semibold text-white mb-3">Resources</h4>
+       <p class="text-slate-400 text-sm">Library Portal | LMS | Discussion Forum</p>
+      </div>
+     </div>
+     <div class="border-t border-slate-700 pt-6 text-center">
+      <p class="text-slate-500 text-xs">© 2024 Lyceum de San Pablo - College of Information Systems. All rights reserved.</p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      module_title: "History & Evolution of Information Systems",
+      course_code: "1S101 - Week 3",
+      instructor_name: "MKDB",
+      institution_name: "Lyceum de San Pablo - College of Information Systems"
+    };
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        
+        this.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Element SDK initialization
+    const onConfigChange = async (config) => {
+      document.getElementById('module-title').textContent = config.module_title || defaultConfig.module_title;
+      document.getElementById('course-code-display').textContent = config.course_code || defaultConfig.course_code;
+      document.getElementById('instructor-display').textContent = `Instructor: ${config.instructor_name || defaultConfig.instructor_name}`;
+      document.getElementById('institution-display').textContent = config.institution_name || defaultConfig.institution_name;
+    };
+
+    const mapToCapabilities = (config) => ({
+      recolorables: [],
+      borderables: [],
+      fontEditable: undefined,
+      fontSizeable: undefined
+    });
+
+    const mapToEditPanelValues = (config) => new Map([
+      ["module_title", config.module_title || defaultConfig.module_title],
+      ["course_code", config.course_code || defaultConfig.course_code],
+      ["instructor_name", config.instructor_name || defaultConfig.instructor_name],
+      ["institution_name", config.institution_name || defaultConfig.institution_name]
+    ]);
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4db904c605f540',t:'MTc2OTU3NDI5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
