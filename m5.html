@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IS101 - Office Productivity: Spreadsheets</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .heading-font { font-family: 'Space Grotesk', sans-serif; }
+    
+    .nav-item { transition: all 0.3s ease; }
+    .nav-item:hover { transform: translateX(4px); }
+    .nav-item.active { background: linear-gradient(90deg, #10b981 0%, #059669 100%); color: white; }
+    
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    
+    .process-box { animation: slideIn 0.5s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    
+    .resource-meter { animation: fillMeter 1.5s ease-out; }
+    @keyframes fillMeter { from { width: 0; } to { width: 100%; } }
+    
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .quiz-option { transition: all 0.2s ease; }
+    .quiz-option:hover:not(.selected):not(.correct):not(.incorrect) { background: #f5f3ff; border-color: #10b981; }
+    .quiz-option.selected { background: #f0fdf4; border-color: #059669; }
+    .quiz-option.correct { background: #dcfce7; border-color: #22c55e; }
+    .quiz-option.incorrect { background: #fee2e2; border-color: #ef4444; }
+    
+    .progress-bar { transition: width 0.5s ease; }
+    
+    .layer-animation { animation: layerFloat 3s ease-in-out infinite; }
+    @keyframes layerFloat { 
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full bg-slate-50">
+  <div id="app" class="h-full flex flex-col overflow-auto">
+   <!-- Header -->
+   <header id="main-header" class="bg-gradient-to-r from-emerald-600 to-green-500 text-white px-6 py-4 shadow-lg">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex items-center justify-between">
+      <div>
+       <p id="week-label" class="text-emerald-100 text-sm font-medium">Midterm - Week 5</p>
+       <h1 id="course-title" class="heading-font text-2xl font-bold">IS101 - Fundamentals of Information Systems</h1>
+      </div>
+      <div class="text-right">
+       <p class="text-emerald-100 text-sm">Instructor</p>
+       <p id="instructor-name" class="font-semibold">MKDB</p>
+      </div>
+     </div>
+     <div class="mt-3 flex items-center gap-2">
+      <span class="bg-white/20 px-3 py-1 rounded-full text-sm">📊 Office Productivity: Spreadsheets</span>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <div class="flex-1 flex">
+    <!-- Sidebar Navigation -->
+    <nav class="w-64 bg-white border-r border-slate-200 p-4 hidden md:block">
+     <h2 class="heading-font text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Lesson Contents</h2>
+     <ul class="space-y-2" id="nav-menu">
+      <li><button onclick="showSection('overview')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium active" data-section="overview">📋 Overview &amp; ILO</button></li>
+      <li><button onclick="showSection('basics')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="basics">📊 Spreadsheet Basics</button></li>
+      <li><button onclick="showSection('formulas')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="formulas">🧮 Formulas &amp; Functions</button></li>
+      <li><button onclick="showSection('analysis')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="analysis">📈 Data Analysis</button></li>
+      <li><button onclick="showSection('charts')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="charts">📉 Charts &amp; Visualization</button></li>
+      <li><button onclick="showSection('individual')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="individual">👤 Individual Activity</button></li>
+      <li><button onclick="showSection('group')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="group">👥 Group Activity</button></li>
+      <li><button onclick="showSection('quiz')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="quiz">✅ Review Quiz</button></li>
+     </ul><!-- Progress Indicator -->
+     <div class="mt-8 p-4 bg-slate-50 rounded-xl">
+      <p class="text-sm text-slate-600 mb-2">Lesson Progress</p>
+      <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+       <div id="progress-bar" class="progress-bar h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-full" style="width: 12.5%"></div>
+      </div>
+      <p id="progress-text" class="text-xs text-slate-500 mt-2">1 of 8 sections</p>
+     </div>
+    </nav><!-- Mobile Navigation -->
+    <div class="md:hidden bg-white border-b border-slate-200 p-3">
+     <select id="mobile-nav" onchange="showSection(this.value)" class="w-full p-3 border border-slate-300 rounded-lg text-slate-700 font-medium"> <option value="overview">📋 Overview &amp; ILO</option> <option value="basics">📊 Spreadsheet Basics</option> <option value="formulas">🧮 Formulas &amp; Functions</option> <option value="analysis">📈 Data Analysis</option> <option value="charts">📉 Charts &amp; Visualization</option> <option value="individual">👤 Individual Activity</option> <option value="group">👥 Group Activity</option> <option value="quiz">✅ Review Quiz</option> </select>
+    </div><!-- Content Area -->
+    <main class="flex-1 p-6 overflow-auto">
+     <div class="max-w-4xl mx-auto">
+      <!-- Section: Overview -->
+      <section id="section-overview" class="content-section fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-green-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📋 Lesson Overview</h2>
+         <p class="mt-2 text-emerald-100">Office Productivity: Spreadsheets</p>
+        </div>
+        <div class="p-6 space-y-6">
+         <!-- ILO Box -->
+         <div class="bg-emerald-50 border-l-4 border-emerald-400 p-5 rounded-r-xl">
+          <h3 class="heading-font font-bold text-emerald-800 text-lg flex items-center gap-2">🎯 Intended Learning Outcome (ILO)</h3>
+          <p class="mt-2 text-emerald-900"><strong>By the end of this lesson, students will be able to:</strong><br>
+            Apply spreadsheet formulas and charting tools to organize, analyze, and present data effectively.</p>
+         </div><!-- Topics Covered -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📚 Topics Covered</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <span class="text-2xl">📊</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Spreadsheet Basics</h4>
+            <p class="text-sm text-slate-600 mt-1">Interface, cells, rows, columns</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <span class="text-2xl">🧮</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Formulas &amp; Functions</h4>
+            <p class="text-sm text-slate-600 mt-1">Built-in functions, calculations</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <span class="text-2xl">📈</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Data Analysis</h4>
+            <p class="text-sm text-slate-600 mt-1">Sorting, filtering, pivot tables</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <span class="text-2xl">📉</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Charts &amp; Visualization</h4>
+            <p class="text-sm text-slate-600 mt-1">Creating and formatting charts</p>
+           </div>
+          </div>
+         </div><!-- Key Terms Preview -->
+         <div class="bg-emerald-50 p-5 rounded-xl">
+          <h3 class="heading-font font-bold text-emerald-800 text-lg mb-3">🔑 Key Terms to Learn</h3>
+          <div class="flex flex-wrap gap-2">
+           <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">Formula</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">Function</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">Cell Reference</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">SUM</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">AVERAGE</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">IF Statement</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">Pivot Table</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-emerald-700 border border-emerald-200">Chart</span>
+          </div>
+         </div><button onclick="showSection('basics')" class="w-full bg-gradient-to-r from-emerald-500 to-green-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Start Learning → Spreadsheet Basics </button>
+        </div>
+       </div>
+      </section><!-- Section: Spreadsheet Basics -->
+      <section id="section-basics" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-500 to-cyan-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📊 Spreadsheet Basics</h2>
+         <p class="mt-2 text-blue-100">Understanding spreadsheet structure and features</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <!-- What is a Spreadsheet -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">What is a Spreadsheet?</h3>
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-5 rounded-r-xl">
+           <p class="text-slate-700 text-lg">A <strong>spreadsheet</strong> is a software application that displays and organizes data in rows and columns. It allows users to enter, calculate, analyze, and visualize data efficiently using formulas and built-in functions.</p>
+          </div>
+         </div><!-- Popular Spreadsheet Applications -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🖥️ Popular Spreadsheet Applications</h3>
+          <div class="grid md:grid-cols-3 gap-4">
+           <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border border-green-200">
+            <div class="text-4xl mb-2">
+             📗
+            </div>
+            <h4 class="font-bold text-green-800 mb-2">Excel</h4>
+            <p class="text-sm text-green-700"><strong>Developer:</strong> Microsoft</p>
+            <p class="text-sm text-green-700 mt-2">• Industry standard</p>
+            <p class="text-sm text-green-700">• Advanced features</p>
+            <p class="text-sm text-green-700">• Paid application</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border border-blue-200">
+            <div class="text-4xl mb-2">
+             📘
+            </div>
+            <h4 class="font-bold text-blue-800 mb-2">Google Sheets</h4>
+            <p class="text-sm text-blue-700"><strong>Developer:</strong> Google</p>
+            <p class="text-sm text-blue-700 mt-2">• Cloud-based</p>
+            <p class="text-sm text-blue-700">• Free to use</p>
+            <p class="text-sm text-blue-700">• Real-time collaboration</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border border-purple-200">
+            <div class="text-4xl mb-2">
+             📙
+            </div>
+            <h4 class="font-bold text-purple-800 mb-2">LibreOffice Calc</h4>
+            <p class="text-sm text-purple-700"><strong>Type:</strong> Open-source</p>
+            <p class="text-sm text-purple-700 mt-2">• Free and open</p>
+            <p class="text-sm text-purple-700">• Similar to Excel</p>
+            <p class="text-sm text-purple-700">• Cross-platform</p>
+           </div>
+          </div>
+         </div><!-- Spreadsheet Components -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🔧 Key Spreadsheet Components</h3>
+          <div class="space-y-3">
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-blue-600">Cell:</span> <span class="text-slate-600">The basic unit of a spreadsheet where data is entered. Identified by column letter and row number (e.g., A1, B5).</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-blue-600">Row:</span> <span class="text-slate-600">A horizontal line of cells, numbered from top to bottom (1, 2, 3...).</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-blue-600">Column:</span> <span class="text-slate-600">A vertical line of cells, labeled with letters (A, B, C...).</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-blue-600">Worksheet:</span> <span class="text-slate-600">A single sheet containing rows and columns. A file can have multiple worksheets.</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-blue-600">Workbook:</span> <span class="text-slate-600">The entire file that contains one or more worksheets.</span>
+           </div>
+          </div>
+         </div><!-- Sample Spreadsheet -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📋 Sample Spreadsheet Grid</h3>
+          <div class="bg-slate-50 p-6 rounded-xl overflow-x-auto">
+           <table class="w-full text-sm border-collapse">
+            <thead>
+             <tr>
+              <th class="border border-slate-300 bg-blue-600 text-white p-3">&nbsp;</th>
+              <th class="border border-slate-300 bg-blue-600 text-white p-3">A</th>
+              <th class="border border-slate-300 bg-blue-600 text-white p-3">B</th>
+              <th class="border border-slate-300 bg-blue-600 text-white p-3">C</th>
+              <th class="border border-slate-300 bg-blue-600 text-white p-3">D</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+              <td class="border border-slate-300 bg-blue-100 text-center font-bold p-3">1</td>
+              <td class="border border-slate-300 p-3 font-bold text-slate-700">Product</td>
+              <td class="border border-slate-300 p-3 font-bold text-slate-700">Price</td>
+              <td class="border border-slate-300 p-3 font-bold text-slate-700">Qty</td>
+              <td class="border border-slate-300 p-3 font-bold text-slate-700">Total</td>
+             </tr>
+             <tr>
+              <td class="border border-slate-300 bg-blue-100 text-center font-bold p-3">2</td>
+              <td class="border border-slate-300 p-3">Laptop</td>
+              <td class="border border-slate-300 p-3">$999</td>
+              <td class="border border-slate-300 p-3">2</td>
+              <td class="border border-slate-300 p-3 bg-blue-50">$1,998</td>
+             </tr>
+             <tr>
+              <td class="border border-slate-300 bg-blue-100 text-center font-bold p-3">3</td>
+              <td class="border border-slate-300 p-3">Mouse</td>
+              <td class="border border-slate-300 p-3">$25</td>
+              <td class="border border-slate-300 p-3">5</td>
+              <td class="border border-slate-300 p-3 bg-blue-50">$125</td>
+             </tr>
+             <tr>
+              <td class="border border-slate-300 bg-blue-100 text-center font-bold p-3">4</td>
+              <td class="border border-slate-300 p-3">Monitor</td>
+              <td class="border border-slate-300 p-3">$350</td>
+              <td class="border border-slate-300 p-3">1</td>
+              <td class="border border-slate-300 p-3 bg-blue-50">$350</td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+         </div>
+         <div class="flex gap-4">
+          <button onclick="showSection('overview')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('formulas')" class="flex-1 bg-gradient-to-r from-blue-500 to-cyan-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Formulas &amp; Functions → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Formulas & Functions -->
+      <section id="section-formulas" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-blue-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">🧮 Formulas &amp; Functions</h2>
+         <p class="mt-2 text-indigo-100">Master spreadsheet calculations</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <!-- Formulas Basics -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">What is a Formula?</h3>
+          <div class="bg-indigo-50 border-l-4 border-indigo-400 p-5 rounded-r-xl">
+           <p class="text-slate-700 text-lg">A <strong>formula</strong> is an expression that performs calculations on values in cells. It always begins with an equals sign (=) and can contain cell references, operators, and functions.</p>
+          </div>
+         </div><!-- Basic Operators -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">➕ Basic Mathematical Operators</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-indigo-600 text-lg">+</p>
+            <p class="text-slate-600">Addition: <code class="bg-slate-100 px-2 py-1 rounded">= A1 + B1</code></p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-indigo-600 text-lg">-</p>
+            <p class="text-slate-600">Subtraction: <code class="bg-slate-100 px-2 py-1 rounded">= A1 - B1</code></p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-indigo-600 text-lg">*</p>
+            <p class="text-slate-600">Multiplication: <code class="bg-slate-100 px-2 py-1 rounded">= A1 * B1</code></p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-indigo-600 text-lg">/</p>
+            <p class="text-slate-600">Division: <code class="bg-slate-100 px-2 py-1 rounded">= A1 / B1</code></p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-indigo-600 text-lg">^</p>
+            <p class="text-slate-600">Exponent: <code class="bg-slate-100 px-2 py-1 rounded">= A1 ^ 2</code></p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-indigo-600 text-lg">%</p>
+            <p class="text-slate-600">Modulus: <code class="bg-slate-100 px-2 py-1 rounded">= A1 % B1</code></p>
+           </div>
+          </div>
+         </div><!-- Common Functions -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📚 Common Functions</h3>
+          <div class="space-y-4">
+           <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-xl border border-green-200">
+            <h4 class="font-bold text-green-800 mb-2">SUM()</h4>
+            <p class="text-green-700 text-sm">Adds up all numbers in a range.</p>
+            <p class="text-green-700 text-sm font-mono bg-white px-2 py-1 rounded mt-2">=SUM(A1:A10)</p>
+           </div>
+           <div class="bg-gradient-to-r from-blue-50 to-cyan-50 p-5 rounded-xl border border-blue-200">
+            <h4 class="font-bold text-blue-800 mb-2">AVERAGE()</h4>
+            <p class="text-blue-700 text-sm">Calculates the average of numbers in a range.</p>
+            <p class="text-blue-700 text-sm font-mono bg-white px-2 py-1 rounded mt-2">=AVERAGE(B1:B10)</p>
+           </div>
+           <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-5 rounded-xl border border-purple-200">
+            <h4 class="font-bold text-purple-800 mb-2">COUNT()</h4>
+            <p class="text-purple-700 text-sm">Counts the number of cells with numerical values.</p>
+            <p class="text-purple-700 text-sm font-mono bg-white px-2 py-1 rounded mt-2">=COUNT(C1:C20)</p>
+           </div>
+           <div class="bg-gradient-to-r from-orange-50 to-amber-50 p-5 rounded-xl border border-orange-200">
+            <h4 class="font-bold text-orange-800 mb-2">IF()</h4>
+            <p class="text-orange-700 text-sm">Returns one value if condition is true, another if false.</p>
+            <p class="text-orange-700 text-sm font-mono bg-white px-2 py-1 rounded mt-2">=IF(A1&gt;100,"Pass","Fail")</p>
+           </div>
+           <div class="bg-gradient-to-r from-red-50 to-rose-50 p-5 rounded-xl border border-red-200">
+            <h4 class="font-bold text-red-800 mb-2">MAX() &amp; MIN()</h4>
+            <p class="text-red-700 text-sm">Find the largest and smallest values in a range.</p>
+            <p class="text-red-700 text-sm font-mono bg-white px-2 py-1 rounded mt-2">=MAX(D1:D10) | =MIN(D1:D10)</p>
+           </div>
+          </div>
+         </div><!-- Cell References -->
+         <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
+          <h4 class="heading-font font-bold text-indigo-800 text-lg mb-3">📍 Understanding Cell References</h4>
+          <div class="space-y-3 mt-4">
+           <div class="bg-white p-3 rounded-lg">
+            <p class="font-bold text-indigo-700">Relative Reference: A1</p>
+            <p class="text-sm text-indigo-600">Changes when copied. Copying from A1 to B1 changes it to B1.</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg">
+            <p class="font-bold text-indigo-700">Absolute Reference: $A$1</p>
+            <p class="text-sm text-indigo-600">Stays the same when copied. The $ signs lock the cell.</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg">
+            <p class="font-bold text-indigo-700">Range Reference: A1:A10</p>
+            <p class="text-sm text-indigo-600">Refers to multiple cells from A1 to A10.</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4">
+          <button onclick="showSection('basics')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('analysis')" class="flex-1 bg-gradient-to-r from-indigo-500 to-blue-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Data Analysis → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Data Analysis -->
+      <section id="section-analysis" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-violet-500 to-purple-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📈 Data Analysis</h2>
+         <p class="mt-2 text-violet-100">Organizing and analyzing spreadsheet data</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <!-- Sorting -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">🔤 Sorting Data</h3>
+          <p class="text-slate-600 mb-4">Sorting arranges data in a specific order to make it easier to find and analyze.</p>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
+            <h4 class="font-bold text-purple-800 mb-3">Ascending Order</h4>
+            <ul class="space-y-2 text-purple-700 text-sm">
+             <li>• A to Z (alphabetically)</li>
+             <li>• 0 to 9 (numerically)</li>
+             <li>• Oldest to newest (by date)</li>
+            </ul>
+           </div>
+           <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
+            <h4 class="font-bold text-purple-800 mb-3">Descending Order</h4>
+            <ul class="space-y-2 text-purple-700 text-sm">
+             <li>• Z to A (alphabetically)</li>
+             <li>• 9 to 0 (numerically)</li>
+             <li>• Newest to oldest (by date)</li>
+            </ul>
+           </div>
+          </div>
+         </div><!-- Filtering -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">🔍 Filtering Data</h3>
+          <p class="text-slate-600 mb-4">Filtering shows only data meeting specific criteria, hiding the rest.</p>
+          <div class="bg-violet-50 p-6 rounded-xl border border-violet-200">
+           <h4 class="font-bold text-violet-800 mb-3">Filter Example:</h4>
+           <p class="text-violet-700 text-sm mb-3">If you have sales with regions (North, South, East, West), filter to show only "South" region sales.</p>
+           <div class="bg-white p-3 rounded-lg font-mono text-sm text-violet-600">
+            <p>Original: 50 rows (all regions)</p>
+            <p>After Filter: 12 rows (South region only)</p>
+           </div>
+          </div>
+         </div><!-- Pivot Tables -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">🔄 Pivot Tables</h3>
+          <p class="text-slate-600 mb-4">Pivot tables summarize large datasets by reorganizing and aggregating data.</p>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="card-hover bg-gradient-to-br from-indigo-50 to-indigo-100 p-5 rounded-xl border border-indigo-200">
+            <div class="text-3xl mb-2">
+             📊
+            </div>
+            <h4 class="font-bold text-indigo-800 mb-2">Use Cases</h4>
+            <ul class="text-sm text-indigo-700 space-y-1">
+             <li>✓ Summarize sales by region</li>
+             <li>✓ Total expenses by department</li>
+             <li>✓ Count transactions by date</li>
+             <li>✓ Group products by category</li>
+            </ul>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-pink-50 to-pink-100 p-5 rounded-xl border border-pink-200">
+            <div class="text-3xl mb-2">
+             ⚙️
+            </div>
+            <h4 class="font-bold text-pink-800 mb-2">Benefits</h4>
+            <ul class="text-sm text-pink-700 space-y-1">
+             <li>✓ Reveal patterns quickly</li>
+             <li>✓ Compare data segments</li>
+             <li>✓ Make informed decisions</li>
+             <li>✓ Save analysis time</li>
+            </ul>
+           </div>
+          </div>
+         </div><!-- Conditional Formatting -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">🎨 Conditional Formatting</h3>
+          <p class="text-slate-600 mb-4">Highlights cells based on conditions to make trends visible at a glance.</p>
+          <div class="space-y-3">
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-violet-600">Highlight Cells:</span> <span class="text-slate-600">Color cells meeting criteria (e.g., values &gt; 100 in green)</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-violet-600">Data Bars:</span> <span class="text-slate-600">Visual bars showing values relative to each other</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-violet-600">Color Scales:</span> <span class="text-slate-600">Gradient colors from low to high values</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-violet-600">Icon Sets:</span> <span class="text-slate-600">Show arrows or icons based on cell values</span>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4">
+          <button onclick="showSection('formulas')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('charts')" class="flex-1 bg-gradient-to-r from-violet-500 to-purple-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Charts → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Charts & Visualization -->
+      <section id="section-charts" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-pink-500 to-rose-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📉 Charts &amp; Visualization</h2>
+         <p class="mt-2 text-pink-100">Creating impactful data visualizations</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <!-- Why Charts -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">Why Use Charts?</h3>
+          <div class="bg-pink-50 border-l-4 border-pink-400 p-5 rounded-r-xl">
+           <p class="text-slate-700">Charts convert raw data into visual representations, making it easier to:</p>
+           <ul class="mt-3 space-y-2 text-slate-700">
+            <li>🎯 Identify trends and patterns</li>
+            <li>💡 Compare values at a glance</li>
+            <li>📢 Present findings to audiences</li>
+            <li>✅ Make data-driven decisions</li>
+           </ul>
+          </div>
+         </div><!-- Chart Types -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📊 Common Chart Types</h3>
+          <div class="space-y-4">
+           <div class="card-hover bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border border-blue-200">
+            <h4 class="font-bold text-blue-800 mb-2">📊 Column/Bar Chart</h4>
+            <p class="text-blue-700 text-sm mb-2">Best for: Comparing values across categories</p>
+            <p class="text-blue-700 text-sm">Example: Sales by product, revenue by month</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-emerald-50 to-teal-50 p-5 rounded-xl border border-emerald-200">
+            <h4 class="font-bold text-emerald-800 mb-2">📈 Line Chart</h4>
+            <p class="text-emerald-700 text-sm mb-2">Best for: Showing trends over time</p>
+            <p class="text-emerald-700 text-sm">Example: Stock prices, website traffic over months</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-xl border border-orange-200">
+            <h4 class="font-bold text-orange-800 mb-2">🥧 Pie Chart</h4>
+            <p class="text-orange-700 text-sm mb-2">Best for: Showing parts of a whole</p>
+            <p class="text-orange-700 text-sm">Example: Market share, budget allocation %</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-xl border border-purple-200">
+            <h4 class="font-bold text-purple-800 mb-2">📍 Scatter Chart</h4>
+            <p class="text-purple-700 text-sm mb-2">Best for: Finding relationships between variables</p>
+            <p class="text-purple-700 text-sm">Example: Study hours vs scores, spend vs sales</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-red-50 to-rose-50 p-5 rounded-xl border border-red-200">
+            <h4 class="font-bold text-red-800 mb-2">📊 Area Chart</h4>
+            <p class="text-red-700 text-sm mb-2">Best for: Showing cumulative trends</p>
+            <p class="text-red-700 text-sm">Example: Stacked expenses, revenue streams</p>
+           </div>
+          </div>
+         </div><!-- Chart Elements -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🎨 Important Chart Elements</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-slate-800">Title</p>
+            <p class="text-sm text-slate-600 mt-1">Describes what the chart shows</p>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-slate-800">Axes Labels</p>
+            <p class="text-sm text-slate-600 mt-1">Identify what each axis represents</p>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-slate-800">Legend</p>
+            <p class="text-sm text-slate-600 mt-1">Explains colors and data series</p>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-slate-800">Data Labels</p>
+            <p class="text-sm text-slate-600 mt-1">Shows values on bars, points, slices</p>
+           </div>
+          </div>
+         </div><!-- Chart Best Practices -->
+         <div class="bg-pink-50 p-6 rounded-xl border border-pink-200">
+          <h4 class="heading-font font-bold text-pink-800 text-lg mb-4">✅ Chart Best Practices</h4>
+          <div class="grid md:grid-cols-2 gap-3">
+           <div class="text-sm text-pink-700">
+            ✓ Use appropriate chart types for data
+           </div>
+           <div class="text-sm text-pink-700">
+            ✓ Keep charts simple and uncluttered
+           </div>
+           <div class="text-sm text-pink-700">
+            ✓ Use colors consistently
+           </div>
+           <div class="text-sm text-pink-700">
+            ✓ Include clear titles and labels
+           </div>
+           <div class="text-sm text-pink-700">
+            ✓ Avoid 3D effects (distort perception)
+           </div>
+           <div class="text-sm text-pink-700">
+            ✓ Test readability at different sizes
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4">
+          <button onclick="showSection('analysis')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('individual')" class="flex-1 bg-gradient-to-r from-pink-500 to-rose-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Individual Activity → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Individual Activity -->
+      <section id="section-individual" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-500 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">👤 Individual Activity</h2>
+         <p class="mt-2 text-blue-100">Build your spreadsheet analysis skills</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <div class="bg-blue-50 border-l-4 border-blue-400 p-5 rounded-r-xl">
+          <h3 class="font-bold text-blue-800 text-lg">📊 Activity: Sales Analysis Spreadsheet</h3>
+          <p class="text-blue-700 mt-2">Build a complete spreadsheet with formulas and a chart to analyze quarterly sales data.</p>
+         </div><!-- Part 1: Data Entry -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 1: Create the Dataset</h4>
+          <p class="text-slate-600 mb-4">Create a spreadsheet with the following structure:</p>
+          <div class="bg-slate-50 p-4 rounded-lg overflow-x-auto mb-4">
+           <table class="w-full text-sm">
+            <tbody>
+             <tr class="bg-blue-100">
+              <td class="border border-slate-200 p-2 font-bold">Product</td>
+              <td class="border border-slate-200 p-2 font-bold">Q1 Sales</td>
+              <td class="border border-slate-200 p-2 font-bold">Q2 Sales</td>
+              <td class="border border-slate-200 p-2 font-bold">Q3 Sales</td>
+              <td class="border border-slate-200 p-2 font-bold">Q4 Sales</td>
+             </tr>
+             <tr>
+              <td class="border border-slate-200 p-2">Laptops</td>
+              <td class="border border-slate-200 p-2">25000</td>
+              <td class="border border-slate-200 p-2">32000</td>
+              <td class="border border-slate-200 p-2">28000</td>
+              <td class="border border-slate-200 p-2">41000</td>
+             </tr>
+             <tr>
+              <td class="border border-slate-200 p-2">Desktops</td>
+              <td class="border border-slate-200 p-2">18000</td>
+              <td class="border border-slate-200 p-2">22000</td>
+              <td class="border border-slate-200 p-2">19000</td>
+              <td class="border border-slate-200 p-2">26000</td>
+             </tr>
+             <tr>
+              <td class="border border-slate-200 p-2">Monitors</td>
+              <td class="border border-slate-200 p-2">12000</td>
+              <td class="border border-slate-200 p-2">15000</td>
+              <td class="border border-slate-200 p-2">14000</td>
+              <td class="border border-slate-200 p-2">18000</td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+          <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-700"><strong>✓ Task:</strong> Create this table in your spreadsheet application.
+          </div>
+         </div><!-- Part 2: Formulas -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 2: Add Formula Calculations</h4>
+          <p class="text-slate-600 mb-4">Add columns for calculated values:</p>
+          <div class="space-y-3">
+           <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-200">
+            <p class="font-bold text-emerald-800">Total Sales Column</p>
+            <p class="text-emerald-700 text-sm">Use SUM to calculate total sales for each product.</p>
+            <p class="text-emerald-700 text-sm font-mono bg-white px-2 py-1 rounded mt-2">=SUM(B2:E2)</p>
+           </div>
+           <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <p class="font-bold text-blue-800">Average Sales Column</p>
+            <p class="text-blue-700 text-sm">Use AVERAGE to calculate average quarterly sales.</p>
+            <p class="text-blue-700 text-sm font-mono bg-white px-2 py-1 rounded mt-2">=AVERAGE(B2:E2)</p>
+           </div>
+           <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <p class="font-bold text-purple-800">Bottom Row: Grand Totals</p>
+            <p class="text-purple-700 text-sm">Add "Grand Total" row and use SUM for total by quarter.</p>
+           </div>
+          </div>
+         </div><!-- Part 3: Data Analysis -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 3: Analysis Questions</h4>
+          <p class="text-slate-600 mb-4">Answer these questions using your spreadsheet:</p>
+          <div class="space-y-3">
+           <div class="bg-slate-50 p-3 rounded-lg">
+            <p class="text-slate-700"><strong>1.</strong> Which product had the highest total sales?</p>
+           </div>
+           <div class="bg-slate-50 p-3 rounded-lg">
+            <p class="text-slate-700"><strong>2.</strong> What was the average Q1 sales?</p>
+           </div>
+           <div class="bg-slate-50 p-3 rounded-lg">
+            <p class="text-slate-700"><strong>3.</strong> Which quarter had the best overall sales?</p>
+           </div>
+           <div class="bg-slate-50 p-3 rounded-lg">
+            <p class="text-slate-700"><strong>4.</strong> What was the percent growth from Q1 to Q4 for Laptops?</p>
+           </div>
+          </div>
+         </div><!-- Part 4: Create a Chart -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 4: Create a Visualization</h4>
+          <p class="text-slate-600 mb-4">Create a chart to visualize the sales data:</p>
+          <div class="space-y-3">
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-slate-800">Chart Type:</p>
+            <p class="text-slate-600 text-sm">Column chart (products on X-axis, sales on Y-axis)</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-slate-800">Formatting:</p>
+            <p class="text-slate-600 text-sm">Add title, include data labels, use distinct colors</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-bold text-slate-800">Location:</p>
+            <p class="text-slate-600 text-sm">Place the chart below your data</p>
+           </div>
+          </div>
+         </div><!-- Submission -->
+         <div class="bg-amber-50 border border-amber-200 p-5 rounded-xl">
+          <p class="text-amber-800 font-medium">📌 Submission Instructions</p>
+          <p class="text-amber-700 text-sm mt-2">Submit your completed spreadsheet including: data, formulas, calculations, analysis answers, and chart.</p>
+         </div>
+         <div class="flex gap-4">
+          <button onclick="showSection('charts')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('group')" class="flex-1 bg-gradient-to-r from-blue-600 to-indigo-500 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Group Activity → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Group Activity -->
+      <section id="section-group" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-fuchsia-500 to-purple-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">👥 Group Activity</h2>
+         <p class="mt-2 text-fuchsia-100">Collaborative data analysis project</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <div class="bg-fuchsia-50 border-l-4 border-fuchsia-400 p-5 rounded-r-xl">
+          <h3 class="font-bold text-fuchsia-800 text-lg">📊 Activity: Budget Analysis &amp; Presentation</h3>
+          <p class="text-fuchsia-700 mt-2">Work in groups of 3-4 to analyze departmental budgets and present findings.</p>
+         </div><!-- Scenario -->
+         <div class="bg-slate-900 text-white p-6 rounded-xl">
+          <h4 class="font-bold text-xl mb-4 flex items-center gap-2"><span class="pulse-dot inline-block w-3 h-3 bg-green-400 rounded-full"></span> 📋 Scenario</h4>
+          <div class="bg-slate-800 p-5 rounded-lg">
+           <p class="text-slate-100 leading-relaxed"><strong>"GrowthTech Solutions"</strong> wants to analyze 2024 budget across 5 departments:</p>
+           <ul class="mt-4 space-y-2 text-slate-300">
+            <li>• Review spending by department (HR, Operations, IT, Sales, R&amp;D)</li>
+            <li>• Identify budget efficiency</li>
+            <li>• Compare budgeted vs. actual spending</li>
+            <li>• Make recommendations for 2025</li>
+           </ul>
+          </div>
+         </div><!-- Tasks -->
+         <div>
+          <h4 class="font-bold text-slate-800 text-xl mb-4">📝 Group Tasks</h4>
+          <div class="space-y-4">
+           <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+            <div class="flex items-start gap-4">
+             <span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">1</span>
+             <div>
+              <h5 class="font-bold text-blue-800">Create Budget Dataset</h5>
+              <p class="text-blue-700 text-sm mt-1">Build spreadsheet with departments, budgeted amounts, actual spending, and variance.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-green-50 p-5 rounded-xl border border-green-200">
+            <div class="flex items-start gap-4">
+             <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">2</span>
+             <div>
+              <h5 class="font-bold text-green-800">Calculate Key Metrics</h5>
+              <p class="text-green-700 text-sm mt-1">Use formulas for totals, variance, percentage spent, and efficiency ratios.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
+            <div class="flex items-start gap-4">
+             <span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">3</span>
+             <div>
+              <h5 class="font-bold text-purple-800">Create Multiple Charts</h5>
+              <p class="text-purple-700 text-sm mt-1">Make 3 charts: pie (distribution), column (budgeted vs actual), bar (variance).</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-orange-50 p-5 rounded-xl border border-orange-200">
+            <div class="flex items-start gap-4">
+             <span class="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">4</span>
+             <div>
+              <h5 class="font-bold text-orange-800">Data Analysis &amp; Insights</h5>
+              <p class="text-orange-700 text-sm mt-1">Identify trends and use conditional formatting to highlight key findings.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-rose-50 p-5 rounded-xl border border-rose-200">
+            <div class="flex items-start gap-4">
+             <span class="bg-rose-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">5</span>
+             <div>
+              <h5 class="font-bold text-rose-800">Group Presentation</h5>
+              <p class="text-rose-700 text-sm mt-1">10-minute presentation with findings and 3-5 recommendations. Each member presents one section.</p>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div><!-- Deliverables -->
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">📦 Deliverables</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Complete Budget Spreadsheet</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Calculations &amp; Formulas</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Three Charts Minimum</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Analysis Report</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Presentation Slides</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Recommendations Document</p>
+           </div>
+          </div>
+         </div><!-- Rubric -->
+         <div class="bg-amber-50 p-6 rounded-xl border border-amber-200">
+          <h4 class="font-bold text-amber-800 text-lg mb-4">📊 Grading Criteria</h4>
+          <div class="grid md:grid-cols-4 gap-3 text-sm">
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Data Quality</p>
+            <p class="text-amber-600">20%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Formulas &amp; Analysis</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Charts</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Presentation</p>
+            <p class="text-amber-600">30%</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4">
+          <button onclick="showSection('individual')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('quiz')" class="flex-1 bg-gradient-to-r from-fuchsia-500 to-purple-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Review Quiz → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Quiz -->
+      <section id="section-quiz" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-green-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">✅ Review Quiz</h2>
+         <p class="mt-2 text-emerald-100">Test your knowledge with 10 questions</p>
+        </div>
+        <div class="p-6">
+         <!-- Quiz Container -->
+         <div id="quiz-container">
+          <!-- Question display area -->
+          <div id="question-area" class="space-y-6">
+           <!-- Progress -->
+           <div class="flex items-center justify-between mb-6">
+            <span id="quiz-progress" class="text-slate-600 font-medium">Question 1 of 10</span> <span id="quiz-score" class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full font-bold">Score: 0/10</span>
+           </div><!-- Question Card -->
+           <div id="question-card" class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <p id="question-text" class="text-lg text-slate-800 font-medium">Loading question...</p>
+           </div><!-- Options -->
+           <div id="options-container" class="space-y-3">
+            <!-- Options will be populated by JavaScript -->
+           </div><!-- Feedback -->
+           <div id="feedback" class="hidden p-4 rounded-xl"></div><!-- Navigation -->
+           <div class="flex gap-4">
+            <button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-gradient-to-r from-emerald-500 to-green-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> Next Question → </button>
+           </div>
+          </div><!-- Results Area -->
+          <div id="results-area" class="hidden text-center py-12">
+           <div class="text-6xl mb-6">
+            🎉
+           </div>
+           <h3 class="heading-font text-3xl font-bold text-slate-800 mb-4">Quiz Complete!</h3>
+           <p id="final-score" class="text-xl text-slate-600 mb-6">Your Score: 0/10</p>
+           <div id="score-feedback" class="bg-emerald-50 p-6 rounded-xl max-w-md mx-auto mb-8">
+            <p class="text-emerald-800">Great job completing the quiz!</p>
+           </div><button onclick="restartQuiz()" class="bg-gradient-to-r from-emerald-500 to-green-400 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> 🔄 Retake Quiz </button>
+          </div>
+         </div>
+        </div>
+       </div>
+      </section>
+     </div>
+    </main>
+   </div><!-- Footer -->
+   <footer class="bg-slate-800 text-slate-400 px-6 py-4 text-center text-sm">
+    <p>IS101 - Fundamentals of Information Systems | Instructor: MKDB</p>
+    <p class="text-slate-500 mt-1">© 2024 Educational Content</p>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      course_title: 'IS101 - Fundamentals of Information Systems',
+      instructor_name: 'MKDB',
+      week_label: 'Midterm - Week 5',
+      primary_color: '#10b981',
+      secondary_color: '#059669',
+      accent_color: '#f59e0b',
+      text_color: '#1e293b',
+      background_color: '#f8fafc'
+    };
+
+    // Current section tracking
+    let currentSection = 'overview';
+    const sections = ['overview', 'basics', 'formulas', 'analysis', 'charts', 'individual', 'group', 'quiz'];
+    let visitedSections = new Set(['overview']);
+
+    // Quiz data - 10 questions about spreadsheets
+    const quizQuestions = [
+      {
+        question: "What does a spreadsheet application primarily do?",
+        options: [
+          "Creates presentations with slides",
+          "Displays and organizes data in rows and columns for calculations",
+          "Edits photos and images",
+          "Writes and formats text documents"
+        ],
+        correct: 1,
+        explanation: "A spreadsheet organizes data in rows and columns, allowing users to enter, calculate, analyze, and visualize data efficiently."
+      },
+      {
+        question: "Which spreadsheet application is free and cloud-based?",
+        options: [
+          "Microsoft Excel",
+          "Apple Numbers",
+          "Google Sheets",
+          "LibreOffice Writer"
+        ],
+        correct: 2,
+        explanation: "Google Sheets is a free, cloud-based spreadsheet application that allows real-time collaboration."
+      },
+      {
+        question: "What symbol must a formula always begin with?",
+        options: [
+          "#",
+          "@",
+          "=",
+          "$"
+        ],
+        correct: 2,
+        explanation: "All formulas in spreadsheets must start with an equals sign (=) to indicate it's a calculation."
+      },
+      {
+        question: "What does the SUM() function do?",
+        options: [
+          "Finds the highest value in a range",
+          "Adds up all numbers in a range",
+          "Counts cells with values",
+          "Calculates the average of numbers"
+        ],
+        correct: 1,
+        explanation: "The SUM() function adds together all the numerical values in a specified range of cells."
+      },
+      {
+        question: "Which cell reference stays the same when copied to other cells?",
+        options: [
+          "Relative reference (A1)",
+          "Absolute reference ($A$1)",
+          "Range reference (A1:A10)",
+          "Mixed reference (A$1)"
+        ],
+        correct: 1,
+        explanation: "Absolute references (with $ signs) lock the cell address so it doesn't change when copied."
+      },
+      {
+        question: "What does filtering in a spreadsheet allow you to do?",
+        options: [
+          "Delete rows permanently",
+          "Show only data meeting specific criteria",
+          "Change all values automatically",
+          "Create a backup of the data"
+        ],
+        correct: 1,
+        explanation: "Filtering shows only the data that meets your specified criteria while hiding the rest temporarily."
+      },
+      {
+        question: "Which chart type is best for showing trends over time?",
+        options: [
+          "Pie chart",
+          "Line chart",
+          "Bar chart",
+          "Scatter plot"
+        ],
+        correct: 1,
+        explanation: "Line charts are ideal for displaying how data changes over time or showing trends."
+      },
+      {
+        question: "What is a pivot table used for?",
+        options: [
+          "Protecting data from being edited",
+          "Printing spreadsheets on multiple pages",
+          "Summarizing and reorganizing large datasets",
+          "Converting data to images"
+        ],
+        correct: 2,
+        explanation: "Pivot tables reorganize and summarize data to reveal patterns and insights in large datasets."
+      },
+      {
+        question: "Which of these is an important element that should be included in every chart?",
+        options: [
+          "3D effects",
+          "Multiple colors for each data point",
+          "A clear title",
+          "Animated transitions"
+        ],
+        correct: 2,
+        explanation: "A clear title is essential for any chart to help viewers understand what data is being displayed."
+      },
+      {
+        question: "What does conditional formatting do?",
+        options: [
+          "Prevents editing of certain cells",
+          "Sorts data in alphabetical order",
+          "Highlights cells based on specific conditions",
+          "Exports data to other applications"
+        ],
+        correct: 2,
+        explanation: "Conditional formatting automatically highlights or colors cells based on criteria you set to make trends visible."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    // Navigation function
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+
+      // Show selected section
+      const targetSection = document.getElementById(`section-${sectionId}`);
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+        targetSection.classList.add('fade-in');
+      }
+
+      // Update navigation styling
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.section === sectionId) {
+          item.classList.add('active');
+        }
+      });
+
+      // Update mobile nav
+      const mobileNav = document.getElementById('mobile-nav');
+      if (mobileNav) {
+        mobileNav.value = sectionId;
+      }
+
+      // Track visited sections
+      visitedSections.add(sectionId);
+      currentSection = sectionId;
+
+      // Update progress
+      updateProgress();
+
+      // Scroll to top
+      document.querySelector('main').scrollTop = 0;
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const progress = (visitedSections.size / sections.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+      document.getElementById('progress-text').textContent = `${visitedSections.size} of ${sections.length} sections`;
+    }
+
+    // Quiz functions
+    function loadQuestion() {
+      if (currentQuestionIndex >= quizQuestions.length) {
+        showResults();
+        return;
+      }
+
+      const question = quizQuestions[currentQuestionIndex];
+      answered = false;
+
+      document.getElementById('quiz-progress').textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+      document.getElementById('question-text').textContent = question.question;
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      question.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'quiz-option w-full text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-emerald-400 transition-all';
+        button.innerHTML = `<span class="font-bold text-slate-400 mr-3">${String.fromCharCode(65 + index)}.</span> ${option}`;
+        button.onclick = () => selectAnswer(index);
+        optionsContainer.appendChild(button);
+      });
+
+      document.getElementById('feedback').classList.add('hidden');
+      document.getElementById('next-btn').disabled = true;
+    }
+
+    function selectAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const question = quizQuestions[currentQuestionIndex];
+      const options = document.querySelectorAll('.quiz-option');
+      const feedback = document.getElementById('feedback');
+
+      options.forEach((option, index) => {
+        option.classList.remove('selected');
+        if (index === question.correct) {
+          option.classList.add('correct');
+        } else if (index === selectedIndex && index !== question.correct) {
+          option.classList.add('incorrect');
+        }
+        option.style.pointerEvents = 'none';
+      });
+
+      if (selectedIndex === question.correct) {
+        score++;
+        feedback.className = 'p-4 rounded-xl bg-green-50 border border-green-200';
+        feedback.innerHTML = `<p class="font-bold text-green-800">✅ Correct!</p><p class="text-green-700 text-sm mt-1">${question.explanation}</p>`;
+      } else {
+        feedback.className = 'p-4 rounded-xl bg-red-50 border border-red-200';
+        feedback.innerHTML = `<p class="font-bold text-red-800">❌ Incorrect</p><p class="text-red-700 text-sm mt-1">${question.explanation}</p>`;
+      }
+
+      feedback.classList.remove('hidden');
+      document.getElementById('quiz-score').textContent = `Score: ${score}/${quizQuestions.length}`;
+      document.getElementById('next-btn').disabled = false;
+
+      if (currentQuestionIndex === quizQuestions.length - 1) {
+        document.getElementById('next-btn').textContent = 'See Results →';
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizQuestions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('question-area').classList.add('hidden');
+      document.getElementById('results-area').classList.remove('hidden');
+
+      const percentage = (score / quizQuestions.length) * 100;
+      document.getElementById('final-score').textContent = `Your Score: ${score}/${quizQuestions.length} (${percentage}%)`;
+
+      const scoreFeedback = document.getElementById('score-feedback');
+      if (percentage >= 90) {
+        scoreFeedback.className = 'bg-emerald-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-emerald-200';
+        scoreFeedback.innerHTML = '<p class="text-emerald-800 font-medium">🌟 Excellent! You have mastered spreadsheet concepts!</p>';
+      } else if (percentage >= 70) {
+        scoreFeedback.className = 'bg-blue-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-blue-200';
+        scoreFeedback.innerHTML = '<p class="text-blue-800 font-medium">👍 Good job! You have a solid understanding of spreadsheets.</p>';
+      } else if (percentage >= 50) {
+        scoreFeedback.className = 'bg-amber-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-amber-200';
+        scoreFeedback.innerHTML = '<p class="text-amber-800 font-medium">📚 Fair attempt. Review the materials to improve.</p>';
+      } else {
+        scoreFeedback.className = 'bg-red-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-red-200';
+        scoreFeedback.innerHTML = '<p class="text-red-800 font-medium">📖 Keep studying! Review the lesson and try again.</p>';
+      }
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      answered = false;
+
+      document.getElementById('results-area').classList.add('hidden');
+      document.getElementById('question-area').classList.remove('hidden');
+      document.getElementById('quiz-score').textContent = 'Score: 0/10';
+      document.getElementById('next-btn').textContent = 'Next Question →';
+
+      loadQuestion();
+    }
+
+    // Element SDK Integration
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: async (config) => {
+          const courseTitle = config.course_title || defaultConfig.course_title;
+          const instructorName = config.instructor_name || defaultConfig.instructor_name;
+          const weekLabel = config.week_label || defaultConfig.week_label;
+
+          document.getElementById('course-title').textContent = courseTitle;
+          document.getElementById('instructor-name').textContent = instructorName;
+          document.getElementById('week-label').textContent = weekLabel;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => { config.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['course_title', config.course_title || defaultConfig.course_title],
+          ['instructor_name', config.instructor_name || defaultConfig.instructor_name],
+          ['week_label', config.week_label || defaultConfig.week_label]
+        ])
+      });
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection('overview');
+      loadQuestion();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d1f28c302d9fee8',t:'MTc3MTc3MDM5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

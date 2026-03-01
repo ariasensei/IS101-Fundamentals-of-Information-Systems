@@ -1,0 +1,1204 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IS101 - Networking &amp; Communications</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .heading-font { font-family: 'Space Grotesk', sans-serif; }
+    
+    .nav-item { transition: all 0.3s ease; }
+    .nav-item:hover { transform: translateX(4px); }
+    .nav-item.active { background: linear-gradient(90deg, #0ea5e9 0%, #0284c7 100%); color: white; }
+    
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    
+    .data-packet { animation: movePacket 3s ease-in-out infinite; }
+    @keyframes movePacket {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(200px); }
+      100% { transform: translateX(0); }
+    }
+    
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .quiz-option { transition: all 0.2s ease; }
+    .quiz-option:hover:not(.selected):not(.correct):not(.incorrect) { 
+      background: #f0f9ff; 
+      border-color: #0ea5e9; 
+    }
+    .quiz-option.selected { background: #dbeafe; border-color: #3b82f6; }
+    .quiz-option.correct { background: #dcfce7; border-color: #22c55e; }
+    .quiz-option.incorrect { background: #fee2e2; border-color: #ef4444; }
+    
+    .progress-bar { transition: width 0.5s ease; }
+    
+    .network-line {
+      stroke-dasharray: 5;
+      animation: dash 1s linear infinite;
+    }
+    @keyframes dash {
+      to { stroke-dashoffset: -10; }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-slate-50">
+  <div id="app" class="h-full flex flex-col overflow-auto"><!-- Header -->
+   <header id="main-header" class="bg-gradient-to-r from-sky-600 to-cyan-500 text-white px-6 py-4 shadow-lg">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex items-center justify-between">
+      <div>
+       <p id="week-label" class="text-sky-100 text-sm font-medium">Midterm - Week 1</p>
+       <h1 id="course-title" class="heading-font text-2xl font-bold">IS101 - Fundamentals of Information Systems</h1>
+      </div>
+      <div class="text-right">
+       <p class="text-sky-100 text-sm">Instructor</p>
+       <p id="instructor-name" class="font-semibold">MKDB</p>
+      </div>
+     </div>
+     <div class="mt-3 flex items-center gap-2"><span class="bg-white/20 px-3 py-1 rounded-full text-sm">📡 Networking &amp; Communications Technologies</span>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <div class="flex-1 flex"><!-- Sidebar Navigation -->
+    <nav class="w-64 bg-white border-r border-slate-200 p-4 hidden md:block">
+     <h2 class="heading-font text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Lesson Contents</h2>
+     <ul class="space-y-2" id="nav-menu">
+      <li><button onclick="showSection('overview')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium active" data-section="overview"> 📋 Overview &amp; ILO </button></li>
+      <li><button onclick="showSection('basics')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="basics"> 🌐 Network Basics </button></li>
+      <li><button onclick="showSection('types')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="types"> 🔗 Network Types </button></li>
+      <li><button onclick="showSection('transmission')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="transmission"> 📨 Data Transmission </button></li>
+      <li><button onclick="showSection('protocols')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="protocols"> 📜 Protocols &amp; Models </button></li>
+      <li><button onclick="showSection('individual')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="individual"> 👤 Individual Activity </button></li>
+      <li><button onclick="showSection('group')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="group"> 👥 Group Activity </button></li>
+      <li><button onclick="showSection('quiz')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="quiz"> ✅ Review Quiz </button></li>
+     </ul><!-- Progress Indicator -->
+     <div class="mt-8 p-4 bg-slate-50 rounded-xl">
+      <p class="text-sm text-slate-600 mb-2">Lesson Progress</p>
+      <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+       <div id="progress-bar" class="progress-bar h-full bg-gradient-to-r from-sky-500 to-cyan-400 rounded-full" style="width: 12.5%"></div>
+      </div>
+      <p id="progress-text" class="text-xs text-slate-500 mt-2">1 of 8 sections</p>
+     </div>
+    </nav><!-- Mobile Navigation -->
+    <div class="md:hidden bg-white border-b border-slate-200 p-3"><select id="mobile-nav" onchange="showSection(this.value)" class="w-full p-3 border border-slate-300 rounded-lg text-slate-700 font-medium"> <option value="overview">📋 Overview &amp; ILO</option> <option value="basics">🌐 Network Basics</option> <option value="types">🔗 Network Types</option> <option value="transmission">📨 Data Transmission</option> <option value="protocols">📜 Protocols &amp; Models</option> <option value="individual">👤 Individual Activity</option> <option value="group">👥 Group Activity</option> <option value="quiz">✅ Review Quiz</option> </select>
+    </div><!-- Content Area -->
+    <main class="flex-1 p-6 overflow-auto">
+     <div class="max-w-4xl mx-auto"><!-- Section: Overview -->
+      <section id="section-overview" class="content-section fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-sky-500 to-cyan-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📋 Lesson Overview</h2>
+         <p class="mt-2 text-sky-100">Networking &amp; Communications Technologies</p>
+        </div>
+        <div class="p-6 space-y-6"><!-- ILO Box -->
+         <div class="bg-amber-50 border-l-4 border-amber-400 p-5 rounded-r-xl">
+          <h3 class="heading-font font-bold text-amber-800 text-lg flex items-center gap-2">🎯 Intended Learning Outcome (ILO)</h3>
+          <p class="mt-2 text-amber-900"><strong>By the end of this lesson, students will be able to:</strong><br>
+            Explain basic networking and communication technologies and describe how data is transmitted across networks.</p>
+         </div><!-- Topics Covered -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📚 Topics Covered</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">🌐</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Network Fundamentals</h4>
+            <p class="text-sm text-slate-600 mt-1">What is a network, components, and architecture</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">🔗</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Network Types</h4>
+            <p class="text-sm text-slate-600 mt-1">LAN, WAN, MAN, PAN and their characteristics</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">📨</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Data Transmission</h4>
+            <p class="text-sm text-slate-600 mt-1">How data travels across networks</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">📜</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Protocols &amp; Standards</h4>
+            <p class="text-sm text-slate-600 mt-1">TCP/IP, OSI Model, and communication rules</p>
+           </div>
+          </div>
+         </div><!-- Key Terms Preview -->
+         <div class="bg-sky-50 p-5 rounded-xl">
+          <h3 class="heading-font font-bold text-sky-800 text-lg mb-3">🔑 Key Terms to Learn</h3>
+          <div class="flex flex-wrap gap-2"><span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">Network</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">Protocol</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">Bandwidth</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">Router</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">IP Address</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">Packet</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">TCP/IP</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-sky-700 border border-sky-200">OSI Model</span>
+          </div>
+         </div><button onclick="showSection('basics')" class="w-full bg-gradient-to-r from-sky-500 to-cyan-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Start Learning → Network Basics </button>
+        </div>
+       </div>
+      </section><!-- Section: Network Basics -->
+      <section id="section-basics" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-teal-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">🌐 Network Basics</h2>
+         <p class="mt-2 text-emerald-100">Understanding the fundamentals of computer networks</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- What is a Network -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">What is a Computer Network?</h3>
+          <div class="bg-emerald-50 border-l-4 border-emerald-400 p-5 rounded-r-xl">
+           <p class="text-slate-700 text-lg">A <strong>computer network</strong> is a collection of interconnected devices (computers, servers, printers, smartphones) that can communicate and share resources with each other.</p>
+          </div>
+         </div><!-- Simple Network Visualization -->
+         <div class="bg-slate-900 p-8 rounded-xl">
+          <p class="text-slate-400 text-sm mb-4 text-center">Interactive Network Visualization</p>
+          <svg viewbox="0 0 400 200" class="w-full max-w-lg mx-auto"><!-- Connection Lines --> <line x1="100" y1="100" x2="200" y2="100" stroke="#22d3ee" stroke-width="2" class="network-line" /> <line x1="200" y1="100" x2="300" y2="100" stroke="#22d3ee" stroke-width="2" class="network-line" /> <line x1="200" y1="100" x2="200" y2="50" stroke="#22d3ee" stroke-width="2" class="network-line" /> <line x1="200" y1="100" x2="200" y2="150" stroke="#22d3ee" stroke-width="2" class="network-line" /> <!-- Devices --> <g transform="translate(85, 85)">
+            <rect width="30" height="30" rx="4" fill="#3b82f6" />
+            <text x="15" y="20" text-anchor="middle" fill="white" font-size="16">
+             💻
+            </text>
+           </g> <g transform="translate(185, 85)">
+            <rect width="30" height="30" rx="4" fill="#10b981" />
+            <text x="15" y="20" text-anchor="middle" fill="white" font-size="16">
+             🌐
+            </text>
+           </g> <g transform="translate(285, 85)">
+            <rect width="30" height="30" rx="4" fill="#3b82f6" />
+            <text x="15" y="20" text-anchor="middle" fill="white" font-size="16">
+             💻
+            </text>
+           </g> <g transform="translate(185, 35)">
+            <rect width="30" height="30" rx="4" fill="#8b5cf6" />
+            <text x="15" y="20" text-anchor="middle" fill="white" font-size="16">
+             🖨️
+            </text>
+           </g> <g transform="translate(185, 135)">
+            <rect width="30" height="30" rx="4" fill="#f59e0b" />
+            <text x="15" y="20" text-anchor="middle" fill="white" font-size="16">
+             🗄️
+            </text>
+           </g> <!-- Labels --> <text x="100" y="135" text-anchor="middle" fill="#94a3b8" font-size="10">
+            Computer
+           </text> <text x="200" y="185" text-anchor="middle" fill="#94a3b8" font-size="10">
+            Server
+           </text> <text x="300" y="135" text-anchor="middle" fill="#94a3b8" font-size="10">
+            Computer
+           </text> <text x="240" y="55" text-anchor="start" fill="#94a3b8" font-size="10">
+            Printer
+           </text> <text x="200" y="10" text-anchor="middle" fill="#22d3ee" font-size="11">
+            Router/Switch
+           </text>
+          </svg>
+         </div><!-- Network Components -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🔧 Essential Network Components</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="card-hover bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border border-blue-200">
+            <div class="text-3xl mb-2">
+             🖥️
+            </div>
+            <h4 class="font-bold text-blue-800">End Devices</h4>
+            <p class="text-sm text-blue-700 mt-2">Computers, laptops, smartphones, printers, servers - devices that send or receive data.</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border border-green-200">
+            <div class="text-3xl mb-2">
+             📡
+            </div>
+            <h4 class="font-bold text-green-800">Network Devices</h4>
+            <p class="text-sm text-green-700 mt-2">Routers, switches, hubs, modems - devices that direct and manage network traffic.</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border border-purple-200">
+            <div class="text-3xl mb-2">
+             🔌
+            </div>
+            <h4 class="font-bold text-purple-800">Transmission Media</h4>
+            <p class="text-sm text-purple-700 mt-2">Cables (Ethernet, fiber optic) and wireless signals (Wi-Fi, Bluetooth) that carry data.</p>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-orange-50 to-orange-100 p-5 rounded-xl border border-orange-200">
+            <div class="text-3xl mb-2">
+             ⚙️
+            </div>
+            <h4 class="font-bold text-orange-800">Network Software</h4>
+            <p class="text-sm text-orange-700 mt-2">Operating systems, protocols, and applications that enable communication.</p>
+           </div>
+          </div>
+         </div><!-- Key Terms -->
+         <div class="bg-slate-50 p-6 rounded-xl">
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📖 Key Terminology</h3>
+          <div class="space-y-3">
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-sky-600">Bandwidth:</span> <span class="text-slate-600"> The maximum amount of data that can be transmitted over a network in a given time (measured in Mbps or Gbps).</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-sky-600">Latency:</span> <span class="text-slate-600"> The time delay for data to travel from source to destination (measured in milliseconds).</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-sky-600">Throughput:</span> <span class="text-slate-600"> The actual amount of data successfully transferred over a network in a given time.</span>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('overview')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('types')" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Network Types → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Network Types -->
+      <section id="section-types" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-violet-500 to-purple-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">🔗 Network Types</h2>
+         <p class="mt-2 text-violet-100">Classification of networks by geographic scope</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- Network Types Comparison -->
+         <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+           <thead>
+            <tr class="bg-violet-50">
+             <th class="p-4 text-left font-bold text-violet-800 border-b-2 border-violet-200">Type</th>
+             <th class="p-4 text-left font-bold text-violet-800 border-b-2 border-violet-200">Full Name</th>
+             <th class="p-4 text-left font-bold text-violet-800 border-b-2 border-violet-200">Range</th>
+             <th class="p-4 text-left font-bold text-violet-800 border-b-2 border-violet-200">Example</th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr class="border-b border-slate-200 hover:bg-slate-50">
+             <td class="p-4"><span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-bold">PAN</span></td>
+             <td class="p-4 text-slate-700">Personal Area Network</td>
+             <td class="p-4 text-slate-600">~10 meters</td>
+             <td class="p-4 text-slate-600">Bluetooth headset to phone</td>
+            </tr>
+            <tr class="border-b border-slate-200 hover:bg-slate-50">
+             <td class="p-4"><span class="bg-green-100 text-green-800 px-3 py-1 rounded-full font-bold">LAN</span></td>
+             <td class="p-4 text-slate-700">Local Area Network</td>
+             <td class="p-4 text-slate-600">Building/Campus</td>
+             <td class="p-4 text-slate-600">Office network, School lab</td>
+            </tr>
+            <tr class="border-b border-slate-200 hover:bg-slate-50">
+             <td class="p-4"><span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full font-bold">MAN</span></td>
+             <td class="p-4 text-slate-700">Metropolitan Area Network</td>
+             <td class="p-4 text-slate-600">City-wide</td>
+             <td class="p-4 text-slate-600">City government network</td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+             <td class="p-4"><span class="bg-red-100 text-red-800 px-3 py-1 rounded-full font-bold">WAN</span></td>
+             <td class="p-4 text-slate-700">Wide Area Network</td>
+             <td class="p-4 text-slate-600">Country/Global</td>
+             <td class="p-4 text-slate-600">The Internet</td>
+            </tr>
+           </tbody>
+          </table>
+         </div><!-- Visual Scale -->
+         <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-8 rounded-xl text-white">
+          <h4 class="text-center text-slate-300 mb-6">Network Size Comparison</h4>
+          <div class="flex items-center justify-between max-w-2xl mx-auto">
+           <div class="text-center">
+            <div class="w-8 h-8 bg-blue-500 rounded-full mx-auto flex items-center justify-center text-xs">
+             📱
+            </div>
+            <p class="text-xs mt-2 text-blue-300">PAN</p>
+            <p class="text-xs text-slate-500">Personal</p>
+           </div>
+           <div class="flex-1 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-2"></div>
+           <div class="text-center">
+            <div class="w-12 h-12 bg-green-500 rounded-full mx-auto flex items-center justify-center">
+             🏢
+            </div>
+            <p class="text-xs mt-2 text-green-300">LAN</p>
+            <p class="text-xs text-slate-500">Building</p>
+           </div>
+           <div class="flex-1 h-1 bg-gradient-to-r from-green-500 to-yellow-500 mx-2"></div>
+           <div class="text-center">
+            <div class="w-16 h-16 bg-yellow-500 rounded-full mx-auto flex items-center justify-center text-2xl">
+             🏙️
+            </div>
+            <p class="text-xs mt-2 text-yellow-300">MAN</p>
+            <p class="text-xs text-slate-500">City</p>
+           </div>
+           <div class="flex-1 h-1 bg-gradient-to-r from-yellow-500 to-red-500 mx-2"></div>
+           <div class="text-center">
+            <div class="w-20 h-20 bg-red-500 rounded-full mx-auto flex items-center justify-center text-3xl">
+             🌍
+            </div>
+            <p class="text-xs mt-2 text-red-300">WAN</p>
+            <p class="text-xs text-slate-500">Global</p>
+           </div>
+          </div>
+         </div><!-- Detailed Cards -->
+         <div class="grid md:grid-cols-2 gap-6">
+          <div class="card-hover bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200">
+           <div class="flex items-center gap-3 mb-4"><span class="text-4xl">📱</span>
+            <div>
+             <h4 class="font-bold text-blue-800 text-xl">PAN - Personal Area Network</h4>
+             <p class="text-blue-600 text-sm">Shortest range network</p>
+            </div>
+           </div>
+           <ul class="space-y-2 text-blue-800">
+            <li>✓ Range: Up to 10 meters</li>
+            <li>✓ Technologies: Bluetooth, USB, NFC</li>
+            <li>✓ Use: Connecting personal devices</li>
+            <li>✓ Example: Smartwatch syncing with phone</li>
+           </ul>
+          </div>
+          <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border border-green-200">
+           <div class="flex items-center gap-3 mb-4"><span class="text-4xl">🏢</span>
+            <div>
+             <h4 class="font-bold text-green-800 text-xl">LAN - Local Area Network</h4>
+             <p class="text-green-600 text-sm">Most common network type</p>
+            </div>
+           </div>
+           <ul class="space-y-2 text-green-800">
+            <li>✓ Range: Building or campus</li>
+            <li>✓ Technologies: Ethernet, Wi-Fi</li>
+            <li>✓ High speed: 100 Mbps - 10 Gbps</li>
+            <li>✓ Example: Home Wi-Fi, office network</li>
+           </ul>
+          </div>
+          <div class="card-hover bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 rounded-xl border border-yellow-200">
+           <div class="flex items-center gap-3 mb-4"><span class="text-4xl">🏙️</span>
+            <div>
+             <h4 class="font-bold text-yellow-800 text-xl">MAN - Metropolitan Area Network</h4>
+             <p class="text-yellow-600 text-sm">City-wide coverage</p>
+            </div>
+           </div>
+           <ul class="space-y-2 text-yellow-800">
+            <li>✓ Range: City or large campus</li>
+            <li>✓ Technologies: Fiber optic, WiMAX</li>
+            <li>✓ Connects multiple LANs</li>
+            <li>✓ Example: University with multiple buildings</li>
+           </ul>
+          </div>
+          <div class="card-hover bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border border-red-200">
+           <div class="flex items-center gap-3 mb-4"><span class="text-4xl">🌍</span>
+            <div>
+             <h4 class="font-bold text-red-800 text-xl">WAN - Wide Area Network</h4>
+             <p class="text-red-600 text-sm">Largest network type</p>
+            </div>
+           </div>
+           <ul class="space-y-2 text-red-800">
+            <li>✓ Range: Countries, continents, global</li>
+            <li>✓ Technologies: Leased lines, satellite</li>
+            <li>✓ The Internet is the largest WAN</li>
+            <li>✓ Example: Company with global offices</li>
+           </ul>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('basics')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('transmission')" class="flex-1 bg-gradient-to-r from-violet-500 to-purple-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Data Transmission → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Data Transmission -->
+      <section id="section-transmission" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-orange-500 to-amber-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📨 Data Transmission</h2>
+         <p class="mt-2 text-orange-100">How data travels across networks</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- Packet Switching Concept -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">What is Packet Switching?</h3>
+          <div class="bg-orange-50 border-l-4 border-orange-400 p-5 rounded-r-xl">
+           <p class="text-slate-700 text-lg">When you send data over a network, it's broken into small pieces called <strong>packets</strong>. Each packet travels independently and may take different routes to reach the destination, where they're reassembled in the correct order.</p>
+          </div>
+         </div><!-- Animated Packet Visualization -->
+         <div class="bg-slate-900 p-8 rounded-xl">
+          <p class="text-slate-400 text-sm mb-4 text-center">Data Packet Journey</p>
+          <div class="relative h-24 flex items-center justify-between max-w-xl mx-auto">
+           <div class="text-4xl">
+            💻
+           </div>
+           <div class="flex-1 mx-4 relative">
+            <div class="h-2 bg-slate-700 rounded-full"></div>
+            <div class="absolute top-1/2 -translate-y-1/2 data-packet">
+             <div class="bg-cyan-400 text-slate-900 px-2 py-1 rounded text-xs font-bold">
+              📦 Packet
+             </div>
+            </div>
+           </div>
+           <div class="text-4xl">
+            🖥️
+           </div>
+          </div>
+          <p class="text-center text-cyan-300 text-sm mt-4">Sender → Network → Receiver</p>
+         </div><!-- Packet Structure -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📦 Structure of a Data Packet</h3>
+          <div class="flex flex-col md:flex-row border border-slate-300 rounded-xl overflow-hidden">
+           <div class="bg-red-100 p-5 flex-1 border-b md:border-b-0 md:border-r border-slate-300">
+            <h4 class="font-bold text-red-800 mb-2">🏷️ Header</h4>
+            <ul class="text-sm text-red-700 space-y-1">
+             <li>• Source IP address</li>
+             <li>• Destination IP address</li>
+             <li>• Packet sequence number</li>
+             <li>• Protocol information</li>
+            </ul>
+           </div>
+           <div class="bg-green-100 p-5 flex-2 border-b md:border-b-0 md:border-r border-slate-300">
+            <h4 class="font-bold text-green-800 mb-2">📄 Payload (Data)</h4>
+            <p class="text-sm text-green-700">The actual content being transmitted - could be part of an email, web page, video stream, or file.</p>
+           </div>
+           <div class="bg-blue-100 p-5 flex-1">
+            <h4 class="font-bold text-blue-800 mb-2">✅ Trailer</h4>
+            <ul class="text-sm text-blue-700 space-y-1">
+             <li>• Error checking data</li>
+             <li>• End of packet marker</li>
+            </ul>
+           </div>
+          </div>
+         </div><!-- Transmission Media -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🔌 Transmission Media Types</h3>
+          <div class="grid md:grid-cols-2 gap-6"><!-- Wired -->
+           <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2"><span class="text-2xl">🔌</span> Wired (Guided Media)</h4>
+            <div class="space-y-4">
+             <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="font-semibold text-blue-700">Twisted Pair Cable</p>
+              <p class="text-sm text-slate-600">Most common (Ethernet). Affordable, 100m max length.</p>
+             </div>
+             <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="font-semibold text-purple-700">Fiber Optic</p>
+              <p class="text-sm text-slate-600">Uses light. Fastest, long distance, expensive.</p>
+             </div>
+             <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="font-semibold text-orange-700">Coaxial Cable</p>
+              <p class="text-sm text-slate-600">Used for cable TV/internet. Good shielding.</p>
+             </div>
+            </div>
+           </div><!-- Wireless -->
+           <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h4 class="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2"><span class="text-2xl">📡</span> Wireless (Unguided Media)</h4>
+            <div class="space-y-4">
+             <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="font-semibold text-cyan-700">Wi-Fi (Radio Waves)</p>
+              <p class="text-sm text-slate-600">Most common wireless. Range ~100m indoors.</p>
+             </div>
+             <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="font-semibold text-pink-700">Bluetooth</p>
+              <p class="text-sm text-slate-600">Short range (~10m). Low power consumption.</p>
+             </div>
+             <div class="bg-white p-4 rounded-lg border border-slate-200">
+              <p class="font-semibold text-indigo-700">Satellite</p>
+              <p class="text-sm text-slate-600">Global coverage. Higher latency.</p>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div><!-- Transmission Modes -->
+         <div class="bg-amber-50 p-6 rounded-xl">
+          <h3 class="heading-font font-bold text-amber-800 text-xl mb-4">↔️ Transmission Modes</h3>
+          <div class="grid md:grid-cols-3 gap-4">
+           <div class="bg-white p-4 rounded-lg text-center">
+            <div class="text-3xl mb-2">
+             ➡️
+            </div>
+            <h4 class="font-bold text-slate-800">Simplex</h4>
+            <p class="text-sm text-slate-600 mt-2">One-way only</p>
+            <p class="text-xs text-slate-500">Example: Keyboard, TV broadcast</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg text-center">
+            <div class="text-3xl mb-2">
+             ⬅️➡️
+            </div>
+            <h4 class="font-bold text-slate-800">Half-Duplex</h4>
+            <p class="text-sm text-slate-600 mt-2">Both ways, one at a time</p>
+            <p class="text-xs text-slate-500">Example: Walkie-talkie</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg text-center">
+            <div class="text-3xl mb-2">
+             ⬌
+            </div>
+            <h4 class="font-bold text-slate-800">Full-Duplex</h4>
+            <p class="text-sm text-slate-600 mt-2">Both ways simultaneously</p>
+            <p class="text-xs text-slate-500">Example: Phone call</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('types')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('protocols')" class="flex-1 bg-gradient-to-r from-orange-500 to-amber-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Protocols → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Protocols -->
+      <section id="section-protocols" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-rose-500 to-pink-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📜 Protocols &amp; Models</h2>
+         <p class="mt-2 text-rose-100">Rules that govern network communication</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- What are Protocols -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">What are Network Protocols?</h3>
+          <div class="bg-rose-50 border-l-4 border-rose-400 p-5 rounded-r-xl">
+           <p class="text-slate-700 text-lg"><strong>Network protocols</strong> are standardized rules that define how data is formatted, transmitted, received, and acknowledged between devices on a network. Think of them as the "language" devices use to communicate.</p>
+          </div>
+         </div><!-- Common Protocols -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🌐 Common Network Protocols</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="card-hover bg-blue-50 p-5 rounded-xl border border-blue-200">
+            <h4 class="font-bold text-blue-800">HTTP/HTTPS</h4>
+            <p class="text-sm text-blue-700 mt-2">HyperText Transfer Protocol - Used for web browsing. HTTPS adds encryption for security.</p>
+           </div>
+           <div class="card-hover bg-green-50 p-5 rounded-xl border border-green-200">
+            <h4 class="font-bold text-green-800">TCP/IP</h4>
+            <p class="text-sm text-green-700 mt-2">Transmission Control Protocol/Internet Protocol - The foundation of internet communication.</p>
+           </div>
+           <div class="card-hover bg-purple-50 p-5 rounded-xl border border-purple-200">
+            <h4 class="font-bold text-purple-800">FTP</h4>
+            <p class="text-sm text-purple-700 mt-2">File Transfer Protocol - Used for uploading/downloading files between computers.</p>
+           </div>
+           <div class="card-hover bg-orange-50 p-5 rounded-xl border border-orange-200">
+            <h4 class="font-bold text-orange-800">SMTP/POP3/IMAP</h4>
+            <p class="text-sm text-orange-700 mt-2">Email protocols - SMTP sends mail, POP3/IMAP receive mail.</p>
+           </div>
+           <div class="card-hover bg-cyan-50 p-5 rounded-xl border border-cyan-200">
+            <h4 class="font-bold text-cyan-800">DNS</h4>
+            <p class="text-sm text-cyan-700 mt-2">Domain Name System - Translates domain names (google.com) to IP addresses.</p>
+           </div>
+           <div class="card-hover bg-pink-50 p-5 rounded-xl border border-pink-200">
+            <h4 class="font-bold text-pink-800">DHCP</h4>
+            <p class="text-sm text-pink-700 mt-2">Dynamic Host Configuration Protocol - Automatically assigns IP addresses to devices.</p>
+           </div>
+          </div>
+         </div><!-- OSI Model -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📚 The OSI Model (7 Layers)</h3>
+          <p class="text-slate-600 mb-4">The Open Systems Interconnection model describes how data moves through a network in 7 layers:</p>
+          <div class="space-y-2">
+           <div class="flex items-center gap-4 bg-violet-100 p-4 rounded-lg border-l-4 border-violet-500"><span class="bg-violet-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">7</span>
+            <div>
+             <p class="font-bold text-violet-800">Application Layer</p>
+             <p class="text-sm text-violet-700">User interface (HTTP, FTP, SMTP, DNS)</p>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 bg-indigo-100 p-4 rounded-lg border-l-4 border-indigo-500"><span class="bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">6</span>
+            <div>
+             <p class="font-bold text-indigo-800">Presentation Layer</p>
+             <p class="text-sm text-indigo-700">Data formatting, encryption, compression</p>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 bg-blue-100 p-4 rounded-lg border-l-4 border-blue-500"><span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">5</span>
+            <div>
+             <p class="font-bold text-blue-800">Session Layer</p>
+             <p class="text-sm text-blue-700">Manages connections between applications</p>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 bg-cyan-100 p-4 rounded-lg border-l-4 border-cyan-500"><span class="bg-cyan-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">4</span>
+            <div>
+             <p class="font-bold text-cyan-800">Transport Layer</p>
+             <p class="text-sm text-cyan-700">End-to-end data delivery (TCP, UDP)</p>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 bg-teal-100 p-4 rounded-lg border-l-4 border-teal-500"><span class="bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</span>
+            <div>
+             <p class="font-bold text-teal-800">Network Layer</p>
+             <p class="text-sm text-teal-700">Routing and IP addressing (IP, ICMP)</p>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 bg-green-100 p-4 rounded-lg border-l-4 border-green-500"><span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
+            <div>
+             <p class="font-bold text-green-800">Data Link Layer</p>
+             <p class="text-sm text-green-700">Node-to-node data transfer (Ethernet, Wi-Fi)</p>
+            </div>
+           </div>
+           <div class="flex items-center gap-4 bg-emerald-100 p-4 rounded-lg border-l-4 border-emerald-500"><span class="bg-emerald-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
+            <div>
+             <p class="font-bold text-emerald-800">Physical Layer</p>
+             <p class="text-sm text-emerald-700">Physical connection (cables, signals, bits)</p>
+            </div>
+           </div>
+          </div>
+          <div class="mt-4 bg-amber-50 p-4 rounded-lg">
+           <p class="text-amber-800 font-medium">💡 Memory Tip: "Please Do Not Throw Sausage Pizza Away"</p>
+           <p class="text-sm text-amber-700">(Physical, Data Link, Network, Transport, Session, Presentation, Application)</p>
+          </div>
+         </div><!-- TCP/IP Model -->
+         <div class="bg-slate-50 p-6 rounded-xl">
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🔗 TCP/IP Model (4 Layers)</h3>
+          <p class="text-slate-600 mb-4">A simplified, practical model used on the internet:</p>
+          <div class="flex flex-col md:flex-row gap-3">
+           <div class="flex-1 bg-rose-100 p-4 rounded-lg text-center">
+            <p class="font-bold text-rose-800">Application</p>
+            <p class="text-xs text-rose-600 mt-1">HTTP, FTP, DNS, SMTP</p>
+           </div>
+           <div class="flex-1 bg-orange-100 p-4 rounded-lg text-center">
+            <p class="font-bold text-orange-800">Transport</p>
+            <p class="text-xs text-orange-600 mt-1">TCP, UDP</p>
+           </div>
+           <div class="flex-1 bg-yellow-100 p-4 rounded-lg text-center">
+            <p class="font-bold text-yellow-800">Internet</p>
+            <p class="text-xs text-yellow-600 mt-1">IP, ICMP, ARP</p>
+           </div>
+           <div class="flex-1 bg-green-100 p-4 rounded-lg text-center">
+            <p class="font-bold text-green-800">Network Access</p>
+            <p class="text-xs text-green-600 mt-1">Ethernet, Wi-Fi</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('transmission')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('individual')" class="flex-1 bg-gradient-to-r from-rose-500 to-pink-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Individual Activity → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Individual Activity -->
+      <section id="section-individual" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-blue-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">👤 Individual Activity</h2>
+         <p class="mt-2 text-indigo-100">Test your understanding independently</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <div class="bg-indigo-50 border-l-4 border-indigo-400 p-5 rounded-r-xl">
+          <h3 class="font-bold text-indigo-800 text-lg">📝 Activity: Network Analysis Worksheet</h3>
+          <p class="text-indigo-700 mt-2">Complete this worksheet to demonstrate your understanding of networking concepts.</p>
+         </div><!-- Activity 1 -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 1: Identify Network Types</h4>
+          <p class="text-slate-600 mb-4">For each scenario, identify the appropriate network type (PAN, LAN, MAN, or WAN):</p>
+          <div class="space-y-4">
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700"><strong>1.</strong> A student connects their wireless earbuds to their smartphone.</p><input type="text" placeholder="Your answer..." class="mt-2 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700"><strong>2.</strong> All computers in a university library are connected to share a printer.</p><input type="text" placeholder="Your answer..." class="mt-2 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700"><strong>3.</strong> A company headquarters in Manila communicates with its branch in Cebu.</p><input type="text" placeholder="Your answer..." class="mt-2 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700"><strong>4.</strong> Traffic cameras across a city are connected to a central monitoring station.</p><input type="text" placeholder="Your answer..." class="mt-2 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+           </div>
+          </div>
+         </div><!-- Activity 2 -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 2: Protocol Matching</h4>
+          <p class="text-slate-600 mb-4">Match each activity with the primary protocol used:</p>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>5.</strong> Browsing a secure online shopping website</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"> <option value="">Select protocol...</option> <option value="http">HTTP</option> <option value="https">HTTPS</option> <option value="ftp">FTP</option> <option value="smtp">SMTP</option> </select>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>6.</strong> Sending an email to your professor</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"> <option value="">Select protocol...</option> <option value="http">HTTP</option> <option value="https">HTTPS</option> <option value="ftp">FTP</option> <option value="smtp">SMTP</option> </select>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>7.</strong> Uploading files to a web server</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"> <option value="">Select protocol...</option> <option value="http">HTTP</option> <option value="https">HTTPS</option> <option value="ftp">FTP</option> <option value="smtp">SMTP</option> </select>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>8.</strong> Typing "google.com" and reaching the website</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"> <option value="">Select protocol...</option> <option value="dns">DNS</option> <option value="dhcp">DHCP</option> <option value="ftp">FTP</option> <option value="tcp">TCP</option> </select>
+           </div>
+          </div>
+         </div><!-- Activity 3 -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 3: Short Answer</h4>
+          <div class="space-y-4">
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>9.</strong> Explain in your own words: What is the difference between bandwidth and latency?</p><textarea rows="3" placeholder="Type your answer here..." class="mt-2 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-none"></textarea>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>10.</strong> Why is data broken into packets before being sent over a network?</p><textarea rows="3" placeholder="Type your answer here..." class="mt-2 w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-none"></textarea>
+           </div>
+          </div>
+         </div><!-- Submission Note -->
+         <div class="bg-amber-50 border border-amber-200 p-5 rounded-xl">
+          <p class="text-amber-800 font-medium">📌 Submission Instructions</p>
+          <p class="text-amber-700 text-sm mt-2">Complete this worksheet and submit to your instructor via the designated platform. Include your name, section, and date.</p>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('protocols')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('group')" class="flex-1 bg-gradient-to-r from-indigo-500 to-blue-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Group Activity → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Group Activity -->
+      <section id="section-group" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-fuchsia-500 to-purple-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">👥 Group Activity</h2>
+         <p class="mt-2 text-fuchsia-100">Collaborative learning exercise</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <div class="bg-fuchsia-50 border-l-4 border-fuchsia-400 p-5 rounded-r-xl">
+          <h3 class="font-bold text-fuchsia-800 text-lg">🏢 Activity: Design a Network for a Small Business</h3>
+          <p class="text-fuchsia-700 mt-2">Work in groups of 4-5 students to design a complete network solution for a fictional business.</p>
+         </div><!-- Scenario -->
+         <div class="bg-slate-900 text-white p-6 rounded-xl">
+          <h4 class="font-bold text-xl mb-4 flex items-center gap-2"><span class="pulse-dot inline-block w-3 h-3 bg-green-400 rounded-full"></span> 📋 Business Scenario</h4>
+          <div class="bg-slate-800 p-5 rounded-lg">
+           <p class="text-slate-100 leading-relaxed"><strong>"TechStart Café"</strong> is a new internet café and co-working space opening in your city. They have:</p>
+           <ul class="mt-4 space-y-2 text-slate-300">
+            <li>• <strong>20 desktop computers</strong> for customers</li>
+            <li>• <strong>2 printers</strong> (1 regular, 1 high-speed for business documents)</li>
+            <li>• <strong>1 point-of-sale (POS) system</strong> at the counter</li>
+            <li>• <strong>Free Wi-Fi</strong> for customers with laptops/phones</li>
+            <li>• <strong>1 office computer</strong> for the manager</li>
+            <li>• <strong>CCTV security system</strong> with 4 cameras</li>
+           </ul>
+          </div>
+         </div><!-- Tasks -->
+         <div>
+          <h4 class="font-bold text-slate-800 text-xl mb-4">📝 Group Tasks</h4>
+          <div class="space-y-4">
+           <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+            <div class="flex items-start gap-4"><span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">1</span>
+             <div>
+              <h5 class="font-bold text-blue-800">Network Design Diagram</h5>
+              <p class="text-blue-700 text-sm mt-1">Draw a network diagram showing how all devices would be connected. Include: router, switch(es), access point(s), and all end devices. Label everything clearly.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-green-50 p-5 rounded-xl border border-green-200">
+            <div class="flex items-start gap-4"><span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">2</span>
+             <div>
+              <h5 class="font-bold text-green-800">Equipment List</h5>
+              <p class="text-green-700 text-sm mt-1">Create a list of networking equipment needed. For each item, specify: quantity needed, type of equipment, and its purpose in the network.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
+            <div class="flex items-start gap-4"><span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">3</span>
+             <div>
+              <h5 class="font-bold text-purple-800">Network Type Analysis</h5>
+              <p class="text-purple-700 text-sm mt-1">Identify and explain what type(s) of network will be used. Consider: Is this a LAN? Will they need WAN connectivity? What about wireless (WLAN)?</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-orange-50 p-5 rounded-xl border border-orange-200">
+            <div class="flex items-start gap-4"><span class="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">4</span>
+             <div>
+              <h5 class="font-bold text-orange-800">Security Considerations</h5>
+              <p class="text-orange-700 text-sm mt-1">Discuss at least 3 security measures the café should implement. Consider: separate networks for staff/customers, password policies, firewall needs.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-rose-50 p-5 rounded-xl border border-rose-200">
+            <div class="flex items-start gap-4"><span class="bg-rose-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">5</span>
+             <div>
+              <h5 class="font-bold text-rose-800">Presentation</h5>
+              <p class="text-rose-700 text-sm mt-1">Prepare a 5-minute presentation explaining your network design to the class. Be ready to answer questions about your choices.</p>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div><!-- Deliverables -->
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">📦 Deliverables</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Network diagram (hand-drawn or digital)</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Equipment list with justifications</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Written analysis (1-2 pages)</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Group presentation slides</p>
+           </div>
+          </div>
+         </div><!-- Rubric Preview -->
+         <div class="bg-amber-50 p-6 rounded-xl border border-amber-200">
+          <h4 class="font-bold text-amber-800 text-lg mb-4">📊 Grading Criteria</h4>
+          <div class="grid md:grid-cols-4 gap-3 text-sm">
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Accuracy</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Completeness</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Creativity</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Presentation</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('individual')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('quiz')" class="flex-1 bg-gradient-to-r from-fuchsia-500 to-purple-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Review Quiz → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Quiz -->
+      <section id="section-quiz" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-green-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">✅ Review Quiz</h2>
+         <p class="mt-2 text-emerald-100">Test your knowledge with 10 questions</p>
+        </div>
+        <div class="p-6"><!-- Quiz Container -->
+         <div id="quiz-container"><!-- Question display area -->
+          <div id="question-area" class="space-y-6"><!-- Progress -->
+           <div class="flex items-center justify-between mb-6"><span id="quiz-progress" class="text-slate-600 font-medium">Question 1 of 10</span> <span id="quiz-score" class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full font-bold">Score: 0/10</span>
+           </div><!-- Question Card -->
+           <div id="question-card" class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <p id="question-text" class="text-lg text-slate-800 font-medium">Loading question...</p>
+           </div><!-- Options -->
+           <div id="options-container" class="space-y-3"><!-- Options will be populated by JavaScript -->
+           </div><!-- Feedback -->
+           <div id="feedback" class="hidden p-4 rounded-xl"></div><!-- Navigation -->
+           <div class="flex gap-4"><button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-gradient-to-r from-emerald-500 to-green-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> Next Question → </button>
+           </div>
+          </div><!-- Results Area (hidden initially) -->
+          <div id="results-area" class="hidden text-center py-12">
+           <div class="text-6xl mb-6">
+            🎉
+           </div>
+           <h3 class="heading-font text-3xl font-bold text-slate-800 mb-4">Quiz Complete!</h3>
+           <p id="final-score" class="text-xl text-slate-600 mb-6">Your Score: 0/10</p>
+           <div id="score-feedback" class="bg-emerald-50 p-6 rounded-xl max-w-md mx-auto mb-8">
+            <p class="text-emerald-800">Great job completing the quiz!</p>
+           </div><button onclick="restartQuiz()" class="bg-gradient-to-r from-emerald-500 to-green-400 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> 🔄 Retake Quiz </button>
+          </div>
+         </div>
+        </div>
+       </div>
+      </section>
+     </div>
+    </main>
+   </div><!-- Footer -->
+   <footer class="bg-slate-800 text-slate-400 px-6 py-4 text-center text-sm">
+    <p>IS101 - Fundamentals of Information Systems | Instructor: MKDB</p>
+    <p class="text-slate-500 mt-1">© 2024 Educational Content</p>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      course_title: 'IS101 - Fundamentals of Information Systems',
+      instructor_name: 'MKDB',
+      week_label: 'Midterm - Week 1',
+      primary_color: '#0ea5e9',
+      secondary_color: '#06b6d4',
+      accent_color: '#f59e0b',
+      text_color: '#1e293b',
+      background_color: '#f8fafc'
+    };
+
+    // Current section tracking
+    let currentSection = 'overview';
+    const sections = ['overview', 'basics', 'types', 'transmission', 'protocols', 'individual', 'group', 'quiz'];
+    let visitedSections = new Set(['overview']);
+
+    // Quiz data
+    const quizQuestions = [
+      {
+        question: "What is a computer network?",
+        options: [
+          "A single computer connected to the internet",
+          "A collection of interconnected devices that can communicate and share resources",
+          "A type of software application",
+          "A physical cable used for data transfer"
+        ],
+        correct: 1,
+        explanation: "A computer network is a collection of interconnected devices (computers, servers, printers, etc.) that can communicate and share resources with each other."
+      },
+      {
+        question: "Which type of network typically covers a single building or campus?",
+        options: [
+          "PAN (Personal Area Network)",
+          "LAN (Local Area Network)",
+          "MAN (Metropolitan Area Network)",
+          "WAN (Wide Area Network)"
+        ],
+        correct: 1,
+        explanation: "A LAN (Local Area Network) typically covers a single building or campus, such as an office network or school computer lab."
+      },
+      {
+        question: "What is bandwidth in networking?",
+        options: [
+          "The physical width of network cables",
+          "The maximum amount of data that can be transmitted over a network in a given time",
+          "The number of devices connected to a network",
+          "The distance a network signal can travel"
+        ],
+        correct: 1,
+        explanation: "Bandwidth refers to the maximum amount of data that can be transmitted over a network in a given time, typically measured in Mbps or Gbps."
+      },
+      {
+        question: "Which protocol is used for secure web browsing?",
+        options: [
+          "HTTP",
+          "FTP",
+          "HTTPS",
+          "SMTP"
+        ],
+        correct: 2,
+        explanation: "HTTPS (HyperText Transfer Protocol Secure) is used for secure web browsing as it adds encryption to protect data during transmission."
+      },
+      {
+        question: "What happens to data before it is sent over a network?",
+        options: [
+          "It is compressed into a single file",
+          "It is broken into small pieces called packets",
+          "It is converted to audio signals",
+          "It remains as one continuous stream"
+        ],
+        correct: 1,
+        explanation: "Data is broken into small pieces called packets before being sent over a network. Each packet can take different routes and is reassembled at the destination."
+      },
+      {
+        question: "How many layers does the OSI Model have?",
+        options: [
+          "4 layers",
+          "5 layers",
+          "6 layers",
+          "7 layers"
+        ],
+        correct: 3,
+        explanation: "The OSI (Open Systems Interconnection) Model has 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, and Application."
+      },
+      {
+        question: "Which transmission mode allows data to flow in both directions simultaneously?",
+        options: [
+          "Simplex",
+          "Half-duplex",
+          "Full-duplex",
+          "Multiplex"
+        ],
+        correct: 2,
+        explanation: "Full-duplex allows data to flow in both directions simultaneously, like a phone call where both parties can speak and listen at the same time."
+      },
+      {
+        question: "What does DNS stand for and what does it do?",
+        options: [
+          "Data Network Service - manages network traffic",
+          "Domain Name System - translates domain names to IP addresses",
+          "Digital Network Security - protects networks from attacks",
+          "Dynamic Node Switching - routes data packets"
+        ],
+        correct: 1,
+        explanation: "DNS stands for Domain Name System. It translates human-readable domain names (like google.com) into IP addresses that computers use to identify each other."
+      },
+      {
+        question: "Which type of transmission media uses light to transmit data and offers the highest speeds?",
+        options: [
+          "Twisted pair cable",
+          "Coaxial cable",
+          "Fiber optic cable",
+          "Wi-Fi"
+        ],
+        correct: 2,
+        explanation: "Fiber optic cable uses light to transmit data and offers the highest speeds and longest distances among wired transmission media."
+      },
+      {
+        question: "What is the range of a PAN (Personal Area Network)?",
+        options: [
+          "Up to 10 meters",
+          "Up to 100 meters",
+          "Up to 1 kilometer",
+          "City-wide"
+        ],
+        correct: 0,
+        explanation: "A PAN (Personal Area Network) has a range of approximately 10 meters, suitable for connecting personal devices like Bluetooth headphones to a smartphone."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    // Navigation function
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+
+      // Show selected section
+      const targetSection = document.getElementById(`section-${sectionId}`);
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+        targetSection.classList.add('fade-in');
+      }
+
+      // Update navigation styling
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.section === sectionId) {
+          item.classList.add('active');
+        }
+      });
+
+      // Update mobile nav
+      const mobileNav = document.getElementById('mobile-nav');
+      if (mobileNav) {
+        mobileNav.value = sectionId;
+      }
+
+      // Track visited sections
+      visitedSections.add(sectionId);
+      currentSection = sectionId;
+
+      // Update progress
+      updateProgress();
+
+      // Scroll to top of content
+      document.querySelector('main').scrollTop = 0;
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const progress = (visitedSections.size / sections.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+      document.getElementById('progress-text').textContent = `${visitedSections.size} of ${sections.length} sections`;
+    }
+
+    // Quiz functions
+    function loadQuestion() {
+      if (currentQuestionIndex >= quizQuestions.length) {
+        showResults();
+        return;
+      }
+
+      const question = quizQuestions[currentQuestionIndex];
+      answered = false;
+
+      document.getElementById('quiz-progress').textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+      document.getElementById('question-text').textContent = question.question;
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      question.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'quiz-option w-full text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-emerald-400 transition-all';
+        button.innerHTML = `<span class="font-bold text-slate-400 mr-3">${String.fromCharCode(65 + index)}.</span> ${option}`;
+        button.onclick = () => selectAnswer(index);
+        optionsContainer.appendChild(button);
+      });
+
+      document.getElementById('feedback').classList.add('hidden');
+      document.getElementById('next-btn').disabled = true;
+    }
+
+    function selectAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const question = quizQuestions[currentQuestionIndex];
+      const options = document.querySelectorAll('.quiz-option');
+      const feedback = document.getElementById('feedback');
+
+      options.forEach((option, index) => {
+        option.classList.remove('selected');
+        if (index === question.correct) {
+          option.classList.add('correct');
+        } else if (index === selectedIndex && index !== question.correct) {
+          option.classList.add('incorrect');
+        }
+        option.style.pointerEvents = 'none';
+      });
+
+      if (selectedIndex === question.correct) {
+        score++;
+        feedback.className = 'p-4 rounded-xl bg-green-50 border border-green-200';
+        feedback.innerHTML = `<p class="font-bold text-green-800">✅ Correct!</p><p class="text-green-700 text-sm mt-1">${question.explanation}</p>`;
+      } else {
+        feedback.className = 'p-4 rounded-xl bg-red-50 border border-red-200';
+        feedback.innerHTML = `<p class="font-bold text-red-800">❌ Incorrect</p><p class="text-red-700 text-sm mt-1">${question.explanation}</p>`;
+      }
+
+      feedback.classList.remove('hidden');
+      document.getElementById('quiz-score').textContent = `Score: ${score}/${quizQuestions.length}`;
+      document.getElementById('next-btn').disabled = false;
+      
+      if (currentQuestionIndex === quizQuestions.length - 1) {
+        document.getElementById('next-btn').textContent = 'See Results →';
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizQuestions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('question-area').classList.add('hidden');
+      document.getElementById('results-area').classList.remove('hidden');
+      
+      const percentage = (score / quizQuestions.length) * 100;
+      document.getElementById('final-score').textContent = `Your Score: ${score}/${quizQuestions.length} (${percentage}%)`;
+
+      const scoreFeedback = document.getElementById('score-feedback');
+      if (percentage >= 90) {
+        scoreFeedback.className = 'bg-emerald-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-emerald-200';
+        scoreFeedback.innerHTML = '<p class="text-emerald-800 font-medium">🌟 Excellent! You have mastered the networking concepts!</p>';
+      } else if (percentage >= 70) {
+        scoreFeedback.className = 'bg-blue-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-blue-200';
+        scoreFeedback.innerHTML = '<p class="text-blue-800 font-medium">👍 Good job! You have a solid understanding of the material.</p>';
+      } else if (percentage >= 50) {
+        scoreFeedback.className = 'bg-amber-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-amber-200';
+        scoreFeedback.innerHTML = '<p class="text-amber-800 font-medium">📚 Fair attempt. Review the lesson materials to improve your understanding.</p>';
+      } else {
+        scoreFeedback.className = 'bg-red-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-red-200';
+        scoreFeedback.innerHTML = '<p class="text-red-800 font-medium">📖 Keep studying! Go through the lesson again and try the quiz once more.</p>';
+      }
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      answered = false;
+      
+      document.getElementById('results-area').classList.add('hidden');
+      document.getElementById('question-area').classList.remove('hidden');
+      document.getElementById('quiz-score').textContent = 'Score: 0/10';
+      document.getElementById('next-btn').textContent = 'Next Question →';
+      
+      loadQuestion();
+    }
+
+    // Element SDK Integration
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: async (config) => {
+          const courseTitle = config.course_title || defaultConfig.course_title;
+          const instructorName = config.instructor_name || defaultConfig.instructor_name;
+          const weekLabel = config.week_label || defaultConfig.week_label;
+
+          document.getElementById('course-title').textContent = courseTitle;
+          document.getElementById('instructor-name').textContent = instructorName;
+          document.getElementById('week-label').textContent = weekLabel;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => { config.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['course_title', config.course_title || defaultConfig.course_title],
+          ['instructor_name', config.instructor_name || defaultConfig.instructor_name],
+          ['week_label', config.week_label || defaultConfig.week_label]
+        ])
+      });
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection('overview');
+      loadQuestion();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d1f059ba79cfee1',t:'MTc3MTc2ODk1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

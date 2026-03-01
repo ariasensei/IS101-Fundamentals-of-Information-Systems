@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IS101 - Operating Systems</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .heading-font { font-family: 'Space Grotesk', sans-serif; }
+    
+    .nav-item { transition: all 0.3s ease; }
+    .nav-item:hover { transform: translateX(4px); }
+    .nav-item.active { background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%); color: white; }
+    
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    
+    .process-box { animation: slideIn 0.5s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    
+    .resource-meter { animation: fillMeter 1.5s ease-out; }
+    @keyframes fillMeter { from { width: 0; } to { width: 100%; } }
+    
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .quiz-option { transition: all 0.2s ease; }
+    .quiz-option:hover:not(.selected):not(.correct):not(.incorrect) { background: #f5f3ff; border-color: #8b5cf6; }
+    .quiz-option.selected { background: #ede9fe; border-color: #7c3aed; }
+    .quiz-option.correct { background: #dcfce7; border-color: #22c55e; }
+    .quiz-option.incorrect { background: #fee2e2; border-color: #ef4444; }
+    
+    .progress-bar { transition: width 0.5s ease; }
+    
+    .layer-animation { animation: layerFloat 3s ease-in-out infinite; }
+    @keyframes layerFloat { 
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    
+    .os-comparison-table tr:nth-child(even) { background-color: rgba(139, 92, 246, 0.03); }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full bg-slate-50">
+  <div id="app" class="h-full flex flex-col overflow-auto"><!-- Header -->
+   <header id="main-header" class="bg-gradient-to-r from-purple-600 to-violet-500 text-white px-6 py-4 shadow-lg">
+    <div class="max-w-7xl mx-auto">
+     <div class="flex items-center justify-between">
+      <div>
+       <p id="week-label" class="text-purple-100 text-sm font-medium">Midterm - Week 2</p>
+       <h1 id="course-title" class="heading-font text-2xl font-bold">IS101 - Fundamentals of Information Systems</h1>
+      </div>
+      <div class="text-right">
+       <p class="text-purple-100 text-sm">Instructor</p>
+       <p id="instructor-name" class="font-semibold">MKDB</p>
+      </div>
+     </div>
+     <div class="mt-3 flex items-center gap-2"><span class="bg-white/20 px-3 py-1 rounded-full text-sm">⚙️ Operating Systems Concepts</span>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <div class="flex-1 flex"><!-- Sidebar Navigation -->
+    <nav class="w-64 bg-white border-r border-slate-200 p-4 hidden md:block">
+     <h2 class="heading-font text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Lesson Contents</h2>
+     <ul class="space-y-2" id="nav-menu">
+      <li><button onclick="showSection('overview')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium active" data-section="overview">📋 Overview &amp; ILO</button></li>
+      <li><button onclick="showSection('basics')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="basics">⚙️ OS Basics</button></li>
+      <li><button onclick="showSection('functions')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="functions">🛠️ OS Functions</button></li>
+      <li><button onclick="showSection('types')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="types">📱 OS Types</button></li>
+      <li><button onclick="showSection('management')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="management">💾 Resource Management</button></li>
+      <li><button onclick="showSection('individual')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="individual">👤 Individual Activity</button></li>
+      <li><button onclick="showSection('group')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="group">👥 Group Activity</button></li>
+      <li><button onclick="showSection('quiz')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-slate-700 font-medium" data-section="quiz">✅ Review Quiz</button></li>
+     </ul><!-- Progress Indicator -->
+     <div class="mt-8 p-4 bg-slate-50 rounded-xl">
+      <p class="text-sm text-slate-600 mb-2">Lesson Progress</p>
+      <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+       <div id="progress-bar" class="progress-bar h-full bg-gradient-to-r from-purple-500 to-violet-400 rounded-full" style="width: 12.5%"></div>
+      </div>
+      <p id="progress-text" class="text-xs text-slate-500 mt-2">1 of 8 sections</p>
+     </div>
+    </nav><!-- Mobile Navigation -->
+    <div class="md:hidden bg-white border-b border-slate-200 p-3"><select id="mobile-nav" onchange="showSection(this.value)" class="w-full p-3 border border-slate-300 rounded-lg text-slate-700 font-medium"> <option value="overview">📋 Overview &amp; ILO</option> <option value="basics">⚙️ OS Basics</option> <option value="functions">🛠️ OS Functions</option> <option value="types">📱 OS Types</option> <option value="management">💾 Resource Management</option> <option value="individual">👤 Individual Activity</option> <option value="group">👥 Group Activity</option> <option value="quiz">✅ Review Quiz</option> </select>
+    </div><!-- Content Area -->
+    <main class="flex-1 p-6 overflow-auto">
+     <div class="max-w-4xl mx-auto"><!-- Section: Overview -->
+      <section id="section-overview" class="content-section fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-500 to-violet-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📋 Lesson Overview</h2>
+         <p class="mt-2 text-purple-100">Operating Systems Concepts</p>
+        </div>
+        <div class="p-6 space-y-6"><!-- ILO Box -->
+         <div class="bg-purple-50 border-l-4 border-purple-400 p-5 rounded-r-xl">
+          <h3 class="heading-font font-bold text-purple-800 text-lg flex items-center gap-2">🎯 Intended Learning Outcome (ILO)</h3>
+          <p class="mt-2 text-purple-900"><strong>By the end of this lesson, students will be able to:</strong><br>
+            Explain the functions and types of operating systems and describe their role in managing computer resources.</p>
+         </div><!-- Topics Covered -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📚 Topics Covered</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">⚙️</span>
+            <h4 class="font-semibold text-slate-800 mt-2">What is an OS?</h4>
+            <p class="text-sm text-slate-600 mt-1">Definition, role, and basic concepts</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">🛠️</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Core Functions</h4>
+            <p class="text-sm text-slate-600 mt-1">Process management, memory, storage</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">📱</span>
+            <h4 class="font-semibold text-slate-800 mt-2">OS Types</h4>
+            <p class="text-sm text-slate-600 mt-1">Windows, macOS, Linux, iOS, Android</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-4 rounded-xl border border-slate-200"><span class="text-2xl">💾</span>
+            <h4 class="font-semibold text-slate-800 mt-2">Resource Management</h4>
+            <p class="text-sm text-slate-600 mt-1">CPU, memory, disk, peripherals</p>
+           </div>
+          </div>
+         </div><!-- Key Terms Preview -->
+         <div class="bg-purple-50 p-5 rounded-xl">
+          <h3 class="heading-font font-bold text-purple-800 text-lg mb-3">🔑 Key Terms to Learn</h3>
+          <div class="flex flex-wrap gap-2"><span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">Operating System</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">Process</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">Kernel</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">Memory Management</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">File System</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">Device Driver</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">Multitasking</span> <span class="bg-white px-3 py-1 rounded-full text-sm text-purple-700 border border-purple-200">GUI</span>
+          </div>
+         </div><button onclick="showSection('basics')" class="w-full bg-gradient-to-r from-purple-500 to-violet-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Start Learning → OS Basics </button>
+        </div>
+       </div>
+      </section><!-- Section: OS Basics -->
+      <section id="section-basics" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-blue-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">⚙️ Operating System Basics</h2>
+         <p class="mt-2 text-indigo-100">Understanding the fundamentals of operating systems</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- What is an OS -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">What is an Operating System?</h3>
+          <div class="bg-indigo-50 border-l-4 border-indigo-400 p-5 rounded-r-xl">
+           <p class="text-slate-700 text-lg">An <strong>operating system (OS)</strong> is system software that acts as an intermediary between users and computer hardware. It manages all hardware and software resources and provides a user-friendly interface for interacting with the computer.</p>
+          </div>
+         </div><!-- OS Architecture -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🏗️ Operating System Architecture</h3>
+          <div class="bg-slate-50 p-8 rounded-xl border border-slate-200">
+           <svg viewbox="0 0 400 300" class="w-full max-w-lg mx-auto"><!-- User Layer --> <rect x="50" y="20" width="300" height="40" fill="#93c5fd" stroke="#3b82f6" stroke-width="2" rx="4" /> <text x="200" y="48" text-anchor="middle" font-weight="bold" fill="#1e40af" font-size="14">
+             👤 User Applications &amp; Programs
+            </text> <!-- Arrow --> <line x1="200" y1="60" x2="200" y2="80" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)" /> <!-- OS Layer --> <rect x="50" y="80" width="300" height="100" fill="#c4b5fd" stroke="#7c3aed" stroke-width="2" rx="4" /> <text x="200" y="105" text-anchor="middle" font-weight="bold" fill="#5b21b6" font-size="13">
+             ⚙️ Operating System (Kernel)
+            </text> <line x1="60" y1="120" x2="340" y2="120" stroke="#7c3aed" stroke-width="1" /> <text x="100" y="140" font-size="11" fill="#5b21b6">
+             Process Management
+            </text> <text x="100" y="155" font-size="11" fill="#5b21b6">
+             Memory Management
+            </text> <text x="220" y="140" font-size="11" fill="#5b21b6">
+             File System
+            </text> <text x="220" y="155" font-size="11" fill="#5b21b6">
+             Device Management
+            </text> <!-- Arrow --> <line x1="200" y1="180" x2="200" y2="200" stroke="#64748b" stroke-width="2" marker-end="url(#arrowhead)" /> <!-- Hardware Layer --> <rect x="50" y="200" width="300" height="80" fill="#a5f3fc" stroke="#06b6d4" stroke-width="2" rx="4" /> <text x="200" y="225" text-anchor="middle" font-weight="bold" fill="#0c4a6e" font-size="14">
+             💾 Computer Hardware
+            </text> <line x1="60" y1="240" x2="340" y2="240" stroke="#06b6d4" stroke-width="1" /> <text x="90" y="260" font-size="11" fill="#0c4a6e">
+             CPU
+            </text> <text x="150" y="260" font-size="11" fill="#0c4a6e">
+             Memory (RAM)
+            </text> <text x="280" y="260" font-size="11" fill="#0c4a6e">
+             Storage
+            </text> <text x="90" y="275" font-size="11" fill="#0c4a6e">
+             Keyboard
+            </text> <text x="150" y="275" font-size="11" fill="#0c4a6e">
+             Monitor
+            </text> <text x="280" y="275" font-size="11" fill="#0c4a6e">
+             Printer
+            </text> <defs>
+             <marker id="arrowhead" markerwidth="10" markerheight="10" refx="5" refy="5" orient="auto">
+              <polygon points="0 0, 10 5, 0 10" fill="#64748b" />
+             </marker>
+            </defs>
+           </svg>
+          </div>
+         </div><!-- The Kernel -->
+         <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
+          <h4 class="heading-font font-bold text-indigo-800 text-lg mb-3">🔧 The Kernel - Heart of the OS</h4>
+          <p class="text-indigo-700 mb-4">The kernel is the core component of an operating system that:</p>
+          <ul class="space-y-2 text-indigo-700">
+           <li>✓ Manages all system resources (CPU, memory, devices)</li>
+           <li>✓ Controls process execution and scheduling</li>
+           <li>✓ Handles interrupts and system calls from programs</li>
+           <li>✓ Provides the lowest-level interface to hardware</li>
+           <li>✓ Runs in a protected mode with full hardware access</li>
+          </ul>
+         </div><!-- Key Concepts -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📖 Key Concepts</h3>
+          <div class="space-y-3">
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-indigo-600">Process:</span> <span class="text-slate-600">A running instance of a program. Each process has its own memory space and resources.</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-indigo-600">Thread:</span> <span class="text-slate-600">A lightweight subprocess that shares memory with its parent process. Multiple threads can run in parallel.</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-indigo-600">Multitasking:</span> <span class="text-slate-600">The ability to run multiple programs seemingly at the same time (through rapid switching).</span>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200"><span class="font-bold text-indigo-600">User Interface:</span> <span class="text-slate-600">Can be Command-Line Interface (CLI) or Graphical User Interface (GUI).</span>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('overview')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('functions')" class="flex-1 bg-gradient-to-r from-indigo-500 to-blue-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: OS Functions → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: OS Functions -->
+      <section id="section-functions" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-cyan-500 to-teal-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">🛠️ Operating System Functions</h2>
+         <p class="mt-2 text-cyan-100">Core responsibilities and services</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- Main Functions Grid -->
+         <div class="grid md:grid-cols-2 gap-6"><!-- Process Management -->
+          <div class="card-hover bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border border-orange-200">
+           <div class="text-4xl mb-3">
+            ⚡
+           </div>
+           <h4 class="font-bold text-orange-800 text-xl mb-3">Process Management</h4>
+           <ul class="space-y-2 text-orange-800 text-sm">
+            <li>✓ Create, execute, and terminate processes</li>
+            <li>✓ Schedule CPU time for multiple processes</li>
+            <li>✓ Manage process communication</li>
+            <li>✓ Handle process priorities and deadlocks</li>
+           </ul>
+          </div><!-- Memory Management -->
+          <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border border-green-200">
+           <div class="text-4xl mb-3">
+            💾
+           </div>
+           <h4 class="font-bold text-green-800 text-xl mb-3">Memory Management</h4>
+           <ul class="space-y-2 text-green-800 text-sm">
+            <li>✓ Allocate and deallocate memory</li>
+            <li>✓ Implement virtual memory (swap)</li>
+            <li>✓ Manage memory protection</li>
+            <li>✓ Handle garbage collection</li>
+           </ul>
+          </div><!-- File System -->
+          <div class="card-hover bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-xl border border-pink-200">
+           <div class="text-4xl mb-3">
+            📁
+           </div>
+           <h4 class="font-bold text-pink-800 text-xl mb-3">File System Management</h4>
+           <ul class="space-y-2 text-pink-800 text-sm">
+            <li>✓ Organize files and directories</li>
+            <li>✓ Manage file access and permissions</li>
+            <li>✓ Handle file I/O operations</li>
+            <li>✓ Manage disk space efficiently</li>
+           </ul>
+          </div><!-- Device Management -->
+          <div class="card-hover bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200">
+           <div class="text-4xl mb-3">
+            🖨️
+           </div>
+           <h4 class="font-bold text-purple-800 text-xl mb-3">Device Management</h4>
+           <ul class="space-y-2 text-purple-800 text-sm">
+            <li>✓ Communicate with hardware devices</li>
+            <li>✓ Use device drivers for peripherals</li>
+            <li>✓ Handle input/output operations</li>
+            <li>✓ Manage device conflicts</li>
+           </ul>
+          </div><!-- Security & Access -->
+          <div class="card-hover bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border border-red-200">
+           <div class="text-4xl mb-3">
+            🔐
+           </div>
+           <h4 class="font-bold text-red-800 text-xl mb-3">Security &amp; Access Control</h4>
+           <ul class="space-y-2 text-red-800 text-sm">
+            <li>✓ User authentication and authorization</li>
+            <li>✓ File and resource protection</li>
+            <li>✓ Enforce access permissions</li>
+            <li>✓ Prevent unauthorized access</li>
+           </ul>
+          </div><!-- User Interface -->
+          <div class="card-hover bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200">
+           <div class="text-4xl mb-3">
+            🖥️
+           </div>
+           <h4 class="font-bold text-blue-800 text-xl mb-3">User Interface</h4>
+           <ul class="space-y-2 text-blue-800 text-sm">
+            <li>✓ Provide CLI or GUI environment</li>
+            <li>✓ Handle user input and output</li>
+            <li>✓ Display system information</li>
+            <li>✓ Enable user-OS interaction</li>
+           </ul>
+          </div>
+         </div><!-- Process Lifecycle -->
+         <div class="bg-slate-50 p-6 rounded-xl">
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🔄 Process Lifecycle</h3>
+          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+           <div class="process-box text-center">
+            <div class="bg-blue-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl mb-2">
+             📝
+            </div>
+            <p class="font-bold text-slate-800">New</p>
+            <p class="text-sm text-slate-600">Process created</p>
+           </div>
+           <div class="hidden md:block text-3xl text-slate-400">
+            →
+           </div>
+           <div class="process-box text-center" style="animation-delay: 0.2s">
+            <div class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl mb-2">
+             ▶️
+            </div>
+            <p class="font-bold text-slate-800">Ready</p>
+            <p class="text-sm text-slate-600">Waiting for CPU</p>
+           </div>
+           <div class="hidden md:block text-3xl text-slate-400">
+            →
+           </div>
+           <div class="process-box text-center" style="animation-delay: 0.4s">
+            <div class="bg-orange-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl mb-2">
+             ⚡
+            </div>
+            <p class="font-bold text-slate-800">Running</p>
+            <p class="text-sm text-slate-600">Using CPU</p>
+           </div>
+           <div class="hidden md:block text-3xl text-slate-400">
+            →
+           </div>
+           <div class="process-box text-center" style="animation-delay: 0.6s">
+            <div class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl mb-2">
+             ⏸️
+            </div>
+            <p class="font-bold text-slate-800">Blocked</p>
+            <p class="text-sm text-slate-600">Waiting for I/O</p>
+           </div>
+           <div class="hidden md:block text-3xl text-slate-400">
+            →
+           </div>
+           <div class="process-box text-center" style="animation-delay: 0.8s">
+            <div class="bg-red-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl mb-2">
+             🛑
+            </div>
+            <p class="font-bold text-slate-800">Terminated</p>
+            <p class="text-sm text-slate-600">Process ends</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('basics')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('types')" class="flex-1 bg-gradient-to-r from-cyan-500 to-teal-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: OS Types → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: OS Types -->
+      <section id="section-types" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-rose-500 to-pink-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">📱 Operating System Types</h2>
+         <p class="mt-2 text-rose-100">Different OS for different purposes</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- Desktop/Server OS -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">🖥️ Desktop &amp; Server Operating Systems</h3>
+          <div class="grid md:grid-cols-3 gap-4">
+           <div class="card-hover bg-blue-50 p-5 rounded-xl border border-blue-200">
+            <div class="text-4xl mb-3">
+             🪟
+            </div>
+            <h4 class="font-bold text-blue-800 mb-2">Windows</h4>
+            <p class="text-sm text-blue-700"><strong>Developer:</strong> Microsoft</p>
+            <p class="text-sm text-blue-700 mt-1">• User-friendly GUI</p>
+            <p class="text-sm text-blue-700">• Widely used in businesses</p>
+            <p class="text-sm text-blue-700">• Good software compatibility</p>
+            <p class="text-sm text-blue-700">• Versions: 11, Server 2022</p>
+           </div>
+           <div class="card-hover bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <div class="text-4xl mb-3">
+             🍎
+            </div>
+            <h4 class="font-bold text-slate-800 mb-2">macOS</h4>
+            <p class="text-sm text-slate-700"><strong>Developer:</strong> Apple</p>
+            <p class="text-sm text-slate-700 mt-1">• Unix-based</p>
+            <p class="text-sm text-slate-700">• Excellent for creative work</p>
+            <p class="text-sm text-slate-700">• Premium hardware integration</p>
+            <p class="text-sm text-slate-700">• Latest: Sonoma, Ventura</p>
+           </div>
+           <div class="card-hover bg-orange-50 p-5 rounded-xl border border-orange-200">
+            <div class="text-4xl mb-3">
+             🐧
+            </div>
+            <h4 class="font-bold text-orange-800 mb-2">Linux</h4>
+            <p class="text-sm text-orange-700"><strong>Type:</strong> Open-source</p>
+            <p class="text-sm text-orange-700 mt-1">• Free and customizable</p>
+            <p class="text-sm text-orange-700">• Popular for servers</p>
+            <p class="text-sm text-orange-700">• Multiple distributions</p>
+            <p class="text-sm text-orange-700">• Ubuntu, Fedora, Debian</p>
+           </div>
+          </div>
+         </div><!-- Mobile OS -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📱 Mobile Operating Systems</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="card-hover bg-gradient-to-br from-sky-50 to-sky-100 p-5 rounded-xl border border-sky-200">
+            <div class="text-4xl mb-3">
+             🍎
+            </div>
+            <h4 class="font-bold text-sky-800 mb-2">iOS/iPadOS</h4>
+            <p class="text-sm text-sky-700"><strong>Developer:</strong> Apple</p>
+            <ul class="text-sm text-sky-700 mt-3 space-y-1">
+             <li>✓ Devices: iPhone, iPad</li>
+             <li>✓ Closed ecosystem (secure)</li>
+             <li>✓ Smooth performance</li>
+             <li>✓ Regular updates &amp; support</li>
+            </ul>
+           </div>
+           <div class="card-hover bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border border-green-200">
+            <div class="text-4xl mb-3">
+             🤖
+            </div>
+            <h4 class="font-bold text-green-800 mb-2">Android</h4>
+            <p class="text-sm text-green-700"><strong>Developer:</strong> Google</p>
+            <ul class="text-sm text-green-700 mt-3 space-y-1">
+             <li>✓ Open-source &amp; customizable</li>
+             <li>✓ Multiple manufacturers</li>
+             <li>✓ Wide app ecosystem</li>
+             <li>✓ Most popular mobile OS</li>
+            </ul>
+           </div>
+          </div>
+         </div><!-- Other OS Types -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">⚙️ Other Operating System Types</h3>
+          <div class="space-y-3">
+           <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+            <h4 class="font-bold text-indigo-800">🖥️ Embedded OS</h4>
+            <p class="text-sm text-indigo-700">Designed for specific devices: microwave ovens, car systems, IoT devices. Minimal resources, fixed functionality.</p>
+           </div>
+           <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <h4 class="font-bold text-purple-800">🔧 Real-Time OS (RTOS)</h4>
+            <p class="text-sm text-purple-700">Guarantees immediate response to events. Used in: medical devices, industrial control, aerospace systems.</p>
+           </div>
+           <div class="bg-pink-50 p-4 rounded-lg border border-pink-200">
+            <h4 class="font-bold text-pink-800">🏢 Network OS</h4>
+            <p class="text-sm text-pink-700">Manages network resources and allows multiple users to access shared resources. Example: Novell NetWare.</p>
+           </div>
+           <div class="bg-rose-50 p-4 rounded-lg border border-rose-200">
+            <h4 class="font-bold text-rose-800">⚡ Distributed OS</h4>
+            <p class="text-sm text-rose-700">Manages multiple computers as a single system. Example: Google's Chromebook OS.</p>
+           </div>
+          </div>
+         </div><!-- OS Comparison -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-xl mb-4">📊 OS Comparison Table</h3>
+          <div class="overflow-x-auto">
+           <table class="w-full text-sm border-collapse">
+            <thead>
+             <tr class="bg-rose-100 border-b-2 border-rose-300">
+              <th class="p-3 text-left font-bold text-rose-800">OS Name</th>
+              <th class="p-3 text-left font-bold text-rose-800">Type</th>
+              <th class="p-3 text-left font-bold text-rose-800">Target Devices</th>
+              <th class="p-3 text-left font-bold text-rose-800">Cost</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr class="border-b hover:bg-rose-50">
+              <td class="p-3 font-bold text-slate-800">Windows</td>
+              <td class="p-3 text-slate-600">Desktop/Server</td>
+              <td class="p-3 text-slate-600">PCs, Laptops</td>
+              <td class="p-3 text-slate-600">Paid (Licensed)</td>
+             </tr>
+             <tr class="border-b hover:bg-rose-50">
+              <td class="p-3 font-bold text-slate-800">macOS</td>
+              <td class="p-3 text-slate-600">Desktop/Server</td>
+              <td class="p-3 text-slate-600">Apple Computers</td>
+              <td class="p-3 text-slate-600">Free (with hardware)</td>
+             </tr>
+             <tr class="border-b hover:bg-rose-50">
+              <td class="p-3 font-bold text-slate-800">Linux</td>
+              <td class="p-3 text-slate-600">Desktop/Server</td>
+              <td class="p-3 text-slate-600">Multiple</td>
+              <td class="p-3 text-slate-600">Free &amp; Open-source</td>
+             </tr>
+             <tr class="border-b hover:bg-rose-50">
+              <td class="p-3 font-bold text-slate-800">iOS</td>
+              <td class="p-3 text-slate-600">Mobile</td>
+              <td class="p-3 text-slate-600">iPhone, iPad</td>
+              <td class="p-3 text-slate-600">Free (with device)</td>
+             </tr>
+             <tr class="hover:bg-rose-50">
+              <td class="p-3 font-bold text-slate-800">Android</td>
+              <td class="p-3 text-slate-600">Mobile</td>
+              <td class="p-3 text-slate-600">Multiple devices</td>
+              <td class="p-3 text-slate-600">Free &amp; Open-source</td>
+             </tr>
+            </tbody>
+           </table>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('functions')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('management')" class="flex-1 bg-gradient-to-r from-rose-500 to-pink-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Resource Management → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Resource Management -->
+      <section id="section-management" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-lime-500 to-green-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">💾 Resource Management</h2>
+         <p class="mt-2 text-lime-100">How OS manages computer resources</p>
+        </div>
+        <div class="p-6 space-y-8"><!-- CPU Scheduling -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">⚡ CPU Scheduling</h3>
+          <p class="text-slate-600 mb-4">The OS scheduler decides which process gets to use the CPU and for how long.</p>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+            <h4 class="font-bold text-orange-800 mb-2">FIFO (First In First Out)</h4>
+            <p class="text-sm text-orange-700">Processes execute in the order they arrive. Simple but can cause long waits.</p>
+           </div>
+           <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <h4 class="font-bold text-blue-800 mb-2">Round Robin</h4>
+            <p class="text-sm text-blue-700">Each process gets a small time slice (quantum). Fair and prevents starvation.</p>
+           </div>
+           <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+            <h4 class="font-bold text-purple-800 mb-2">Priority-Based</h4>
+            <p class="text-sm text-purple-700">Higher priority processes get CPU time first. Flexible and responsive.</p>
+           </div>
+           <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <h4 class="font-bold text-green-800 mb-2">Shortest Job First</h4>
+            <p class="text-sm text-green-700">Process with shortest execution time runs first. Minimizes average wait time.</p>
+           </div>
+          </div>
+         </div><!-- Memory Management -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">💾 Memory Management</h3>
+          <p class="text-slate-600 mb-4">The OS allocates and manages both physical RAM and virtual memory.</p><!-- Memory Types -->
+          <div class="grid md:grid-cols-2 gap-4 mb-6">
+           <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <h4 class="font-bold text-slate-800 mb-3">🔥 Physical Memory (RAM)</h4>
+            <ul class="space-y-2 text-slate-700 text-sm">
+             <li>• Very fast access</li>
+             <li>• Limited capacity</li>
+             <li>• Data lost when powered off</li>
+             <li>• Expensive per gigabyte</li>
+            </ul>
+           </div>
+           <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <h4 class="font-bold text-slate-800 mb-3">🌊 Virtual Memory (Swap)</h4>
+            <ul class="space-y-2 text-slate-700 text-sm">
+             <li>• Appears as more RAM to programs</li>
+             <li>• Uses hard disk storage</li>
+             <li>• Slower than physical RAM</li>
+             <li>• Allows larger programs to run</li>
+            </ul>
+           </div>
+          </div><!-- Memory Allocation Visualization -->
+          <div class="bg-gradient-to-b from-slate-900 to-slate-800 p-6 rounded-xl text-white mb-6">
+           <p class="text-center text-slate-300 mb-4">Memory Allocation Example (4GB RAM)</p>
+           <div class="space-y-2">
+            <div class="flex items-center gap-3">
+             <div class="flex-1 h-10 bg-blue-600 rounded flex items-center px-3 font-bold text-white">
+              OS Kernel: 512MB
+             </div><span class="text-slate-300 text-sm">12.5%</span>
+            </div>
+            <div class="flex items-center gap-3">
+             <div class="flex-1 h-10 bg-green-600 rounded flex items-center px-3 font-bold text-white">
+              Browser: 1GB
+             </div><span class="text-slate-300 text-sm">25%</span>
+            </div>
+            <div class="flex items-center gap-3">
+             <div class="flex-1 h-10 bg-orange-600 rounded flex items-center px-3 font-bold text-white">
+              Applications: 1.2GB
+             </div><span class="text-slate-300 text-sm">30%</span>
+            </div>
+            <div class="flex items-center gap-3">
+             <div class="flex-1 h-10 bg-purple-600 rounded flex items-center px-3 font-bold text-white">
+              Available: 1.288GB
+             </div><span class="text-slate-300 text-sm">32.5%</span>
+            </div>
+           </div>
+          </div>
+         </div><!-- Storage Management -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">📁 Storage Management</h3>
+          <p class="text-slate-600 mb-4">The OS manages data storage on disk drives and other storage devices.</p>
+          <div class="bg-amber-50 p-6 rounded-xl border border-amber-200">
+           <h4 class="font-bold text-amber-800 mb-4">📂 File System Organization</h4>
+           <div class="bg-white p-4 rounded-lg mb-3 font-mono text-sm text-slate-700">
+            <p>C:\ (or /)</p>
+            <p class="ml-6">├── Program Files/</p>
+            <p class="ml-6">├── Users/</p>
+            <p class="ml-9">├── Documents/</p>
+            <p class="ml-9">├── Downloads/</p>
+            <p class="ml-9">└── Pictures/</p>
+            <p class="ml-6">├── Windows/ (system files)</p>
+            <p class="ml-6">└── System32/</p>
+           </div>
+           <ul class="space-y-2 text-amber-800">
+            <li><strong>✓ File Naming:</strong> Rules for file and folder names</li>
+            <li><strong>✓ Disk Fragmentation:</strong> OS organizes files efficiently</li>
+            <li><strong>✓ File Permissions:</strong> Control who can read/write/execute files</li>
+            <li><strong>✓ Backup &amp; Recovery:</strong> Tools to protect data</li>
+           </ul>
+          </div>
+         </div><!-- Device Management -->
+         <div>
+          <h3 class="heading-font font-bold text-slate-800 text-2xl mb-4">🖨️ Device Management</h3>
+          <p class="text-slate-600 mb-4">The OS communicates with hardware devices through device drivers.</p>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-red-50 p-5 rounded-xl border border-red-200">
+            <h4 class="font-bold text-red-800 mb-3">Input Devices</h4>
+            <ul class="space-y-1 text-red-700 text-sm">
+             <li>• Keyboard - text input</li>
+             <li>• Mouse - pointer control</li>
+             <li>• Scanner - image capture</li>
+             <li>• Microphone - audio input</li>
+             <li>• Touchscreen - gesture input</li>
+            </ul>
+           </div>
+           <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+            <h4 class="font-bold text-blue-800 mb-3">Output Devices</h4>
+            <ul class="space-y-1 text-blue-700 text-sm">
+             <li>• Monitor - visual display</li>
+             <li>• Printer - paper output</li>
+             <li>• Speaker - audio output</li>
+             <li>• Projector - screen projection</li>
+             <li>• Network card - data transmission</li>
+            </ul>
+           </div>
+          </div>
+         </div><!-- System Resources Comparison -->
+         <div class="bg-lime-50 p-6 rounded-xl border border-lime-200">
+          <h3 class="heading-font font-bold text-lime-800 text-xl mb-4">📊 System Resource Monitoring</h3>
+          <p class="text-lime-700 mb-4">Typical resource usage on a modern computer:</p>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-slate-800">CPU</p>
+            <p class="text-2xl font-bold text-orange-600">45%</p>
+            <p class="text-xs text-slate-600">Processing usage</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-slate-800">Memory</p>
+            <p class="text-2xl font-bold text-green-600">62%</p>
+            <p class="text-xs text-slate-600">RAM usage</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-slate-800">Disk</p>
+            <p class="text-2xl font-bold text-blue-600">78%</p>
+            <p class="text-xs text-slate-600">Storage capacity</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-slate-800">Network</p>
+            <p class="text-2xl font-bold text-purple-600">15%</p>
+            <p class="text-xs text-slate-600">Bandwidth used</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('types')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('individual')" class="flex-1 bg-gradient-to-r from-lime-500 to-green-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Individual Activity → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Individual Activity -->
+      <section id="section-individual" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-500 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">👤 Individual Activity</h2>
+         <p class="mt-2 text-blue-100">Test your understanding independently</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <div class="bg-blue-50 border-l-4 border-blue-400 p-5 rounded-r-xl">
+          <h3 class="font-bold text-blue-800 text-lg">📝 Activity: Operating System Analysis Worksheet</h3>
+          <p class="text-blue-700 mt-2">Complete this worksheet to demonstrate your understanding of OS concepts.</p>
+         </div><!-- Part 1 -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 1: OS Identification &amp; Characteristics</h4>
+          <p class="text-slate-600 mb-4">Identify the operating system running on your personal device and describe its characteristics.</p>
+          <div class="space-y-4">
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>1. What operating system do you use?</strong></p><input type="text" placeholder="e.g., Windows 11, macOS, Linux, Android, iOS" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>2. What type of OS is it? (Desktop, Mobile, Embedded, etc.)</strong></p><input type="text" placeholder="Your answer..." class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>3. What are the main GUI features that make this OS user-friendly?</strong></p><textarea rows="3" placeholder="Type your answer here..." class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"></textarea>
+           </div>
+          </div>
+         </div><!-- Part 2 -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 2: OS Functions Matching</h4>
+          <p class="text-slate-600 mb-4">Match each scenario to the correct OS function:</p>
+          <div class="space-y-4">
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>4.</strong> You notice your computer slowing down when multiple programs are running simultaneously.</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"> <option value="">Select the OS function...</option> <option value="pm">Process Management</option> <option value="mm">Memory Management</option> <option value="fs">File System Management</option> <option value="dm">Device Management</option> </select>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>5.</strong> Your printer requires a new driver installation after Windows update.</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"> <option value="">Select the OS function...</option> <option value="pm">Process Management</option> <option value="mm">Memory Management</option> <option value="fs">File System Management</option> <option value="dm">Device Management</option> </select>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>6.</strong> You save a file to your Documents folder and organize it in subfolders.</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"> <option value="">Select the OS function...</option> <option value="pm">Process Management</option> <option value="mm">Memory Management</option> <option value="fs">File System Management</option> <option value="dm">Device Management</option> </select>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>7.</strong> The system allocates more RAM to a demanding video editing application.</p><select class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"> <option value="">Select the OS function...</option> <option value="pm">Process Management</option> <option value="mm">Memory Management</option> <option value="fs">File System Management</option> <option value="dm">Device Management</option> </select>
+           </div>
+          </div>
+         </div><!-- Part 3 -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 3: Process Lifecycle Understanding</h4>
+          <p class="text-slate-600 mb-4">Describe what happens during each process state:</p>
+          <div class="space-y-4">
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>8. What is happening during the "Ready" state of a process?</strong></p><textarea rows="2" placeholder="Type your answer here..." class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"></textarea>
+           </div>
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>9. Why might a process go into the "Blocked" state?</strong></p><textarea rows="2" placeholder="Type your answer here..." class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"></textarea>
+           </div>
+          </div>
+         </div><!-- Part 4 -->
+         <div class="bg-white border border-slate-200 rounded-xl p-6">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">Part 4: Short Answer</h4>
+          <div class="space-y-4">
+           <div class="bg-slate-50 p-4 rounded-lg">
+            <p class="text-slate-700 mb-2"><strong>10. What is the kernel and why is it important?</strong></p><textarea rows="3" placeholder="Type your answer here..." class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"></textarea>
+           </div>
+          </div>
+         </div><!-- Submission Note -->
+         <div class="bg-amber-50 border border-amber-200 p-5 rounded-xl">
+          <p class="text-amber-800 font-medium">📌 Submission Instructions</p>
+          <p class="text-amber-700 text-sm mt-2">Complete this worksheet and submit to your instructor via the designated platform. Include your name, section, and date.</p>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('management')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('group')" class="flex-1 bg-gradient-to-r from-blue-600 to-indigo-500 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Group Activity → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Group Activity -->
+      <section id="section-group" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-fuchsia-500 to-purple-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">👥 Group Activity</h2>
+         <p class="mt-2 text-fuchsia-100">Collaborative learning experience</p>
+        </div>
+        <div class="p-6 space-y-8">
+         <div class="bg-fuchsia-50 border-l-4 border-fuchsia-400 p-5 rounded-r-xl">
+          <h3 class="font-bold text-fuchsia-800 text-lg">🖥️ Activity: Compare &amp; Evaluate Operating Systems</h3>
+          <p class="text-fuchsia-700 mt-2">Work in groups of 3-4 students to research and compare different operating systems.</p>
+         </div><!-- Scenario -->
+         <div class="bg-slate-900 text-white p-6 rounded-xl">
+          <h4 class="font-bold text-xl mb-4 flex items-center gap-2"><span class="pulse-dot inline-block w-3 h-3 bg-green-400 rounded-full"></span> 📋 Scenario</h4>
+          <div class="bg-slate-800 p-5 rounded-lg">
+           <p class="text-slate-100 leading-relaxed"><strong>"TechCorp Consulting"</strong> is a growing IT company with 150 employees. They need to decide which operating systems to standardize across their organization. Different departments have different needs:</p>
+           <ul class="mt-4 space-y-2 text-slate-300">
+            <li>• <strong>Finance Department:</strong> Needs secure, stable systems with legacy software compatibility</li>
+            <li>• <strong>Design Department:</strong> Requires creative software and performance for multimedia work</li>
+            <li>• <strong>IT Department:</strong> Wants open-source, customizable systems for servers</li>
+            <li>• <strong>Mobile Development:</strong> Needs to support both iOS and Android development</li>
+           </ul>
+          </div>
+         </div><!-- Tasks -->
+         <div>
+          <h4 class="font-bold text-slate-800 text-xl mb-4">📝 Group Tasks</h4>
+          <div class="space-y-4">
+           <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+            <div class="flex items-start gap-4"><span class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">1</span>
+             <div>
+              <h5 class="font-bold text-blue-800">Research Three OS Platforms</h5>
+              <p class="text-blue-700 text-sm mt-1">Assign each group member to research one OS (Windows, macOS, or Linux). Document: history, target users, key features, strengths, weaknesses, cost.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-green-50 p-5 rounded-xl border border-green-200">
+            <div class="flex items-start gap-4"><span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">2</span>
+             <div>
+              <h5 class="font-bold text-green-800">Create Comparison Matrix</h5>
+              <p class="text-green-700 text-sm mt-1">Build a table comparing: Cost, Security, User-friendliness, Software availability, Customization, Support quality, Best for (use case).</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-purple-50 p-5 rounded-xl border border-purple-200">
+            <div class="flex items-start gap-4"><span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">3</span>
+             <div>
+              <h5 class="font-bold text-purple-800">Develop Recommendations</h5>
+              <p class="text-purple-700 text-sm mt-1">Recommend which OS(es) best fit each department's needs. Justify your choices based on the comparison matrix.</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-orange-50 p-5 rounded-xl border border-orange-200">
+            <div class="flex items-start gap-4"><span class="bg-orange-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">4</span>
+             <div>
+              <h5 class="font-bold text-orange-800">Budget Analysis</h5>
+              <p class="text-orange-700 text-sm mt-1">Calculate total cost of ownership for each OS option for 150 employees over 3 years (including licenses, support, training).</p>
+             </div>
+            </div>
+           </div>
+           <div class="bg-rose-50 p-5 rounded-xl border border-rose-200">
+            <div class="flex items-start gap-4"><span class="bg-rose-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">5</span>
+             <div>
+              <h5 class="font-bold text-rose-800">Group Presentation</h5>
+              <p class="text-rose-700 text-sm mt-1">Present your findings in a 7-minute presentation with slides. Be ready to defend your recommendations and answer questions.</p>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div><!-- Deliverables -->
+         <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <h4 class="font-bold text-slate-800 text-lg mb-4">📦 Deliverables</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Individual OS Research Reports</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Comparison Matrix (Excel/Table)</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Written Recommendations (2-3 pages)</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Group Presentation Slides</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Budget Analysis Report</p>
+           </div>
+           <div class="bg-white p-4 rounded-lg border border-slate-200">
+            <p class="font-medium text-slate-700">✅ Q&amp;A Preparation Document</p>
+           </div>
+          </div>
+         </div><!-- Rubric -->
+         <div class="bg-amber-50 p-6 rounded-xl border border-amber-200">
+          <h4 class="font-bold text-amber-800 text-lg mb-4">📊 Grading Criteria</h4>
+          <div class="grid md:grid-cols-4 gap-3 text-sm">
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Research Quality</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Analysis &amp; Comparison</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Recommendations</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+           <div class="bg-white p-3 rounded-lg text-center">
+            <p class="font-bold text-amber-700">Presentation</p>
+            <p class="text-amber-600">25%</p>
+           </div>
+          </div>
+         </div>
+         <div class="flex gap-4"><button onclick="showSection('individual')" class="flex-1 bg-slate-200 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-300 transition-all"> ← Previous </button> <button onclick="showSection('quiz')" class="flex-1 bg-gradient-to-r from-fuchsia-500 to-purple-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> Next: Review Quiz → </button>
+         </div>
+        </div>
+       </div>
+      </section><!-- Section: Quiz -->
+      <section id="section-quiz" class="content-section hidden fade-in">
+       <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-500 to-green-400 p-6 text-white">
+         <h2 class="heading-font text-3xl font-bold">✅ Review Quiz</h2>
+         <p class="mt-2 text-emerald-100">Test your knowledge with 10 questions</p>
+        </div>
+        <div class="p-6"><!-- Quiz Container -->
+         <div id="quiz-container"><!-- Question display area -->
+          <div id="question-area" class="space-y-6"><!-- Progress -->
+           <div class="flex items-center justify-between mb-6"><span id="quiz-progress" class="text-slate-600 font-medium">Question 1 of 10</span> <span id="quiz-score" class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full font-bold">Score: 0/10</span>
+           </div><!-- Question Card -->
+           <div id="question-card" class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <p id="question-text" class="text-lg text-slate-800 font-medium">Loading question...</p>
+           </div><!-- Options -->
+           <div id="options-container" class="space-y-3"><!-- Options will be populated by JavaScript -->
+           </div><!-- Feedback -->
+           <div id="feedback" class="hidden p-4 rounded-xl"></div><!-- Navigation -->
+           <div class="flex gap-4"><button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-gradient-to-r from-emerald-500 to-green-400 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> Next Question → </button>
+           </div>
+          </div><!-- Results Area (hidden initially) -->
+          <div id="results-area" class="hidden text-center py-12">
+           <div class="text-6xl mb-6">
+            🎉
+           </div>
+           <h3 class="heading-font text-3xl font-bold text-slate-800 mb-4">Quiz Complete!</h3>
+           <p id="final-score" class="text-xl text-slate-600 mb-6">Your Score: 0/10</p>
+           <div id="score-feedback" class="bg-emerald-50 p-6 rounded-xl max-w-md mx-auto mb-8">
+            <p class="text-emerald-800">Great job completing the quiz!</p>
+           </div><button onclick="restartQuiz()" class="bg-gradient-to-r from-emerald-500 to-green-400 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg transition-all"> 🔄 Retake Quiz </button>
+          </div>
+         </div>
+        </div>
+       </div>
+      </section>
+     </div>
+    </main>
+   </div><!-- Footer -->
+   <footer class="bg-slate-800 text-slate-400 px-6 py-4 text-center text-sm">
+    <p>IS101 - Fundamentals of Information Systems | Instructor: MKDB</p>
+    <p class="text-slate-500 mt-1">© 2024 Educational Content</p>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      course_title: 'IS101 - Fundamentals of Information Systems',
+      instructor_name: 'MKDB',
+      week_label: 'Midterm - Week 2',
+      primary_color: '#8b5cf6',
+      secondary_color: '#7c3aed',
+      accent_color: '#f59e0b',
+      text_color: '#1e293b',
+      background_color: '#f8fafc'
+    };
+
+    // Current section tracking
+    let currentSection = 'overview';
+    const sections = ['overview', 'basics', 'functions', 'types', 'management', 'individual', 'group', 'quiz'];
+    let visitedSections = new Set(['overview']);
+
+    // Quiz data
+    const quizQuestions = [
+      {
+        question: "What is an operating system?",
+        options: [
+          "A hardware component of a computer",
+          "System software that manages hardware and software resources",
+          "A type of user application",
+          "A programming language"
+        ],
+        correct: 1,
+        explanation: "An operating system is system software that acts as an intermediary between users and computer hardware, managing all hardware and software resources."
+      },
+      {
+        question: "What is the kernel of an operating system?",
+        options: [
+          "The user interface of the OS",
+          "The core component that manages system resources",
+          "The main application of the OS",
+          "A type of file system"
+        ],
+        correct: 1,
+        explanation: "The kernel is the core component of an OS that manages all system resources like CPU, memory, and devices, and controls process execution."
+      },
+      {
+        question: "Which process state indicates a process is waiting for CPU time?",
+        options: [
+          "New",
+          "Running",
+          "Ready",
+          "Blocked"
+        ],
+        correct: 2,
+        explanation: "The Ready state means a process is prepared to execute and waiting for the CPU scheduler to allocate CPU time to it."
+      },
+      {
+        question: "What is virtual memory used for?",
+        options: [
+          "Storing user files",
+          "Increasing available RAM by using disk space",
+          "Running multiple monitors",
+          "Improving graphics performance"
+        ],
+        correct: 1,
+        explanation: "Virtual memory uses disk storage as an extension of physical RAM, allowing programs to use more memory than physically available."
+      },
+      {
+        question: "Which of the following is a primary function of an operating system?",
+        options: [
+          "Creating website designs",
+          "Memory management and process scheduling",
+          "Editing documents",
+          "Playing music files"
+        ],
+        correct: 1,
+        explanation: "Memory management and process scheduling are core OS functions that manage computer resources efficiently."
+      },
+      {
+        question: "What is multitasking in operating systems?",
+        options: [
+          "Running only one program at a time",
+          "Running multiple programs seemingly simultaneously through rapid switching",
+          "Having multiple monitors",
+          "A single task with multiple steps"
+        ],
+        correct: 1,
+        explanation: "Multitasking is the ability to run multiple programs seemingly at the same time by rapidly switching between them using the CPU."
+      },
+      {
+        question: "Which operating system is known for being open-source and free?",
+        options: [
+          "Windows",
+          "macOS",
+          "Linux",
+          "All of the above"
+        ],
+        correct: 2,
+        explanation: "Linux is an open-source, free operating system that allows users to view, modify, and distribute its source code."
+      },
+      {
+        question: "What does a device driver do?",
+        options: [
+          "Controls the operating system",
+          "Manages user accounts",
+          "Enables communication between OS and hardware devices",
+          "Stores user files"
+        ],
+        correct: 2,
+        explanation: "A device driver is software that allows the operating system to communicate with and control hardware devices like printers and scanners."
+      },
+      {
+        question: "Which of the following is an example of a mobile operating system?",
+        options: [
+          "Windows Server",
+          "macOS",
+          "Android",
+          "UNIX"
+        ],
+        correct: 2,
+        explanation: "Android is a popular mobile operating system developed by Google that runs on smartphones and tablets."
+      },
+      {
+        question: "What is a process in the context of operating systems?",
+        options: [
+          "A file stored on disk",
+          "A running instance of a program with its own memory space",
+          "A type of printer",
+          "A system backup"
+        ],
+        correct: 1,
+        explanation: "A process is a running instance of a program that has its own memory space and resources allocated by the operating system."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    // Navigation function
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+      });
+
+      // Show selected section
+      const targetSection = document.getElementById(`section-${sectionId}`);
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+        targetSection.classList.add('fade-in');
+      }
+
+      // Update navigation styling
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.section === sectionId) {
+          item.classList.add('active');
+        }
+      });
+
+      // Update mobile nav
+      const mobileNav = document.getElementById('mobile-nav');
+      if (mobileNav) {
+        mobileNav.value = sectionId;
+      }
+
+      // Track visited sections
+      visitedSections.add(sectionId);
+      currentSection = sectionId;
+
+      // Update progress
+      updateProgress();
+
+      // Scroll to top
+      document.querySelector('main').scrollTop = 0;
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const progress = (visitedSections.size / sections.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+      document.getElementById('progress-text').textContent = `${visitedSections.size} of ${sections.length} sections`;
+    }
+
+    // Quiz functions
+    function loadQuestion() {
+      if (currentQuestionIndex >= quizQuestions.length) {
+        showResults();
+        return;
+      }
+
+      const question = quizQuestions[currentQuestionIndex];
+      answered = false;
+
+      document.getElementById('quiz-progress').textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+      document.getElementById('question-text').textContent = question.question;
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      question.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'quiz-option w-full text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-emerald-400 transition-all';
+        button.innerHTML = `<span class="font-bold text-slate-400 mr-3">${String.fromCharCode(65 + index)}.</span> ${option}`;
+        button.onclick = () => selectAnswer(index);
+        optionsContainer.appendChild(button);
+      });
+
+      document.getElementById('feedback').classList.add('hidden');
+      document.getElementById('next-btn').disabled = true;
+    }
+
+    function selectAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const question = quizQuestions[currentQuestionIndex];
+      const options = document.querySelectorAll('.quiz-option');
+      const feedback = document.getElementById('feedback');
+
+      options.forEach((option, index) => {
+        option.classList.remove('selected');
+        if (index === question.correct) {
+          option.classList.add('correct');
+        } else if (index === selectedIndex && index !== question.correct) {
+          option.classList.add('incorrect');
+        }
+        option.style.pointerEvents = 'none';
+      });
+
+      if (selectedIndex === question.correct) {
+        score++;
+        feedback.className = 'p-4 rounded-xl bg-green-50 border border-green-200';
+        feedback.innerHTML = `<p class="font-bold text-green-800">✅ Correct!</p><p class="text-green-700 text-sm mt-1">${question.explanation}</p>`;
+      } else {
+        feedback.className = 'p-4 rounded-xl bg-red-50 border border-red-200';
+        feedback.innerHTML = `<p class="font-bold text-red-800">❌ Incorrect</p><p class="text-red-700 text-sm mt-1">${question.explanation}</p>`;
+      }
+
+      feedback.classList.remove('hidden');
+      document.getElementById('quiz-score').textContent = `Score: ${score}/${quizQuestions.length}`;
+      document.getElementById('next-btn').disabled = false;
+
+      if (currentQuestionIndex === quizQuestions.length - 1) {
+        document.getElementById('next-btn').textContent = 'See Results →';
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizQuestions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('question-area').classList.add('hidden');
+      document.getElementById('results-area').classList.remove('hidden');
+
+      const percentage = (score / quizQuestions.length) * 100;
+      document.getElementById('final-score').textContent = `Your Score: ${score}/${quizQuestions.length} (${percentage}%)`;
+
+      const scoreFeedback = document.getElementById('score-feedback');
+      if (percentage >= 90) {
+        scoreFeedback.className = 'bg-emerald-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-emerald-200';
+        scoreFeedback.innerHTML = '<p class="text-emerald-800 font-medium">🌟 Excellent! You have mastered operating systems concepts!</p>';
+      } else if (percentage >= 70) {
+        scoreFeedback.className = 'bg-blue-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-blue-200';
+        scoreFeedback.innerHTML = '<p class="text-blue-800 font-medium">👍 Good job! You have a solid understanding of operating systems.</p>';
+      } else if (percentage >= 50) {
+        scoreFeedback.className = 'bg-amber-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-amber-200';
+        scoreFeedback.innerHTML = '<p class="text-amber-800 font-medium">📚 Fair attempt. Review the lesson materials to improve your understanding.</p>';
+      } else {
+        scoreFeedback.className = 'bg-red-50 p-6 rounded-xl max-w-md mx-auto mb-8 border border-red-200';
+        scoreFeedback.innerHTML = '<p class="text-red-800 font-medium">📖 Keep studying! Go through the lesson again and try the quiz once more.</p>';
+      }
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      answered = false;
+
+      document.getElementById('results-area').classList.add('hidden');
+      document.getElementById('question-area').classList.remove('hidden');
+      document.getElementById('quiz-score').textContent = 'Score: 0/10';
+      document.getElementById('next-btn').textContent = 'Next Question →';
+
+      loadQuestion();
+    }
+
+    // Element SDK Integration
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: async (config) => {
+          const courseTitle = config.course_title || defaultConfig.course_title;
+          const instructorName = config.instructor_name || defaultConfig.instructor_name;
+          const weekLabel = config.week_label || defaultConfig.week_label;
+
+          document.getElementById('course-title').textContent = courseTitle;
+          document.getElementById('instructor-name').textContent = instructorName;
+          document.getElementById('week-label').textContent = weekLabel;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => { config.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['course_title', config.course_title || defaultConfig.course_title],
+          ['instructor_name', config.instructor_name || defaultConfig.instructor_name],
+          ['week_label', config.week_label || defaultConfig.week_label]
+        ])
+      });
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection('overview');
+      loadQuestion();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d1f0c19b74afee1',t:'MTc3MTc2OTIyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
