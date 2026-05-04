@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IS101 - Simple Database Lesson</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Outfit', sans-serif; }
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+    html, body { height: 100%; margin: 0; }
+    .tab-active { background: #1e293b; color: #f0abfc; border-bottom: 3px solid #f0abfc; }
+    .tab-inactive { background: #0f172a; color: #94a3b8; }
+    .tab-inactive:hover { color: #e2e8f0; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; }
+    .highlight-box { background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%); border: 1px solid #4338ca; border-radius: 12px; padding: 1.25rem; }
+    .example-box { background: #0c4a6e; border-left: 4px solid #38bdf8; border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; }
+    .activity-box { background: #164e63; border: 1px solid #22d3ee; border-radius: 12px; padding: 1.25rem; }
+    .quiz-option { transition: all 0.2s; cursor: pointer; border: 2px solid #334155; border-radius: 8px; padding: 0.75rem 1rem; }
+    .quiz-option:hover { border-color: #818cf8; background: #1e1b4b; }
+    .quiz-option.selected { border-color: #818cf8; background: #312e81; }
+    .quiz-option.correct { border-color: #34d399; background: #064e3b; }
+    .quiz-option.incorrect { border-color: #f87171; background: #450a0a; }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .progress-bar { height: 4px; background: #334155; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #818cf8, #f0abfc); transition: width 0.4s ease; }
+    .scroll-container { overflow-y: auto; scrollbar-width: thin; scrollbar-color: #475569 #1e293b; }
+    .scroll-container::-webkit-scrollbar { width: 6px; }
+    .scroll-container::-webkit-scrollbar-track { background: #1e293b; }
+    .scroll-container::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+    .data-table { background: #0f172a; border: 1px solid #334155; border-radius: 8px; overflow: hidden; }
+    .data-table th { background: #1e293b; padding: 0.75rem; text-align: left; font-weight: 600; border-bottom: 2px solid #334155; }
+    .data-table td { padding: 0.75rem; border-bottom: 1px solid #334155; }
+    .data-table tr:hover { background: #1e293b; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-slate-900 text-slate-100">
+  <div id="app" class="h-full w-full flex flex-col overflow-hidden"><!-- Header -->
+   <header class="bg-slate-950 border-b border-slate-700 px-6 py-4 flex-shrink-0">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+     <div>
+      <p class="text-xs text-emerald-300 font-medium tracking-wider uppercase" id="course-label">IS101 – Fundamentals of Information System | MKDB</p>
+      <h1 class="text-xl md:text-2xl font-bold mt-1" id="main-title">Office Productivity: Simple Database (Tables, Forms, Queries)</h1>
+     </div><span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-600">Finals Week 2</span>
+    </div>
+    <p class="text-sm text-slate-400 mt-2" id="ilo-text"><i data-lucide="database" class="inline w-4 h-4 mr-1 text-emerald-400"></i><strong>ILO:</strong> Design and use simple databases by creating tables, forms, and queries to manage structured data.</p>
+   </header><!-- Tabs -->
+   <nav class="flex flex-shrink-0 border-b border-slate-700 overflow-x-auto" id="tab-nav"><button class="tab-active px-5 py-3 text-sm font-medium whitespace-nowrap" data-tab="lesson" onclick="switchTab('lesson')"><i data-lucide="book-open" class="inline w-4 h-4 mr-1"></i>Lesson</button> <button class="tab-inactive px-5 py-3 text-sm font-medium whitespace-nowrap" data-tab="activities" onclick="switchTab('activities')"><i data-lucide="users" class="inline w-4 h-4 mr-1"></i>Activities</button> <button class="tab-inactive px-5 py-3 text-sm font-medium whitespace-nowrap" data-tab="quiz" onclick="switchTab('quiz')"><i data-lucide="clipboard-check" class="inline w-4 h-4 mr-1"></i>Quiz</button>
+   </nav><!-- Content -->
+   <main class="flex-1 overflow-hidden"><!-- LESSON TAB -->
+    <div id="tab-lesson" class="h-full scroll-container p-6 fade-in">
+     <div class="max-w-4xl mx-auto space-y-8"><!-- PART 1: Database Fundamentals -->
+      <section>
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center font-bold text-lg">
+         1
+        </div>
+        <h2 class="text-2xl font-bold">Database Fundamentals</h2>
+       </div>
+       <div class="card mb-4">
+        <h3 class="text-lg font-semibold text-emerald-300 mb-2">What is a Database?</h3>
+        <p class="text-slate-300 leading-relaxed">A database is an organized collection of structured data stored electronically. Instead of scattering information across multiple files or spreadsheets, a database centralizes data for easy access, updates, and analysis. Common database applications include Microsoft Access, Google Forms, Airtable, and SQL databases.</p>
+       </div>
+       <div class="highlight-box mb-4">
+        <h4 class="font-semibold text-indigo-200 mb-3">🎯 Core Components of a Database</h4>
+        <div class="grid md:grid-cols-2 gap-3">
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">Table</p>
+          <p class="text-sm text-slate-300">A structure with rows and columns. Each column is a field (e.g., StudentID, Name), and each row is a record.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">Field (Column)</p>
+          <p class="text-sm text-slate-300">A category of data (e.g., Email, Phone Number). Has a data type (text, number, date, etc.).</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">Record (Row)</p>
+          <p class="text-sm text-slate-300">A complete entry with values for all fields. Example: one student's full information.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">Primary Key</p>
+          <p class="text-sm text-slate-300">A unique identifier for each record. No two records can have the same primary key (e.g., StudentID).</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">Data Type</p>
+          <p class="text-sm text-slate-300">Defines what kind of data a field holds: Text, Number, Date, Boolean (Yes/No), Currency, etc.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">Query</p>
+          <p class="text-sm text-slate-300">A request to retrieve, filter, or sort data from the database (e.g., "Show all active students").</p>
+         </div>
+        </div>
+       </div>
+       <div class="card mb-4">
+        <h4 class="font-semibold text-white mb-3">📊 Example: Student Database Table</h4>
+        <div class="overflow-x-auto">
+         <table class="w-full text-sm data-table">
+          <thead>
+           <tr>
+            <th>StudentID<br><span class="text-xs text-emerald-300">(Primary Key)</span></th>
+            <th>FirstName<br><span class="text-xs text-slate-400">(Text)</span></th>
+            <th>LastName<br><span class="text-xs text-slate-400">(Text)</span></th>
+            <th>Email<br><span class="text-xs text-slate-400">(Text)</span></th>
+            <th>Enrollment Date<br><span class="text-xs text-slate-400">(Date)</span></th>
+            <th>GPA<br><span class="text-xs text-slate-400">(Number)</span></th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <td class="font-mono text-emerald-400">S001</td>
+            <td>Maria</td>
+            <td>Santos</td>
+            <td>maria.santos@edu.ph</td>
+            <td>01/15/2024</td>
+            <td>3.85</td>
+           </tr>
+           <tr>
+            <td class="font-mono text-emerald-400">S002</td>
+            <td>Juan</td>
+            <td>Dela Cruz</td>
+            <td>juan.delacruz@edu.ph</td>
+            <td>01/18/2024</td>
+            <td>3.72</td>
+           </tr>
+           <tr>
+            <td class="font-mono text-emerald-400">S003</td>
+            <td>Ana</td>
+            <td>Reyes</td>
+            <td>ana.reyes@edu.ph</td>
+            <td>02/10/2024</td>
+            <td>3.95</td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <p class="text-xs text-slate-400 mt-2">• StudentID is the primary key (uniquely identifies each student)</p>
+        <p class="text-xs text-slate-400">• Each field has a specific data type to ensure data consistency</p>
+       </div>
+       <div class="example-box mb-4">
+        <h4 class="font-semibold text-sky-200 mb-2">📌 Real-Life Scenario 1: School Enrollment System</h4>
+        <p class="text-slate-200 text-sm leading-relaxed"><strong>Situation:</strong> A high school needs to manage 500+ student records. Previously, they used separate Excel files for each class—data was duplicated, inconsistent, and hard to update.</p>
+        <p class="text-slate-200 text-sm leading-relaxed mt-2"><strong>Solution:</strong> They create a centralized Student database with tables for Students, Classes, and Enrollments. Now:</p>
+        <ul class="text-slate-300 text-sm space-y-1 mt-2 ml-4">
+         <li>✓ Each student has ONE record (StudentID is unique)</li>
+         <li>✓ Registrar can query: "Show all Grade 11 students enrolled in Physics"</li>
+         <li>✓ When a student's address changes, they update it once and all records reflect the change</li>
+         <li>✓ Reports are generated automatically (e.g., "Total students per course")</li>
+        </ul>
+       </div>
+      </section><!-- PART 2: Tables -->
+      <section>
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-lg bg-cyan-600 flex items-center justify-center font-bold text-lg">
+         2
+        </div>
+        <h2 class="text-2xl font-bold">Designing Tables</h2>
+       </div>
+       <div class="card mb-4">
+        <h3 class="text-lg font-semibold text-cyan-300 mb-2">What Makes a Good Table?</h3>
+        <p class="text-slate-300 leading-relaxed">A well-designed table organizes data logically, reduces redundancy, and ensures data integrity. Each field should store only ONE type of information, and every record should be uniquely identifiable.</p>
+       </div>
+       <div class="highlight-box mb-4">
+        <h4 class="font-semibold text-indigo-200 mb-3">🎯 Table Design Best Practices</h4>
+        <div class="space-y-3">
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">1. Define a Primary Key</p>
+          <p class="text-sm text-slate-300">Each table must have a unique identifier. For employees: EmployeeID. For products: ProductID. No duplicates allowed.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">2. Choose Appropriate Data Types</p>
+          <p class="text-sm text-slate-300">Use TEXT for names, NUMBER for quantities, DATE for birth dates, CURRENCY for prices. Correct data types prevent errors and save storage.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">3. Avoid Redundancy</p>
+          <p class="text-sm text-slate-300">Don't store the same info in multiple places. Example: In an Orders table, store CustomerID (not the customer's full address—that's in the Customers table).</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">4. Keep Field Names Clear</p>
+          <p class="text-sm text-slate-300">Use descriptive names: "DateOfBirth" not "DOB" or "db". "EmailAddress" not "email1".</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">5. Set Field Constraints</p>
+          <p class="text-sm text-slate-300">Mark fields as "Required" if they must always have a value. Set "Unique" if no duplicates are allowed (e.g., Email).</p>
+         </div>
+        </div>
+       </div>
+       <div class="example-box mb-4">
+        <h4 class="font-semibold text-sky-200 mb-2">📌 Real-Life Scenario 2: Employee HR Database</h4>
+        <p class="text-slate-200 text-sm leading-relaxed"><strong>Situation:</strong> A company with 200 employees needs to track employment records, payroll, and benefits. HR staff manually maintained Excel sheets, leading to errors and duplicate data.</p>
+        <p class="text-slate-200 text-sm leading-relaxed mt-2"><strong>Table Design:</strong></p>
+        <div class="bg-slate-900 rounded-lg p-3 mt-2 text-xs text-slate-300 space-y-1">
+         <p class="text-emerald-400 font-bold">Employees Table</p>
+         <p>• EmployeeID (Number, Primary Key)</p>
+         <p>• FirstName (Text, Required)</p>
+         <p>• LastName (Text, Required)</p>
+         <p>• Email (Text, Unique, Required)</p>
+         <p>• HireDate (Date, Required)</p>
+         <p>• DepartmentID (Number) — links to Departments table</p>
+         <p>• Salary (Currency)</p>
+         <p class="mt-2 text-emerald-400 font-bold">Departments Table</p>
+         <p>• DepartmentID (Number, Primary Key)</p>
+         <p>• DepartmentName (Text)</p>
+         <p>• Manager (Text)</p>
+        </div>
+        <p class="text-slate-200 text-sm leading-relaxed mt-2"><strong>Benefits:</strong> Employee data stored once, no duplicates. Easy to query: "How many employees are in IT?" or "Show all employees hired after 2023."</p>
+       </div>
+      </section><!-- PART 3: Forms -->
+      <section>
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-lg bg-fuchsia-600 flex items-center justify-center font-bold text-lg">
+         3
+        </div>
+        <h2 class="text-2xl font-bold">Forms for Data Entry</h2>
+       </div>
+       <div class="card mb-4">
+        <h3 class="text-lg font-semibold text-fuchsia-300 mb-2">What is a Database Form?</h3>
+        <p class="text-slate-300 leading-relaxed">A form is a user-friendly interface for entering and viewing data from a table. Instead of typing directly into table rows, users fill out a form with labeled fields. Forms validate data, reduce errors, and make the database easier to use for non-technical staff.</p>
+       </div>
+       <div class="highlight-box mb-4">
+        <h4 class="font-semibold text-indigo-200 mb-3">🎯 Best Practices for Database Forms</h4>
+        <div class="space-y-3">
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">1. Logical Field Organization</p>
+          <p class="text-sm text-slate-300">Group related fields together. Example: Group "FirstName" and "LastName" near the top, then "Address", then "Contact Info".</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">2. Clear Labels</p>
+          <p class="text-sm text-slate-300">Every field must have a descriptive label. Use asterisks (*) to mark required fields.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">3. Input Validation</p>
+          <p class="text-sm text-slate-300">Set rules: "Email must be valid format", "Phone must be 10 digits", "Date cannot be in the future".</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">4. Dropdown Menus</p>
+          <p class="text-sm text-slate-300">For fields with limited options (Status: Active/Inactive, Department: IT/HR/Finance), use dropdowns to prevent typos.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">5. Default Values</p>
+          <p class="text-sm text-slate-300">Pre-fill common values (e.g., Today's date, Current year). Users can still override if needed.</p>
+         </div>
+        </div>
+       </div>
+       <div class="example-box mb-4">
+        <h4 class="font-semibold text-sky-200 mb-2">📌 Real-Life Scenario 3: Student Grade Entry Form</h4>
+        <p class="text-slate-200 text-sm leading-relaxed"><strong>Situation:</strong> Teachers need to enter student grades for 150 students each semester. Using the raw table is tedious and error-prone.</p>
+        <p class="text-slate-200 text-sm leading-relaxed mt-2"><strong>Solution:</strong> Create a "Grade Entry Form" with:</p>
+        <ul class="text-slate-300 text-sm space-y-1 mt-2 ml-4">
+         <li>✓ Dropdown to select Course</li>
+         <li>✓ Dropdown to select Student (from Students table)</li>
+         <li>✓ Text field for Midterm Score (validates 0–100)</li>
+         <li>✓ Text field for Final Score (validates 0–100)</li>
+         <li>✓ Calculated field showing Average Grade</li>
+         <li>✓ Dropdown for Letter Grade (A, B, C, D, F) — auto-populated from average</li>
+         <li>✓ Save button to commit the record</li>
+        </ul>
+        <p class="text-slate-200 text-sm leading-relaxed mt-2"><strong>Benefit:</strong> Teachers enter grades once and consistently. The form prevents invalid entries (e.g., entering 150 as a score).</p>
+       </div>
+      </section><!-- PART 4: Queries -->
+      <section>
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-lg bg-amber-600 flex items-center justify-center font-bold text-lg">
+         4
+        </div>
+        <h2 class="text-2xl font-bold">Queries: Retrieving Data</h2>
+       </div>
+       <div class="card mb-4">
+        <h3 class="text-lg font-semibold text-amber-300 mb-2">What is a Query?</h3>
+        <p class="text-slate-300 leading-relaxed">A query is a request to find specific data from your database. Instead of manually scrolling through thousands of records, you write a query to filter, sort, and summarize data. Queries can be simple (show all active customers) or complex (show total sales by region for Q4).</p>
+       </div>
+       <div class="highlight-box mb-4">
+        <h4 class="font-semibold text-indigo-200 mb-3">🎯 Common Query Types</h4>
+        <div class="space-y-3">
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">1. SELECT Query (Retrieve)</p>
+          <p class="text-sm text-slate-300">"Show me all students from Grade 12" — retrieves records matching criteria.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">2. FILTER Query</p>
+          <p class="text-sm text-slate-300">"Show only employees with salary &gt; ₱50,000" — narrows results by conditions.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">3. SORT Query</p>
+          <p class="text-sm text-slate-300">"List students by GPA (highest to lowest)" — orders results.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">4. AGGREGATE Query</p>
+          <p class="text-sm text-slate-300">"Count how many students in each course" or "Average salary by department" — summarizes data.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-medium text-white">5. JOIN Query</p>
+          <p class="text-sm text-slate-300">"Show student names and their course grades" — combines data from multiple tables.</p>
+         </div>
+        </div>
+       </div>
+       <div class="card mb-4">
+        <h4 class="font-semibold text-white mb-3">📊 Query Examples (in Plain English)</h4>
+        <div class="space-y-3 text-sm">
+         <div class="bg-slate-800 rounded-lg p-3">
+          <p class="text-amber-300 font-mono">Query 1: List Active Customers</p>
+          <p class="text-slate-400">"SELECT all customers WHERE Status = 'Active' ORDER BY LastName"</p>
+          <p class="text-slate-300 text-xs mt-1">Shows: All active customers, sorted alphabetically by last name.</p>
+         </div>
+         <div class="bg-slate-800 rounded-lg p-3">
+          <p class="text-amber-300 font-mono">Query 2: High-Earning Employees</p>
+          <p class="text-slate-400">"SELECT EmployeeName, Salary FROM Employees WHERE Salary &gt; 75000"</p>
+          <p class="text-slate-300 text-xs mt-1">Shows: Names and salaries of employees earning more than ₱75,000.</p>
+         </div>
+         <div class="bg-slate-800 rounded-lg p-3">
+          <p class="text-amber-300 font-mono">Query 3: Count Products by Category</p>
+          <p class="text-slate-400">"SELECT Category, COUNT(*) as TotalProducts FROM Products GROUP BY Category"</p>
+          <p class="text-slate-300 text-xs mt-1">Shows: How many products are in each category (e.g., Electronics: 45, Clothing: 120).</p>
+         </div>
+        </div>
+       </div>
+       <div class="example-box">
+        <h4 class="font-semibold text-sky-200 mb-2">📌 Real-Life Scenario 4: Sales Tracking Database</h4>
+        <p class="text-slate-200 text-sm leading-relaxed"><strong>Situation:</strong> A retail manager needs quick insights from 10,000+ sales records to make decisions.</p>
+        <p class="text-slate-200 text-sm leading-relaxed mt-2"><strong>Queries they use:</strong></p>
+        <ul class="text-slate-300 text-sm space-y-1 mt-2 ml-4">
+         <li>✓ "Which products had zero sales last month?" → Identifies slow movers</li>
+         <li>✓ "Total revenue by sales staff" → Evaluates performance</li>
+         <li>✓ "Customers who spent over ₱5,000 in the last 3 months" → VIP targeting</li>
+         <li>✓ "Average transaction value by day of week" → Staffing decisions</li>
+        </ul>
+        <p class="text-slate-200 text-sm leading-relaxed mt-2"><strong>Benefit:</strong> Instead of manual calculations, the manager runs queries to get instant, accurate reports.</p>
+       </div>
+      </section>
+      <div class="pb-8"></div>
+     </div>
+    </div><!-- ACTIVITIES TAB -->
+    <div id="tab-activities" class="h-full scroll-container p-6 hidden fade-in">
+     <div class="max-w-4xl mx-auto space-y-8"><!-- Individual Activities -->
+      <section>
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center"><i data-lucide="user" class="w-5 h-5"></i>
+        </div>
+        <h2 class="text-2xl font-bold">Individual Activities</h2>
+       </div>
+       <div class="activity-box">
+        <h3 class="text-lg font-semibold text-cyan-200 mb-2">📊 Activity 1: Design a Database Table</h3>
+        <p class="text-slate-200 text-sm mb-3"><strong>Objective:</strong> Apply table design principles by creating a normalized, efficient database table.</p>
+        <div class="space-y-3 text-sm text-slate-200">
+         <p><strong>Scenario:</strong> A local bookstore needs a database to track inventory. They want to store book information: title, author, ISBN, publication year, genre, quantity in stock, and price.</p>
+         <p><strong>Your Task:</strong></p>
+         <ol class="list-decimal list-inside space-y-2 text-slate-300 ml-2">
+          <li>Design a "Books" table with appropriate fields.</li>
+          <li>For EACH field, specify: 
+           <ul class="list-disc list-inside ml-4 mt-1">
+            <li>Field name (e.g., BookID)</li>
+            <li>Data type (Text, Number, Date, Currency, etc.)</li>
+            <li>If it's the primary key or has constraints</li>
+           </ul></li>
+          <li>Create 5 sample records (imagine 5 books in the store).</li>
+          <li>Explain why you chose each data type.</li>
+         </ol>
+         <p class="text-slate-400 mt-2"><strong>Submission:</strong> Draw or create a table diagram (on paper, Word, or Google Sheets) with field definitions and sample data.</p>
+        </div>
+       </div>
+       <div class="activity-box mt-4">
+        <h3 class="text-lg font-semibold text-cyan-200 mb-2">🔍 Activity 2: Write Database Queries</h3>
+        <p class="text-slate-200 text-sm mb-3"><strong>Objective:</strong> Practice formulating queries to extract useful information from data.</p>
+        <div class="space-y-3 text-sm text-slate-200">
+         <p><strong>Scenario:</strong> You have an "Orders" database table with these fields:</p>
+         <p class="text-slate-300 font-mono text-xs bg-slate-900 p-2 rounded">OrderID | CustomerName | OrderDate | ProductName | Quantity | UnitPrice | Status</p>
+         <p><strong>Your Task:</strong> Write 5 queries (in plain English or simple SQL) to answer these questions:</p>
+         <ol class="list-decimal list-inside space-y-2 text-slate-300 ml-2">
+          <li>Show all orders from June 2024</li>
+          <li>Find the top 3 customers by total spending</li>
+          <li>List all pending orders (Status = "Pending")</li>
+          <li>Calculate average order value</li>
+          <li>Show products that have never been ordered</li>
+         </ol>
+         <p class="text-slate-400 mt-2"><strong>Submission:</strong> Write your queries in a Word document or PDF, with a brief explanation of what each query does.</p>
+        </div>
+       </div>
+      </section><!-- Group Activity -->
+      <section>
+       <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-lg bg-amber-600 flex items-center justify-center"><i data-lucide="users" class="w-5 h-5"></i>
+        </div>
+        <h2 class="text-2xl font-bold">Group Project</h2>
+       </div>
+       <div class="activity-box" style="border-color: #fbbf24; background: #451a03;">
+        <h3 class="text-lg font-semibold text-amber-200 mb-2">👥 Build a Mini Movie Rental Database</h3>
+        <p class="text-slate-200 text-sm mb-3"><strong>Group Size:</strong> 3–5 members | <strong>Duration:</strong> 2 weeks</p>
+        <div class="space-y-4 text-sm text-slate-200">
+         <div>
+          <p class="font-semibold text-amber-300">Scenario:</p>
+          <p class="text-slate-300">Your group is designing a database for a small movie rental shop. They need to manage movies, customers, rentals, and returns.</p>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="font-semibold text-amber-300 mb-2">Deliverables:</p>
+          <p class="text-slate-300"><strong>A. Database Design Document (2–3 pages)</strong></p>
+          <ul class="list-disc list-inside text-slate-400 text-xs space-y-1 ml-2 mt-1">
+           <li>List all tables needed (Movies, Customers, Rentals, etc.)</li>
+           <li>For each table, define ALL fields with data types and constraints</li>
+           <li>Identify primary keys and relationships between tables</li>
+           <li>Include 5–10 sample records per table</li>
+          </ul>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="text-slate-300 mt-2"><strong>B. Database Forms Design (Sketches or Screenshots)</strong></p>
+          <ul class="list-disc list-inside text-slate-400 text-xs space-y-1 ml-2 mt-1">
+           <li>Design 3 forms: "Add New Movie", "Register Customer", "Record Rental"</li>
+           <li>Show field layout, labels, input types (text box, dropdown, date picker)</li>
+           <li>Mark required fields with asterisks (*)</li>
+           <li>Add validation rules (e.g., "Price must be &gt; 0")</li>
+          </ul>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="text-slate-300 mt-2"><strong>C. Useful Queries List (5–7 queries)</strong></p>
+          <ul class="list-disc list-inside text-slate-400 text-xs space-y-1 ml-2 mt-1">
+           <li>Example: "Show all available movies (not currently rented)"</li>
+           <li>Example: "Find customers with overdue rentals"</li>
+           <li>Example: "List top 5 most-rented movies"</li>
+           <li>Example: "Calculate total revenue from all rentals"</li>
+           <li>Write in plain English or simple SQL format</li>
+          </ul>
+         </div>
+         <div class="bg-slate-900/50 rounded-lg p-3">
+          <p class="text-slate-300 mt-2"><strong>D. Presentation (5–7 minutes)</strong></p>
+          <ul class="list-disc list-inside text-slate-400 text-xs space-y-1 ml-2 mt-1">
+           <li>Show and explain your database tables</li>
+           <li>Demonstrate your form designs</li>
+           <li>Explain why you chose specific data types and constraints</li>
+           <li>Show examples of useful queries and their results</li>
+           <li>All team members must speak</li>
+          </ul>
+         </div>
+         <div class="bg-amber-900/30 border border-amber-700 rounded-lg p-3 mt-3">
+          <p class="font-semibold text-amber-200">Grading Criteria:</p>
+          <ul class="text-slate-300 text-xs space-y-1 mt-1">
+           <li>• Database design logic and normalization (30%)</li>
+           <li>• Form usability and validation (25%)</li>
+           <li>• Query usefulness and accuracy (25%)</li>
+           <li>• Documentation clarity and presentation (20%)</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </section>
+      <div class="pb-8"></div>
+     </div>
+    </div><!-- QUIZ TAB -->
+    <div id="tab-quiz" class="h-full scroll-container p-6 hidden fade-in">
+     <div class="max-w-3xl mx-auto">
+      <div class="flex items-center justify-between mb-4">
+       <h2 class="text-2xl font-bold">Review Quiz</h2><span class="text-sm text-slate-400" id="quiz-progress-text">Question 1 of 10</span>
+      </div>
+      <div class="progress-bar mb-6">
+       <div class="progress-fill" id="quiz-progress-bar" style="width: 10%"></div>
+      </div>
+      <div id="quiz-container"></div>
+      <div id="quiz-results" class="hidden text-center py-12">
+       <div class="text-6xl mb-4" id="results-emoji">
+        🎉
+       </div>
+       <h3 class="text-3xl font-bold mb-2" id="results-title">Quiz Complete!</h3>
+       <p class="text-xl text-slate-300 mb-2">Your Score:</p>
+       <p class="text-5xl font-bold text-emerald-400 mb-4" id="results-score">0/10</p>
+       <p class="text-slate-400 mb-6" id="results-message"></p><button onclick="resetQuiz()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg font-medium transition">Try Again</button>
+      </div>
+     </div>
+    </div>
+   </main>
+  </div>
+  <script>
+    // Element SDK
+    const defaultConfig = {
+      course_title: 'IS101 – Fundamentals of Information System',
+      instructor: 'MKDB',
+      background_color: '#0f172a',
+      surface_color: '#1e293b',
+      text_color: '#f1f5f9',
+      primary_action: '#818cf8',
+      secondary_action: '#f0abfc',
+      font_family: 'Outfit',
+      font_size: 16
+    };
+
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const bg = config.background_color || defaultConfig.background_color;
+        const surface = config.surface_color || defaultConfig.surface_color;
+        const text = config.text_color || defaultConfig.text_color;
+        const primary = config.primary_action || defaultConfig.primary_action;
+        const secondary = config.secondary_action || defaultConfig.secondary_action;
+        const font = config.font_family || defaultConfig.font_family;
+        const size = config.font_size || defaultConfig.font_size;
+
+        document.body.style.backgroundColor = bg;
+        document.body.style.color = text;
+        document.body.style.fontFamily = `${font}, Outfit, sans-serif`;
+        document.body.style.fontSize = `${size}px`;
+
+        document.querySelectorAll('.card').forEach(el => { el.style.backgroundColor = surface; });
+
+        const courseLabel = document.getElementById('course-label');
+        if (courseLabel) {
+          const title = config.course_title || defaultConfig.course_title;
+          const inst = config.instructor || defaultConfig.instructor;
+          courseLabel.textContent = `${title} | ${inst}`;
+        }
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.primary_action || defaultConfig.primary_action, set: (v) => { config.primary_action = v; window.elementSdk.setConfig({ primary_action: v }); } },
+          { get: () => config.secondary_action || defaultConfig.secondary_action, set: (v) => { config.secondary_action = v; window.elementSdk.setConfig({ secondary_action: v }); } }
+        ],
+        borderables: [],
+        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['course_title', config.course_title || defaultConfig.course_title],
+        ['instructor', config.instructor || defaultConfig.instructor]
+      ])
+    });
+
+    // Tab switching
+    function switchTab(tab) {
+      document.querySelectorAll('[id^="tab-"]').forEach(el => {
+        if (el.id === `tab-${tab}`) { el.classList.remove('hidden'); el.classList.add('fade-in'); }
+        else if (el.id.startsWith('tab-') && el.id !== 'tab-nav') { el.classList.add('hidden'); }
+      });
+      document.querySelectorAll('#tab-nav button').forEach(btn => {
+        btn.classList.toggle('tab-active', btn.dataset.tab === tab);
+        btn.classList.toggle('tab-inactive', btn.dataset.tab !== tab);
+      });
+    }
+
+    // Quiz Data
+    const quizData = [
+      { q: "What is a PRIMARY KEY in a database table?", options: ["A foreign key that links tables", "A unique identifier for each record", "The most important column alphabetically", "A password to access the database"], correct: 1 },
+      { q: "Which of the following is an appropriate data type for storing a customer's birth date?", options: ["Text", "Number", "Date", "Currency"], correct: 2 },
+      { q: "In database design, what does 'redundancy' refer to?", options: ["Creating backup copies of data", "Storing the same information in multiple places", "Having more tables than necessary", "Using primary keys repeatedly"], correct: 1 },
+      { q: "A database FORM is used for:", options: ["Organizing data into rows and columns", "User-friendly data entry and viewing", "Retrieving specific information from a table", "Creating reports only"], correct: 1 },
+      { q: "Which query would retrieve all employees earning more than ₱50,000?", options: ["SELECT all employees ORDER BY salary", "SELECT EmployeeName, Salary WHERE Salary > 50000", "SELECT EmployeeName FROM Employees WHERE Salary > 50000", "SHOW Salary FROM Employees > 50000"], correct: 2 },
+      { q: "What is the purpose of setting a field as 'Required' in a form?", options: ["To make the field visible", "To ensure the field must have a value before saving", "To automatically calculate values", "To hide the field from users"], correct: 1 },
+      { q: "An AGGREGATE query typically does which of the following?", options: ["Sorts data alphabetically", "Combines data from multiple tables", "Summarizes data (e.g., COUNT, SUM, AVERAGE)", "Deletes old records"], correct: 2 },
+      { q: "In a school enrollment database, the StudentID would be best defined as a:", options: ["Text field", "Date field", "Foreign Key linking to another table", "Primary Key"], correct: 3 },
+      { q: "Which of the following is a drawback of NOT using a database and relying on separate Excel files instead?", options: ["Databases are slower than Excel", "Data duplication and inconsistency across files", "Too many features make it complicated", "Databases cannot store as much data"], correct: 1 },
+      { q: "A JOIN query is used to:", options: ["Delete unnecessary records", "Combine data from multiple related tables", "Create backup copies", "Sort data in descending order"], correct: 1 }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = [];
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      const q = quizData[currentQuestion];
+      container.innerHTML = `
+        <div class="card fade-in">
+          <p class="text-xs text-emerald-300 font-medium mb-2">Question ${currentQuestion + 1}</p>
+          <h3 class="text-lg font-semibold mb-4">${q.q}</h3>
+          <div class="space-y-3" id="options">
+            ${q.options.map((opt, i) => `
+              <div class="quiz-option" onclick="selectAnswer(${i})" id="opt-${i}">
+                <span class="font-medium text-slate-400 mr-2">${String.fromCharCode(65 + i)}.</span> ${opt}
+              </div>
+            `).join('')}
+          </div>
+          <div id="feedback" class="mt-4 hidden"></div>
+          <div class="mt-4 flex justify-end">
+            <button id="next-btn" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-lg font-medium transition" onclick="nextQuestion()">
+              ${currentQuestion < 9 ? 'Next Question →' : 'See Results'}
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectAnswer(idx) {
+      if (answered[currentQuestion] !== undefined) return;
+      answered[currentQuestion] = idx;
+      const correct = quizData[currentQuestion].correct;
+      const isCorrect = idx === correct;
+      if (isCorrect) score++;
+
+      document.querySelectorAll('.quiz-option').forEach((el, i) => {
+        if (i === correct) el.classList.add('correct');
+        else if (i === idx && !isCorrect) el.classList.add('incorrect');
+        el.style.pointerEvents = 'none';
+      });
+
+      const feedback = document.getElementById('feedback');
+      feedback.classList.remove('hidden');
+      feedback.innerHTML = isCorrect
+        ? '<p class="text-emerald-400 font-medium">✓ Correct!</p>'
+        : `<p class="text-red-400 font-medium">✗ Incorrect. The correct answer is <strong>${String.fromCharCode(65 + correct)}. ${quizData[currentQuestion].options[correct]}</strong></p>`;
+
+      document.getElementById('next-btn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion >= 10) {
+        document.getElementById('quiz-container').classList.add('hidden');
+        const results = document.getElementById('quiz-results');
+        results.classList.remove('hidden');
+        document.getElementById('results-score').textContent = `${score}/10`;
+        const pct = score / 10;
+        document.getElementById('results-emoji').textContent = pct >= 0.8 ? '🎉' : pct >= 0.5 ? '👍' : '📚';
+        document.getElementById('results-title').textContent = pct >= 0.8 ? 'Excellent Work!' : pct >= 0.5 ? 'Good Effort!' : 'Keep Studying!';
+        document.getElementById('results-message').textContent = pct >= 0.8 ? 'You have a strong understanding of database design and queries.' : pct >= 0.5 ? 'Review the areas you missed and try again.' : 'Go back to the lesson tab and review the core concepts, then retry.';
+      } else {
+        document.getElementById('quiz-progress-text').textContent = `Question ${currentQuestion + 1} of 10`;
+        document.getElementById('quiz-progress-bar').style.width = `${(currentQuestion + 1) * 10}%`;
+        renderQuiz();
+      }
+    }
+
+    function resetQuiz() {
+      currentQuestion = 0; score = 0; answered = [];
+      document.getElementById('quiz-results').classList.add('hidden');
+      document.getElementById('quiz-container').classList.remove('hidden');
+      document.getElementById('quiz-progress-text').textContent = 'Question 1 of 10';
+      document.getElementById('quiz-progress-bar').style.width = '10%';
+      renderQuiz();
+    }
+
+    renderQuiz();
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f6af8ca7097fed0',t:'MTc3NzkzNDA1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
