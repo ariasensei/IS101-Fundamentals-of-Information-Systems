@@ -1,0 +1,1141 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IS101 Finals - Weeks 3-5</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Playfair+Display:wght@700;800&amp;display=swap" rel="stylesheet">
+  <style>
+html, body { height: 100%; margin: 0; font-family: 'DM Sans', sans-serif; }
+
+:root {
+  --bg: #0f1729;
+  --surface: #1a2542;
+  --text: #e8edf5;
+  --primary: #6c5ce7;
+  --secondary: #00cec9;
+}
+
+* { box-sizing: border-box; }
+
+.app-shell { height: 100%; width: 100%; overflow-y: auto; overflow-x: hidden; background: var(--bg); color: var(--text); }
+
+/* Animated background grid */
+.grid-bg {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(108,92,231,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,92,231,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove { to { background-position: 60px 60px; } }
+
+/* Floating particles */
+.particle {
+  position: absolute; border-radius: 50%; pointer-events: none; opacity: 0.3;
+  animation: float 8s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-30px) scale(1.2); opacity: 0.6; }
+}
+
+/* Tab styling */
+.week-tab {
+  padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s;
+  background: transparent; border: 1px solid rgba(108,92,231,0.2); color: var(--text); font-weight: 500;
+}
+.week-tab:hover { background: rgba(108,92,231,0.15); }
+.week-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; box-shadow: 0 4px 20px rgba(108,92,231,0.4); }
+
+/* Sub-tab */
+.sub-tab {
+  padding: 8px 18px; border-radius: 8px; cursor: pointer; transition: all 0.3s;
+  background: transparent; border: 1px solid rgba(0,206,201,0.2); color: rgba(232,237,245,0.6); font-size: 14px;
+}
+.sub-tab:hover { color: var(--text); background: rgba(0,206,201,0.1); }
+.sub-tab.active { background: rgba(0,206,201,0.15); border-color: var(--secondary); color: var(--secondary); }
+
+/* Cards */
+.lesson-card {
+  background: var(--surface); border-radius: 16px; padding: 28px; border: 1px solid rgba(108,92,231,0.12);
+  transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden;
+}
+.lesson-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+.lesson-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+
+/* Animated illustrations */
+.illustration-box {
+  background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.1));
+  border-radius: 16px; padding: 24px; display: flex; align-items: center; justify-content: center;
+  min-height: 200px; position: relative; overflow: hidden; border: 1px solid rgba(108,92,231,0.1);
+}
+
+/* Data flow animation */
+.data-node {
+  width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; position: absolute; animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+.data-packet {
+  width: 10px; height: 10px; border-radius: 50%; background: var(--secondary); position: absolute;
+  animation: movePacket 3s ease-in-out infinite;
+}
+@keyframes movePacket {
+  0% { left: 15%; opacity: 0; }
+  10% { opacity: 1; }
+  50% { left: 50%; }
+  90% { opacity: 1; }
+  100% { left: 85%; opacity: 0; }
+}
+
+/* Shield animation for security */
+.shield-anim { animation: shieldPulse 2s ease-in-out infinite; }
+@keyframes shieldPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(108,92,231,0.3)); }
+  50% { filter: drop-shadow(0 0 20px rgba(108,92,231,0.7)); }
+}
+
+/* Cloud animation */
+.cloud-float { animation: cloudFloat 4s ease-in-out infinite; }
+@keyframes cloudFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Gear rotation for IoT */
+.gear-spin { animation: gearSpin 6s linear infinite; }
+@keyframes gearSpin { to { transform: rotate(360deg); } }
+
+/* Scenario box */
+.scenario-box {
+  background: linear-gradient(135deg, rgba(0,206,201,0.08), rgba(108,92,231,0.08));
+  border-left: 4px solid var(--secondary); border-radius: 0 12px 12px 0; padding: 20px;
+}
+
+/* Activity card */
+.activity-card {
+  background: var(--surface); border-radius: 14px; padding: 22px; border: 1px solid rgba(0,206,201,0.15);
+  transition: all 0.3s;
+}
+.activity-card:hover { border-color: rgba(0,206,201,0.4); }
+
+.activity-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-individual { background: rgba(108,92,231,0.2); color: #a29bfe; }
+.badge-group { background: rgba(0,206,201,0.2); color: #00cec9; }
+
+/* Quiz */
+.quiz-option {
+  padding: 14px 18px; border-radius: 10px; cursor: pointer; border: 1px solid rgba(108,92,231,0.2);
+  transition: all 0.3s; background: rgba(26,37,66,0.5);
+}
+.quiz-option:hover { border-color: var(--primary); background: rgba(108,92,231,0.1); }
+.quiz-option.correct { border-color: #00b894; background: rgba(0,184,148,0.15); color: #55efc4; }
+.quiz-option.wrong { border-color: #d63031; background: rgba(214,48,49,0.15); color: #ff7675; }
+
+/* Expand collapse */
+.expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+.expandable-content.open { max-height: 3000px; }
+
+/* Progress dots */
+.progress-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(108,92,231,0.3); transition: all 0.3s; }
+.progress-dot.active { background: var(--primary); box-shadow: 0 0 10px rgba(108,92,231,0.5); }
+.progress-dot.completed { background: var(--secondary); }
+
+/* Scroll animations */
+.fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Neural net animation for AI */
+.neural-dot {
+  width: 8px; height: 8px; border-radius: 50%; position: absolute;
+  animation: neuralPulse 2s ease-in-out infinite;
+}
+@keyframes neuralPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+.neural-line {
+  position: absolute; height: 1px; background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+  animation: lineGlow 3s ease-in-out infinite;
+}
+@keyframes lineGlow {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.6; }
+}
+
+/* Orbit animation for IoT */
+.orbit-ring {
+  border: 1px dashed rgba(0,206,201,0.3); border-radius: 50%; position: absolute;
+  animation: orbitSpin 12s linear infinite;
+}
+@keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+.orbit-device {
+  width: 28px; height: 28px; border-radius: 8px; position: absolute;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+  animation: deviceBob 3s ease-in-out infinite;
+}
+@keyframes deviceBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Lock animation */
+.lock-icon { animation: lockShake 4s ease-in-out infinite; }
+@keyframes lockShake {
+  0%, 90%, 100% { transform: rotate(0); }
+  92% { transform: rotate(-5deg); }
+  94% { transform: rotate(5deg); }
+  96% { transform: rotate(-3deg); }
+  98% { transform: rotate(3deg); }
+}
+
+/* Typing cursor */
+.cursor-blink::after { content: '|'; animation: blink 1s step-end infinite; color: var(--secondary); }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Custom scrollbar */
+.app-shell::-webkit-scrollbar { width: 6px; }
+.app-shell::-webkit-scrollbar-track { background: var(--bg); }
+.app-shell::-webkit-scrollbar-thumb { background: rgba(108,92,231,0.3); border-radius: 3px; }
+.app-shell::-webkit-scrollbar-thumb:hover { background: rgba(108,92,231,0.5); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .week-tab { padding: 8px 14px; font-size: 13px; }
+  .sub-tab { padding: 6px 12px; font-size: 12px; }
+  .lesson-card { padding: 18px; }
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="app-shell" id="app">
+   <div class="grid-bg"></div><!-- Floating Particles -->
+   <div style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;">
+    <div class="particle" style="width:6px;height:6px;background:var(--primary);top:15%;left:10%;animation-delay:0s;"></div>
+    <div class="particle" style="width:4px;height:4px;background:var(--secondary);top:40%;left:80%;animation-delay:2s;"></div>
+    <div class="particle" style="width:8px;height:8px;background:var(--primary);top:70%;left:25%;animation-delay:4s;"></div>
+    <div class="particle" style="width:5px;height:5px;background:var(--secondary);top:20%;left:60%;animation-delay:1s;"></div>
+    <div class="particle" style="width:7px;height:7px;background:var(--primary);top:85%;left:70%;animation-delay:3s;"></div>
+   </div>
+   <div style="position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:24px 16px;"><!-- Header -->
+    <header style="text-align:center;margin-bottom:36px;">
+     <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(108,92,231,0.15);padding:6px 16px;border-radius:20px;font-size:13px;color:#a29bfe;margin-bottom:12px;"><i data-lucide="graduation-cap" style="width:14px;height:14px;"></i> <span id="courseLabel">IS101</span> • Finals Period
+     </div>
+     <h1 id="mainTitle" style="font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:800;margin:8px 0;background:linear-gradient(135deg,#e8edf5,#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Information Systems Fundamentals</h1>
+     <p style="color:rgba(232,237,245,0.5);font-size:15px;">Instructor: <span id="instructorLabel" style="color:var(--secondary);">MKDB</span> &nbsp;|&nbsp; Weeks 3–5 Finals</p>
+    </header><!-- Week Tabs -->
+    <nav style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;" id="weekTabs"><button class="week-tab active" onclick="switchWeek(3)" data-week="3"> 📊 Week 3 </button> <button class="week-tab" onclick="switchWeek(4)" data-week="4"> 🔐 Week 4 </button> <button class="week-tab" onclick="switchWeek(5)" data-week="5"> 🚀 Week 5 </button>
+    </nav><!-- Progress Indicator -->
+    <div style="display:flex;gap:6px;justify-content:center;margin-bottom:28px;" id="progressDots">
+     <div class="progress-dot active"></div>
+     <div class="progress-dot"></div>
+     <div class="progress-dot"></div>
+    </div><!-- ============== WEEK 3 ============== -->
+    <div id="week3" class="week-content"><!-- ILO Banner -->
+     <div class="lesson-card" style="margin-bottom:24px;border-left:4px solid var(--secondary);">
+      <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+       <div style="background:rgba(0,206,201,0.15);padding:10px;border-radius:12px;flex-shrink:0;"><i data-lucide="target" style="width:24px;height:24px;color:var(--secondary);"></i>
+       </div>
+       <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 6px;">Intended Learning Outcome</h3>
+        <p style="margin:0;color:rgba(232,237,245,0.7);font-size:14px;line-height:1.6;">Explain the principles of information management and evaluate data quality issues in organizational contexts.</p>
+       </div>
+      </div>
+     </div><!-- Sub tabs for Lesson / Scenarios / Activities -->
+     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;" id="w3SubTabs"><button class="sub-tab active" onclick="switchSubTab(3,'lesson')">📖 Lesson</button> <button class="sub-tab" onclick="switchSubTab(3,'scenarios')">🌍 Real-World Scenarios</button> <button class="sub-tab" onclick="switchSubTab(3,'activities')">✏️ Activities</button> <button class="sub-tab" onclick="switchSubTab(3,'quiz')">🧠 Quick Quiz</button>
+     </div><!-- W3 LESSON -->
+     <div id="w3-lesson" class="sub-content"><!-- Animated Illustration: Data Flow -->
+      <div class="illustration-box" style="margin-bottom:24px;min-height:220px;">
+       <div style="position:relative;width:100%;height:200px;"><!-- Source -->
+        <div class="data-node" style="background:rgba(108,92,231,0.3);border:2px solid var(--primary);left:5%;top:50%;transform:translateY(-50%);">
+         📥
+        </div>
+        <div style="position:absolute;left:5%;top:calc(50% + 38px);font-size:11px;color:#a29bfe;text-align:center;width:50px;">
+         Collect
+        </div><!-- Process -->
+        <div class="data-node" style="background:rgba(0,206,201,0.3);border:2px solid var(--secondary);left:30%;top:50%;transform:translateY(-50%);animation-delay:0.5s;">
+         ⚙️
+        </div>
+        <div style="position:absolute;left:30%;top:calc(50% + 38px);font-size:11px;color:var(--secondary);text-align:center;width:50px;">
+         Process
+        </div><!-- Store -->
+        <div class="data-node" style="background:rgba(108,92,231,0.3);border:2px solid var(--primary);left:55%;top:50%;transform:translateY(-50%);animation-delay:1s;">
+         🗄️
+        </div>
+        <div style="position:absolute;left:55%;top:calc(50% + 38px);font-size:11px;color:#a29bfe;text-align:center;width:50px;">
+         Store
+        </div><!-- Distribute -->
+        <div class="data-node" style="background:rgba(0,206,201,0.3);border:2px solid var(--secondary);left:80%;top:50%;transform:translateY(-50%);animation-delay:1.5s;">
+         📤
+        </div>
+        <div style="position:absolute;left:80%;top:calc(50% + 38px);font-size:11px;color:var(--secondary);text-align:center;width:50px;">
+         Distribute
+        </div><!-- Moving data packets -->
+        <div class="data-packet" style="top:calc(50% - 5px);animation-delay:0s;"></div>
+        <div class="data-packet" style="top:calc(50% - 5px);animation-delay:1.5s;"></div>
+        <div class="data-packet" style="top:calc(50% - 5px);animation-delay:3s;background:var(--primary);"></div><!-- Label -->
+        <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(232,237,245,0.5);font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+         Information Management Lifecycle
+        </div>
+       </div>
+      </div><!-- What is Information Management -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">📊 What is Information Management?</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 14px;"><strong style="color:var(--text);">Information Management (IM)</strong> is the systematic process of collecting, organizing, maintaining, retrieving, and distributing information within an organization. Think of it as the backbone that ensures the right information reaches the right people at the right time.</p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:16px;">
+        <div style="background:rgba(108,92,231,0.08);padding:16px;border-radius:12px;">
+         <div style="font-size:24px;margin-bottom:8px;">
+          📥
+         </div>
+         <h4 style="margin:0 0 6px;font-size:15px;">Collection</h4>
+         <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.6);">Gathering data from internal and external sources — surveys, transactions, sensors, social media.</p>
+        </div>
+        <div style="background:rgba(0,206,201,0.08);padding:16px;border-radius:12px;">
+         <div style="font-size:24px;margin-bottom:8px;">
+          🗂️
+         </div>
+         <h4 style="margin:0 0 6px;font-size:15px;">Organization</h4>
+         <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.6);">Structuring data using databases, taxonomies, and classification systems for easy retrieval.</p>
+        </div>
+        <div style="background:rgba(108,92,231,0.08);padding:16px;border-radius:12px;">
+         <div style="font-size:24px;margin-bottom:8px;">
+          🔄
+         </div>
+         <h4 style="margin:0 0 6px;font-size:15px;">Maintenance</h4>
+         <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.6);">Keeping data accurate, updated, and consistent over time through governance policies.</p>
+        </div>
+        <div style="background:rgba(0,206,201,0.08);padding:16px;border-radius:12px;">
+         <div style="font-size:24px;margin-bottom:8px;">
+          📤
+         </div>
+         <h4 style="margin:0 0 6px;font-size:15px;">Distribution</h4>
+         <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.6);">Delivering information through reports, dashboards, and systems to support decisions.</p>
+        </div>
+       </div>
+      </div><!-- Data Quality Dimensions -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">🔍 The 6 Dimensions of Data Quality</h2>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 16px;">Poor data quality costs organizations an average of <strong style="color:#ff7675;">$12.9 million per year</strong> (Gartner). Here are the six critical dimensions:</p>
+       <div id="dqDimensions" style="display:flex;flex-direction:column;gap:12px;">
+       </div>
+      </div><!-- Data Governance -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">🏛️ Data Governance Framework</h2>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 14px;">Data governance establishes the policies, standards, and processes for managing data assets. It answers: <em>Who owns the data? Who can access it? How is quality ensured?</em></p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+        <div style="text-align:center;padding:16px;background:rgba(108,92,231,0.06);border-radius:12px;">
+         <div style="font-size:28px;margin-bottom:6px;">
+          👤
+         </div><strong style="font-size:14px;">Data Stewards</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.5);margin:4px 0 0;">Responsible for data quality in their domain</p>
+        </div>
+        <div style="text-align:center;padding:16px;background:rgba(0,206,201,0.06);border-radius:12px;">
+         <div style="font-size:28px;margin-bottom:6px;">
+          📋
+         </div><strong style="font-size:14px;">Policies &amp; Standards</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.5);margin:4px 0 0;">Rules for data handling, retention, and access</p>
+        </div>
+        <div style="text-align:center;padding:16px;background:rgba(108,92,231,0.06);border-radius:12px;">
+         <div style="font-size:28px;margin-bottom:6px;">
+          🔧
+         </div><strong style="font-size:14px;">Tools &amp; Technology</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.5);margin:4px 0 0;">ETL tools, master data management, quality software</p>
+        </div>
+        <div style="text-align:center;padding:16px;background:rgba(0,206,201,0.06);border-radius:12px;">
+         <div style="font-size:28px;margin-bottom:6px;">
+          📊
+         </div><strong style="font-size:14px;">Metrics &amp; Monitoring</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.5);margin:4px 0 0;">Dashboards tracking data quality KPIs</p>
+        </div>
+       </div>
+      </div>
+     </div><!-- W3 SCENARIOS -->
+     <div id="w3-scenarios" class="sub-content" style="display:none;">
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">🏥 Scenario 1: Hospital Patient Records</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>The Problem:</strong> A hospital in Manila discovered that 15% of patient records had duplicate entries with inconsistent data — one record showed "Juan dela Cruz, Male, 45" while another showed "Juan D. Cruz, M, 44." A doctor almost administered the wrong medication because they accessed an outdated record.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Data Quality Issues:</strong> Accuracy (wrong age), Consistency (different name formats), Uniqueness (duplicate records), Timeliness (outdated info).</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Solution:</strong> The hospital implemented a Master Patient Index (MPI) system with data validation rules, mandatory fields, and automated duplicate detection. Data quality improved by 89% within 6 months.</p>
+      </div>
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">🛒 Scenario 2: E-Commerce Product Data</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>The Problem:</strong> Shopee Philippines found that products with incomplete descriptions had a 40% higher return rate. Missing size charts, unclear color names ("Midnight Fantasy Blue"), and inconsistent pricing across sellers eroded customer trust.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Data Quality Issues:</strong> Completeness (missing product details), Validity (prices not matching format rules), Consistency (different sellers, different formats).</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Solution:</strong> Mandatory product listing templates with required fields, AI-powered image-to-description tools, and standardized category taxonomies reduced returns by 25%.</p>
+      </div>
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">🏦 Scenario 3: Bank Data Migration Disaster</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>The Problem:</strong> During a core banking system migration, a bank lost 3 days of transaction records for 50,000 accounts. Date formats (MM/DD vs DD/MM) caused transactions to be assigned to wrong dates, and currency fields mixed up PHP and USD amounts.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Data Quality Issues:</strong> Accuracy, Validity (format mismatches), Timeliness (lost recent data), Completeness.</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Lesson Learned:</strong> Always perform data profiling before migration, use standardized formats (ISO 8601 for dates), and run parallel systems during transition periods.</p>
+      </div>
+     </div><!-- W3 ACTIVITIES -->
+     <div id="w3-activities" class="sub-content" style="display:none;">
+      <div class="activity-card" style="margin-bottom:18px;">
+       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0;">Activity 1: Data Quality Audit</h3><span class="activity-badge badge-individual"><i data-lucide="user" style="width:12px;height:12px;"></i> Individual</span>
+       </div>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 12px;"><strong>Instructions:</strong> Choose any publicly available dataset (from your school portal, a government website, or an e-commerce site). Analyze it against the 6 Data Quality Dimensions.</p>
+       <div style="background:rgba(108,92,231,0.08);padding:14px;border-radius:10px;margin-bottom:10px;">
+        <p style="margin:0;font-size:14px;color:rgba(232,237,245,0.7);"><strong>Deliverables:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;color:rgba(232,237,245,0.6);font-size:13px;line-height:1.8;">
+         <li>Identify at least 3 data quality issues found</li>
+         <li>Classify each issue under the correct dimension</li>
+         <li>Propose a specific fix for each issue</li>
+         <li>Write a 1-page reflection on how poor data quality could impact decisions</li>
+        </ul>
+       </div>
+       <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.5);">📅 Due: End of Week 3 &nbsp;|&nbsp; 📝 Format: Written Report (PDF)</p>
+      </div>
+      <div class="activity-card" style="margin-bottom:18px;">
+       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0;">Activity 2: Data Governance Proposal</h3><span class="activity-badge badge-group"><i data-lucide="users" style="width:12px;height:12px;"></i> Group (3-4 members)</span>
+       </div>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 12px;"><strong>Instructions:</strong> Your group is hired as consultants for a local small business (sari-sari store, restaurant, or clinic). Design a data governance framework for their needs.</p>
+       <div style="background:rgba(0,206,201,0.08);padding:14px;border-radius:10px;margin-bottom:10px;">
+        <p style="margin:0;font-size:14px;color:rgba(232,237,245,0.7);"><strong>Deliverables:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;color:rgba(232,237,245,0.6);font-size:13px;line-height:1.8;">
+         <li>Identify what data the business collects and stores</li>
+         <li>Define data ownership roles (who is responsible?)</li>
+         <li>Create 5 data quality rules the business should follow</li>
+         <li>Recommend at least 1 tool or process for improvement</li>
+         <li>Present in a 5-minute group presentation with slides</li>
+        </ul>
+       </div>
+       <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.5);">📅 Due: End of Week 3 &nbsp;|&nbsp; 📝 Format: Presentation + Q&amp;A</p>
+      </div>
+     </div><!-- W3 QUIZ -->
+     <div id="w3-quiz" class="sub-content" style="display:none;">
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:20px;margin:0 0 16px;">🧠 Quick Knowledge Check — Week 3</h2>
+       <div id="w3QuizContainer"></div>
+      </div>
+     </div>
+    </div><!-- ============== WEEK 4 ============== -->
+    <div id="week4" class="week-content" style="display:none;">
+     <div class="lesson-card" style="margin-bottom:24px;border-left:4px solid var(--secondary);">
+      <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+       <div style="background:rgba(0,206,201,0.15);padding:10px;border-radius:12px;flex-shrink:0;"><i data-lucide="target" style="width:24px;height:24px;color:var(--secondary);"></i>
+       </div>
+       <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 6px;">Intended Learning Outcome</h3>
+        <p style="margin:0;color:rgba(232,237,245,0.7);font-size:14px;line-height:1.6;">Explain and apply basic information systems security concepts and demonstrate awareness of ethical issues in the use of information systems.</p>
+       </div>
+      </div>
+     </div>
+     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;" id="w4SubTabs"><button class="sub-tab active" onclick="switchSubTab(4,'lesson')">📖 Lesson</button> <button class="sub-tab" onclick="switchSubTab(4,'scenarios')">🌍 Real-World Scenarios</button> <button class="sub-tab" onclick="switchSubTab(4,'activities')">✏️ Activities</button> <button class="sub-tab" onclick="switchSubTab(4,'quiz')">🧠 Quick Quiz</button>
+     </div><!-- W4 LESSON -->
+     <div id="w4-lesson" class="sub-content"><!-- Security Animated Illustration -->
+      <div class="illustration-box" style="margin-bottom:24px;min-height:220px;">
+       <div style="position:relative;width:100%;height:200px;display:flex;align-items:center;justify-content:center;"><!-- Central Shield -->
+        <div class="shield-anim" style="text-align:center;z-index:2;">
+         <div style="font-size:64px;">
+          🛡️
+         </div>
+         <div style="font-size:12px;color:var(--secondary);margin-top:4px;font-weight:600;">
+          CIA TRIAD
+         </div>
+        </div><!-- Orbiting concepts -->
+        <div style="position:absolute;top:10%;left:10%;text-align:center;" class="cloud-float">
+         <div style="background:rgba(108,92,231,0.2);padding:12px;border-radius:12px;font-size:13px;font-weight:600;">
+          🔒 Confidentiality
+         </div>
+        </div>
+        <div style="position:absolute;top:10%;right:10%;text-align:center;" class="cloud-float">
+         <div style="background:rgba(0,206,201,0.2);padding:12px;border-radius:12px;font-size:13px;font-weight:600;">
+          ✅ Integrity
+         </div>
+        </div>
+        <div style="position:absolute;bottom:10%;left:50%;transform:translateX(-50%);text-align:center;" class="cloud-float">
+         <div style="background:rgba(108,92,231,0.2);padding:12px;border-radius:12px;font-size:13px;font-weight:600;">
+          ⚡ Availability
+         </div>
+        </div><!-- Attack arrows -->
+        <div style="position:absolute;top:50%;left:2%;font-size:20px;animation:lockShake 3s ease-in-out infinite;">
+         🦠
+        </div>
+        <div style="position:absolute;top:30%;right:2%;font-size:20px;animation:lockShake 3s ease-in-out infinite;animation-delay:1s;">
+         🎣
+        </div>
+        <div style="position:absolute;bottom:5%;left:15%;font-size:20px;animation:lockShake 3s ease-in-out infinite;animation-delay:2s;">
+         💀
+        </div>
+        <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(232,237,245,0.5);font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+         Information Security Model
+        </div>
+       </div>
+      </div>
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">🔐 The CIA Triad of Information Security</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 16px;">The CIA Triad is the foundational model for information security. Every security measure aims to protect one or more of these three principles:</p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+        <div style="background:rgba(108,92,231,0.08);padding:20px;border-radius:14px;border-top:3px solid var(--primary);">
+         <h3 style="margin:0 0 8px;font-size:17px;">🔒 Confidentiality</h3>
+         <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.65);line-height:1.7;">Only authorized individuals can access the information. Achieved through encryption, access controls, and authentication.</p>
+         <div style="margin-top:10px;font-size:12px;color:#a29bfe;">
+          <strong>Example:</strong> Only you can see your bank balance after logging in.
+         </div>
+        </div>
+        <div style="background:rgba(0,206,201,0.08);padding:20px;border-radius:14px;border-top:3px solid var(--secondary);">
+         <h3 style="margin:0 0 8px;font-size:17px;">✅ Integrity</h3>
+         <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.65);line-height:1.7;">Data remains accurate and unaltered during storage and transmission. Achieved through checksums, hashing, and audit trails.</p>
+         <div style="margin-top:10px;font-size:12px;color:var(--secondary);">
+          <strong>Example:</strong> Your GWA on the student portal matches official records.
+         </div>
+        </div>
+        <div style="background:rgba(108,92,231,0.08);padding:20px;border-radius:14px;border-top:3px solid #fdcb6e;">
+         <h3 style="margin:0 0 8px;font-size:17px;">⚡ Availability</h3>
+         <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.65);line-height:1.7;">Information and systems are accessible when needed. Achieved through backups, redundancy, and disaster recovery plans.</p>
+         <div style="margin-top:10px;font-size:12px;color:#fdcb6e;">
+          <strong>Example:</strong> The enrollment system stays online during registration week.
+         </div>
+        </div>
+       </div>
+      </div><!-- Common Threats -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">⚠️ Common Security Threats</h2>
+       <div id="threatsList" style="display:flex;flex-direction:column;gap:10px;"></div>
+      </div><!-- Ethics in IS -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">⚖️ Ethics in Information Systems</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 16px;">Technology raises moral questions that laws often lag behind. The <strong style="color:var(--text);">PAPA Framework</strong> (Richard Mason, 1986) identifies four key ethical issues:</p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+        <div style="padding:18px;background:rgba(108,92,231,0.08);border-radius:12px;text-align:center;">
+         <div style="font-size:32px;margin-bottom:6px;">
+          🔏
+         </div>
+         <h4 style="margin:0 0 4px;color:var(--primary);">Privacy</h4>
+         <p style="margin:0;font-size:12px;color:rgba(232,237,245,0.6);">What information should individuals be able to keep to themselves?</p>
+        </div>
+        <div style="padding:18px;background:rgba(0,206,201,0.08);border-radius:12px;text-align:center;">
+         <div style="font-size:32px;margin-bottom:6px;">
+          ✅
+         </div>
+         <h4 style="margin:0 0 4px;color:var(--secondary);">Accuracy</h4>
+         <p style="margin:0;font-size:12px;color:rgba(232,237,245,0.6);">Who is responsible for the authenticity and accuracy of information?</p>
+        </div>
+        <div style="padding:18px;background:rgba(108,92,231,0.08);border-radius:12px;text-align:center;">
+         <div style="font-size:32px;margin-bottom:6px;">
+          ©️
+         </div>
+         <h4 style="margin:0 0 4px;color:#fdcb6e;">Property</h4>
+         <p style="margin:0;font-size:12px;color:rgba(232,237,245,0.6);">Who owns information and how should it be protected? (IP, patents, copyright)</p>
+        </div>
+        <div style="padding:18px;background:rgba(0,206,201,0.08);border-radius:12px;text-align:center;">
+         <div style="font-size:32px;margin-bottom:6px;">
+          🌐
+         </div>
+         <h4 style="margin:0 0 4px;color:#ff7675;">Accessibility</h4>
+         <p style="margin:0;font-size:12px;color:rgba(232,237,245,0.6);">Who has the right to access information and what are the channels?</p>
+        </div>
+       </div>
+      </div>
+     </div><!-- W4 SCENARIOS -->
+     <div id="w4-scenarios" class="sub-content" style="display:none;">
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">🎣 Scenario 1: The Phishing Attack on a University</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>What Happened:</strong> Students at a Philippine university received emails that looked exactly like the official enrollment portal, asking them to "verify" their accounts. 200 students entered their credentials. The attackers then accessed student records, changed grades for hire, and stole financial aid information.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>CIA Impact:</strong> Confidentiality (stolen credentials), Integrity (altered grades), Availability (portal taken offline for investigation).</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Prevention:</strong> Multi-factor authentication (MFA), security awareness training, email filtering, and domain verification (look for HTTPS and correct URL).</p>
+      </div>
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">📱 Scenario 2: The Cambridge Analytica Scandal</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>What Happened:</strong> A "personality quiz" app on Facebook harvested data from 87 million users — not just quiz-takers but also their friends. This data was used for political advertising during elections without users' informed consent.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Ethical Issues (PAPA):</strong> Privacy (data collected without proper consent), Property (who owns user-generated data?), Accessibility (third-party access to personal data).</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Impact:</strong> Led to the EU's GDPR regulation, Facebook's $5 billion FTC fine, and global awareness of data privacy rights. In the Philippines, the Data Privacy Act of 2012 (RA 10173) provides similar protections.</p>
+      </div>
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">💉 Scenario 3: Ransomware Attack on Hospitals</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>What Happened:</strong> The WannaCry ransomware attack (2017) paralyzed the UK's National Health Service. 70,000 devices were locked, surgeries were cancelled, and ambulances were diverted. The attackers demanded Bitcoin payment to unlock the systems.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>CIA Impact:</strong> Availability was devastated — critical systems were inaccessible. Patient lives were at risk.</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Lesson:</strong> Regular backups, timely software patches, network segmentation, and incident response plans are not optional — they're life-saving measures.</p>
+      </div>
+     </div><!-- W4 ACTIVITIES -->
+     <div id="w4-activities" class="sub-content" style="display:none;">
+      <div class="activity-card" style="margin-bottom:18px;">
+       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0;">Activity 1: Phishing Detection Challenge</h3><span class="activity-badge badge-individual"><i data-lucide="user" style="width:12px;height:12px;"></i> Individual</span>
+       </div>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 12px;"><strong>Instructions:</strong> Your instructor will provide 5 sample emails (printed or digital). For each email, determine if it is legitimate or a phishing attempt.</p>
+       <div style="background:rgba(108,92,231,0.08);padding:14px;border-radius:10px;margin-bottom:10px;">
+        <p style="margin:0;font-size:14px;color:rgba(232,237,245,0.7);"><strong>Deliverables:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;color:rgba(232,237,245,0.6);font-size:13px;line-height:1.8;">
+         <li>Label each email: Legitimate ✅ or Phishing 🎣</li>
+         <li>List at least 3 red flags (or trust indicators) per email</li>
+         <li>Explain what action you would take for each</li>
+         <li>Write 5 personal "email safety rules" you'll follow going forward</li>
+        </ul>
+       </div>
+       <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.5);">📅 Due: End of Week 4 &nbsp;|&nbsp; 📝 Format: Worksheet</p>
+      </div>
+      <div class="activity-card" style="margin-bottom:18px;">
+       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0;">Activity 2: Ethics Debate — "Privacy vs. National Security"</h3><span class="activity-badge badge-group"><i data-lucide="users" style="width:12px;height:12px;"></i> Group (4-5 members)</span>
+       </div>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 12px;"><strong>Instructions:</strong> Debate the question: <em>"Should governments have the right to access private messages and data to prevent crime and terrorism?"</em></p>
+       <div style="background:rgba(0,206,201,0.08);padding:14px;border-radius:10px;margin-bottom:10px;">
+        <p style="margin:0;font-size:14px;color:rgba(232,237,245,0.7);"><strong>Deliverables:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;color:rgba(232,237,245,0.6);font-size:13px;line-height:1.8;">
+         <li>Teams are assigned PRO or CON positions (by draw)</li>
+         <li>Each team prepares a 5-minute opening statement with 3 key arguments</li>
+         <li>Reference at least 2 real-world cases (e.g., Apple vs FBI, SIM Registration Act)</li>
+         <li>Apply the PAPA Framework to support your position</li>
+         <li>3-minute rebuttal round, followed by class vote</li>
+        </ul>
+       </div>
+       <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.5);">📅 Due: Week 4 class session &nbsp;|&nbsp; 📝 Format: Live Debate</p>
+      </div>
+     </div><!-- W4 QUIZ -->
+     <div id="w4-quiz" class="sub-content" style="display:none;">
+      <div class="lesson-card">
+       <h2 style="font-family:'Playfair Display',serif;font-size:20px;margin:0 0 16px;">🧠 Quick Knowledge Check — Week 4</h2>
+       <div id="w4QuizContainer"></div>
+      </div>
+     </div>
+    </div><!-- ============== WEEK 5 ============== -->
+    <div id="week5" class="week-content" style="display:none;">
+     <div class="lesson-card" style="margin-bottom:24px;border-left:4px solid var(--secondary);">
+      <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+       <div style="background:rgba(0,206,201,0.15);padding:10px;border-radius:12px;flex-shrink:0;"><i data-lucide="target" style="width:24px;height:24px;color:var(--secondary);"></i>
+       </div>
+       <div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 6px;">Intended Learning Outcome</h3>
+        <p style="margin:0;color:rgba(232,237,245,0.7);font-size:14px;line-height:1.6;">Describe and analyze emerging technologies and discuss their potential impact on businesses and society.</p>
+       </div>
+      </div>
+     </div>
+     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;" id="w5SubTabs"><button class="sub-tab active" onclick="switchSubTab(5,'lesson')">📖 Lesson</button> <button class="sub-tab" onclick="switchSubTab(5,'scenarios')">🌍 Real-World Scenarios</button> <button class="sub-tab" onclick="switchSubTab(5,'activities')">✏️ Activities</button> <button class="sub-tab" onclick="switchSubTab(5,'quiz')">🧠 Quick Quiz</button>
+     </div><!-- W5 LESSON -->
+     <div id="w5-lesson" class="sub-content"><!-- IoT / Cloud Animated Illustration -->
+      <div class="illustration-box" style="margin-bottom:24px;min-height:260px;">
+       <div style="position:relative;width:100%;height:240px;"><!-- Central cloud -->
+        <div class="cloud-float" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:2;">
+         <div style="font-size:52px;">
+          ☁️
+         </div>
+         <div style="font-size:11px;color:var(--secondary);font-weight:600;">
+          CLOUD
+         </div>
+        </div><!-- Orbit ring -->
+        <div class="orbit-ring" style="width:200px;height:200px;top:50%;left:50%;transform:translate(-50%,-50%) rotate(0deg);"></div><!-- Connected devices -->
+        <div class="orbit-device" style="background:rgba(108,92,231,0.25);border:1px solid var(--primary);top:8%;left:50%;transform:translateX(-50%);">
+         📱
+        </div>
+        <div class="orbit-device" style="background:rgba(0,206,201,0.25);border:1px solid var(--secondary);top:50%;right:5%;transform:translateY(-50%);animation-delay:0.5s;">
+         🏭
+        </div>
+        <div class="orbit-device" style="background:rgba(108,92,231,0.25);border:1px solid var(--primary);bottom:8%;left:50%;transform:translateX(-50%);animation-delay:1s;">
+         🤖
+        </div>
+        <div class="orbit-device" style="background:rgba(0,206,201,0.25);border:1px solid var(--secondary);top:50%;left:5%;transform:translateY(-50%);animation-delay:1.5s;">
+         🏠
+        </div><!-- Labels -->
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:10px;color:#a29bfe;text-align:center;width:60px;">
+         Mobile
+        </div>
+        <div style="position:absolute;top:50%;right:0;transform:translateY(-50%);font-size:10px;color:var(--secondary);text-align:center;width:60px;">
+         Industry 4.0
+        </div>
+        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:10px;color:#a29bfe;text-align:center;width:60px;">
+         AI
+        </div>
+        <div style="position:absolute;top:50%;left:0;transform:translateY(-50%);font-size:10px;color:var(--secondary);text-align:center;width:60px;">
+         IoT
+        </div><!-- Neural network lines in background -->
+        <div class="neural-line" style="width:80px;top:30%;left:20%;transform:rotate(30deg);animation-delay:0s;"></div>
+        <div class="neural-line" style="width:60px;top:60%;right:20%;transform:rotate(-20deg);animation-delay:1s;"></div>
+        <div class="neural-line" style="width:70px;bottom:25%;left:30%;transform:rotate(15deg);animation-delay:2s;"></div>
+        <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:13px;color:rgba(232,237,245,0.5);font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+         Emerging Technology Ecosystem
+        </div>
+       </div>
+      </div><!-- Cloud Computing -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">☁️ Cloud Computing</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 14px;">Cloud computing delivers computing services (servers, storage, databases, software) over the internet — on-demand, pay-as-you-go, like electricity.</p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:16px;">
+        <div style="background:rgba(108,92,231,0.1);padding:16px;border-radius:12px;text-align:center;">
+         <div style="font-size:28px;margin-bottom:6px;">
+          🏗️
+         </div><strong style="font-size:14px;">IaaS</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.5);margin:4px 0 0;">Infrastructure as a Service<br>
+          (e.g., AWS EC2, Azure VMs)</p>
+        </div>
+        <div style="background:rgba(0,206,201,0.1);padding:16px;border-radius:12px;text-align:center;">
+         <div style="font-size:28px;margin-bottom:6px;">
+          🔧
+         </div><strong style="font-size:14px;">PaaS</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.5);margin:4px 0 0;">Platform as a Service<br>
+          (e.g., Google App Engine, Heroku)</p>
+        </div>
+        <div style="background:rgba(108,92,231,0.1);padding:16px;border-radius:12px;text-align:center;">
+         <div style="font-size:28px;margin-bottom:6px;">
+          📦
+         </div><strong style="font-size:14px;">SaaS</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.5);margin:4px 0 0;">Software as a Service<br>
+          (e.g., Google Workspace, Canva, Zoom)</p>
+        </div>
+       </div>
+       <div style="background:rgba(0,206,201,0.06);padding:14px;border-radius:10px;">
+        <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.7);">💡 <strong>Think of it like this:</strong> IaaS = Renting a vacant lot (you build everything). PaaS = Renting a house frame (you furnish it). SaaS = Renting a fully furnished condo (just move in).</p>
+       </div>
+      </div><!-- Mobile Computing -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">📱 Mobile Computing</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 14px;">The Philippines has one of the highest mobile penetration rates in Asia — over <strong style="color:var(--secondary);">78 million smartphone users</strong>. Mobile computing encompasses apps, mobile payments, responsive design, and location-based services.</p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+        <div style="padding:14px;background:rgba(108,92,231,0.06);border-radius:10px;"><strong style="font-size:14px;">📲 Mobile-First Design</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.55);margin:4px 0 0;">Designing for phones first, then scaling up — because most users start on mobile.</p>
+        </div>
+        <div style="padding:14px;background:rgba(0,206,201,0.06);border-radius:10px;"><strong style="font-size:14px;">💸 Mobile Payments</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.55);margin:4px 0 0;">GCash, Maya, and QR payments transforming cashless transactions in the Philippines.</p>
+        </div>
+        <div style="padding:14px;background:rgba(108,92,231,0.06);border-radius:10px;"><strong style="font-size:14px;">📍 Location Services</strong>
+         <p style="font-size:12px;color:rgba(232,237,245,0.55);margin:4px 0 0;">GPS-based apps like Grab, Waze, and food delivery services using real-time location.</p>
+        </div>
+       </div>
+      </div><!-- IoT -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">🌐 Internet of Things (IoT)</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 14px;">IoT connects everyday physical objects to the internet, allowing them to collect and exchange data. By 2030, there will be an estimated <strong style="color:#fdcb6e;">30 billion IoT devices</strong> worldwide.</p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <div style="text-align:center;padding:14px;background:rgba(108,92,231,0.06);border-radius:10px;">
+         <div style="font-size:24px;">
+          🏠
+         </div><strong style="font-size:12px;">Smart Home</strong>
+         <p style="font-size:11px;color:rgba(232,237,245,0.5);margin:2px 0 0;">Thermostats, lights, security cameras</p>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(0,206,201,0.06);border-radius:10px;">
+         <div style="font-size:24px;">
+          ⌚
+         </div><strong style="font-size:12px;">Wearables</strong>
+         <p style="font-size:11px;color:rgba(232,237,245,0.5);margin:2px 0 0;">Smartwatches, fitness trackers, health monitors</p>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(108,92,231,0.06);border-radius:10px;">
+         <div style="font-size:24px;">
+          🌾
+         </div><strong style="font-size:12px;">Smart Agriculture</strong>
+         <p style="font-size:11px;color:rgba(232,237,245,0.5);margin:2px 0 0;">Soil sensors, automated irrigation, drone monitoring</p>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(0,206,201,0.06);border-radius:10px;">
+         <div style="font-size:24px;">
+          🚗
+         </div><strong style="font-size:12px;">Connected Vehicles</strong>
+         <p style="font-size:11px;color:rgba(232,237,245,0.5);margin:2px 0 0;">GPS tracking, diagnostics, autonomous driving</p>
+        </div>
+       </div>
+      </div><!-- AI -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">🤖 Artificial Intelligence (AI)</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 14px;">AI enables machines to simulate human intelligence — learning, reasoning, problem-solving, and decision-making. It's the most transformative technology of our generation.</p>
+       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+        <div style="padding:16px;background:rgba(108,92,231,0.08);border-radius:12px;">
+         <h4 style="margin:0 0 6px;font-size:14px;">🧠 Machine Learning</h4>
+         <p style="font-size:12px;color:rgba(232,237,245,0.6);margin:0;">Systems learn from data without explicit programming. Netflix recommendations, spam filters.</p>
+        </div>
+        <div style="padding:16px;background:rgba(0,206,201,0.08);border-radius:12px;">
+         <h4 style="margin:0 0 6px;font-size:14px;">💬 Natural Language Processing</h4>
+         <p style="font-size:12px;color:rgba(232,237,245,0.6);margin:0;">Understanding human language. ChatGPT, Siri, Google Translate.</p>
+        </div>
+        <div style="padding:16px;background:rgba(108,92,231,0.08);border-radius:12px;">
+         <h4 style="margin:0 0 6px;font-size:14px;">👁️ Computer Vision</h4>
+         <p style="font-size:12px;color:rgba(232,237,245,0.6);margin:0;">Interpreting images/video. Face recognition, medical imaging, quality inspection.</p>
+        </div>
+        <div style="padding:16px;background:rgba(0,206,201,0.08);border-radius:12px;">
+         <h4 style="margin:0 0 6px;font-size:14px;">🎨 Generative AI</h4>
+         <p style="font-size:12px;color:rgba(232,237,245,0.6);margin:0;">Creating new content — text, images, code, music. Tools like ChatGPT, DALL-E, Canva AI.</p>
+        </div>
+       </div>
+      </div><!-- Industry 4.0 -->
+      <div class="lesson-card" style="margin-bottom:20px;">
+       <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin:0 0 14px;">🏭 Industry 4.0 — The Fourth Industrial Revolution</h2>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.8;margin:0 0 16px;">Industry 4.0 merges physical and digital worlds through smart factories, cyber-physical systems, and data-driven automation.</p>
+       <div style="position:relative;overflow-x:auto;">
+        <div style="display:flex;gap:0;min-width:600px;">
+         <div style="flex:1;padding:14px;text-align:center;background:rgba(108,92,231,0.06);border-radius:12px 0 0 12px;">
+          <div style="font-size:24px;">
+           💨
+          </div><strong style="font-size:12px;display:block;margin:4px 0;">Industry 1.0</strong>
+          <p style="font-size:11px;color:rgba(232,237,245,0.5);margin:0;">Steam &amp; Mechanization<br><em>1760s</em></p>
+         </div>
+         <div style="flex:1;padding:14px;text-align:center;background:rgba(0,206,201,0.06);">
+          <div style="font-size:24px;">
+           ⚡
+          </div><strong style="font-size:12px;display:block;margin:4px 0;">Industry 2.0</strong>
+          <p style="font-size:11px;color:rgba(232,237,245,0.5);margin:0;">Electricity &amp; Mass Production<br><em>1870s</em></p>
+         </div>
+         <div style="flex:1;padding:14px;text-align:center;background:rgba(108,92,231,0.06);">
+          <div style="font-size:24px;">
+           💻
+          </div><strong style="font-size:12px;display:block;margin:4px 0;">Industry 3.0</strong>
+          <p style="font-size:11px;color:rgba(232,237,245,0.5);margin:0;">Computers &amp; Automation<br><em>1960s</em></p>
+         </div>
+         <div style="flex:1;padding:14px;text-align:center;background:rgba(0,206,201,0.15);border-radius:0 12px 12px 0;border:1px solid rgba(0,206,201,0.3);">
+          <div style="font-size:24px;">
+           🤖
+          </div><strong style="font-size:12px;display:block;margin:4px 0;color:var(--secondary);">Industry 4.0</strong>
+          <p style="font-size:11px;color:rgba(232,237,245,0.6);margin:0;">AI, IoT, Big Data &amp; Cyber-Physical Systems<br><em>Now</em></p>
+         </div>
+        </div>
+       </div>
+       <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+        <div style="padding:12px;background:rgba(108,92,231,0.06);border-radius:10px;font-size:13px;"><strong>🔗 Key Technologies:</strong>
+         <p style="margin:4px 0 0;color:rgba(232,237,245,0.6);font-size:12px;">Digital Twins, 3D Printing, Robotics, Big Data Analytics, Blockchain</p>
+        </div>
+        <div style="padding:12px;background:rgba(0,206,201,0.06);border-radius:10px;font-size:13px;"><strong>🎯 Business Impact:</strong>
+         <p style="margin:4px 0 0;color:rgba(232,237,245,0.6);font-size:12px;">Predictive maintenance, mass customization, real-time supply chains, zero-defect manufacturing</p>
+        </div>
+       </div>
+      </div>
+     </div><!-- W5 SCENARIOS -->
+     <div id="w5-scenarios" class="sub-content" style="display:none;">
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">☁️ Scenario 1: Jollibee's Cloud Transformation</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Context:</strong> Jollibee Foods Corporation manages over 6,500 stores across 34 countries. During the pandemic, they accelerated their digital transformation by migrating to cloud-based systems for supply chain management, delivery platform integration, and real-time sales analytics.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Technologies Used:</strong> Cloud computing (SaaS for POS systems), Mobile computing (delivery apps), Data analytics (demand forecasting). Their online sales grew by 300% during the pandemic.</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Takeaway:</strong> Cloud computing allowed Jollibee to scale rapidly without building physical IT infrastructure in each new country, reducing IT costs by an estimated 40%.</p>
+      </div>
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">🌾 Scenario 2: Smart Rice Farming in the Philippines</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Context:</strong> The International Rice Research Institute (IRRI) in Los Baños uses IoT sensors and AI to help Filipino farmers optimize their rice production. Sensors measure soil moisture, temperature, and nutrient levels. AI models predict optimal planting and harvest times.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Technologies Used:</strong> IoT (soil and weather sensors), AI (predictive analytics for crop yields), Mobile (farmer advisory apps delivering recommendations via SMS).</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Impact:</strong> Participating farmers reported 15-20% increase in yields and 30% reduction in water usage — addressing food security while conserving resources.</p>
+      </div>
+      <div class="scenario-box" style="margin-bottom:20px;">
+       <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0 0 10px;">🤖 Scenario 3: AI in Philippine BPO Industry</h3>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>Context:</strong> The Philippine BPO industry employs 1.3 million workers and generates $30B annually. AI chatbots and voice assistants are now handling 30-40% of routine customer inquiries. Companies like Concentrix and Teleperformance are training workers to manage AI tools rather than be replaced by them.</p>
+       <p style="color:rgba(232,237,245,0.75);line-height:1.7;margin:0 0 12px;"><strong>The Debate:</strong> Will AI replace BPO jobs, or will it create new ones? Current evidence shows jobs are evolving, not disappearing — from "answering phones" to "training AI models" and "handling complex cases AI cannot resolve."</p>
+       <p style="color:var(--secondary);line-height:1.7;margin:0;"><strong>Key Insight:</strong> Workers who learn to work alongside AI become more valuable. The industry is investing in upskilling programs combining AI literacy with domain expertise.</p>
+      </div>
+     </div><!-- W5 ACTIVITIES -->
+     <div id="w5-activities" class="sub-content" style="display:none;">
+      <div class="activity-card" style="margin-bottom:18px;">
+       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0;">Activity 1: Tech Impact Analysis</h3><span class="activity-badge badge-individual"><i data-lucide="user" style="width:12px;height:12px;"></i> Individual</span>
+       </div>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 12px;"><strong>Instructions:</strong> Choose ONE emerging technology (Cloud, Mobile, IoT, AI, or Industry 4.0). Research a specific real-world implementation in the Philippines or Southeast Asia.</p>
+       <div style="background:rgba(108,92,231,0.08);padding:14px;border-radius:10px;margin-bottom:10px;">
+        <p style="margin:0;font-size:14px;color:rgba(232,237,245,0.7);"><strong>Deliverables:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;color:rgba(232,237,245,0.6);font-size:13px;line-height:1.8;">
+         <li>Describe the technology and how it works (in your own words)</li>
+         <li>Explain the specific implementation you researched</li>
+         <li>Analyze 3 positive impacts and 2 potential risks</li>
+         <li>Predict how this technology will evolve in the next 5 years</li>
+         <li>1-page infographic or 2-page written report</li>
+        </ul>
+       </div>
+       <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.5);">📅 Due: End of Week 5 &nbsp;|&nbsp; 📝 Format: Infographic or Report</p>
+      </div>
+      <div class="activity-card" style="margin-bottom:18px;">
+       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:18px;margin:0;">Activity 2: "Startup Pitch" — Solve a Problem with Emerging Tech</h3><span class="activity-badge badge-group"><i data-lucide="users" style="width:12px;height:12px;"></i> Group (3-5 members)</span>
+       </div>
+       <p style="color:rgba(232,237,245,0.7);line-height:1.7;margin:0 0 12px;"><strong>Instructions:</strong> Your group is a startup. Identify a real problem in your community or school, then propose a solution that uses <em>at least 2 emerging technologies</em> from this week's lesson.</p>
+       <div style="background:rgba(0,206,201,0.08);padding:14px;border-radius:10px;margin-bottom:10px;">
+        <p style="margin:0;font-size:14px;color:rgba(232,237,245,0.7);"><strong>Deliverables — "Shark Tank" Pitch Deck:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;color:rgba(232,237,245,0.6);font-size:13px;line-height:1.8;">
+         <li><strong>Slide 1:</strong> The Problem — What real-world issue are you solving?</li>
+         <li><strong>Slide 2:</strong> Your Solution — How do the technologies work together?</li>
+         <li><strong>Slide 3:</strong> Architecture Diagram — Simple visual of how your system works</li>
+         <li><strong>Slide 4:</strong> Impact — Who benefits? What metrics would you track?</li>
+         <li><strong>Slide 5:</strong> Challenges — What could go wrong? Ethical considerations?</li>
+         <li>7-minute pitch + 3-minute Q&amp;A from classmates acting as "investors"</li>
+        </ul>
+       </div>
+       <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.5);">📅 Due: Week 5 class session &nbsp;|&nbsp; 📝 Format: Slide Presentation + Live Pitch</p>
+      </div>
+     </div><!-- W5 QUIZ -->
+     <div id="w5-quiz" class="sub-content" style="display:none;">
+      <div class="lesson-card">
+       <h2 style="font-family:'Playfair Display',serif;font-size:20px;margin:0 0 16px;">🧠 Quick Knowledge Check — Week 5</h2>
+       <div id="w5QuizContainer"></div>
+      </div>
+     </div>
+    </div><!-- Footer -->
+    <footer style="text-align:center;padding:32px 0 20px;color:rgba(232,237,245,0.3);font-size:13px;">
+     <p style="margin:0;" id="footerText">IS101 — Information Systems Fundamentals &nbsp;|&nbsp; Instructor: MKDB</p>
+     <p style="margin:4px 0 0;">Finals Period — Weeks 3 to 5</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+// ============ DATA ============
+const dqDimensions = [
+  { icon: '🎯', name: 'Accuracy', desc: 'Data correctly represents the real-world entity.', example: 'A student\'s grade is recorded as 95 instead of 59 — that\'s inaccurate data.', color: 'var(--primary)' },
+  { icon: '📦', name: 'Completeness', desc: 'All required data is present with no missing values.', example: 'A customer profile without an email or phone number is incomplete.', color: 'var(--secondary)' },
+  { icon: '🔄', name: 'Consistency', desc: 'Data is uniform across different databases and systems.', example: 'A customer\'s address says "Manila" in one system and "Maynila" in another.', color: 'var(--primary)' },
+  { icon: '⏰', name: 'Timeliness', desc: 'Data is current and available when needed.', example: 'Inventory data updated weekly instead of real-time — you sell items already out of stock.', color: 'var(--secondary)' },
+  { icon: '✅', name: 'Validity', desc: 'Data conforms to defined formats, types, and ranges.', example: 'A phone number field containing "hello" or a date showing "13/32/2024" are invalid.', color: 'var(--primary)' },
+  { icon: '🔑', name: 'Uniqueness', desc: 'No duplicate records exist in the dataset.', example: 'A student registered twice with slightly different spellings creates confusion in records.', color: 'var(--secondary)' }
+];
+
+const threats = [
+  { icon: '🎣', name: 'Phishing', desc: 'Fake emails/messages tricking users into revealing passwords or clicking malicious links.', target: 'Confidentiality' },
+  { icon: '💀', name: 'Malware & Ransomware', desc: 'Software that damages systems or encrypts files for ransom. Spreads via downloads, emails, USB drives.', target: 'Availability, Integrity' },
+  { icon: '🕵️', name: 'Social Engineering', desc: 'Manipulating people into breaking security procedures. Pretexting, baiting, tailgating.', target: 'Confidentiality' },
+  { icon: '👤', name: 'Insider Threats', desc: 'Employees or contractors misusing their access — intentionally or accidentally.', target: 'All three (CIA)' },
+  { icon: '🌊', name: 'DDoS Attacks', desc: 'Overwhelming a system with traffic to make it unavailable. Like 10 million people trying to enter one door.', target: 'Availability' },
+  { icon: '💉', name: 'SQL Injection', desc: 'Inserting malicious code into database queries through input fields to access or destroy data.', target: 'Confidentiality, Integrity' }
+];
+
+const quizData = {
+  3: [
+    { q: 'Which data quality dimension ensures there are no duplicate records?', opts: ['Accuracy', 'Completeness', 'Uniqueness', 'Validity'], ans: 2 },
+    { q: 'A phone number field containing letters violates which dimension?', opts: ['Timeliness', 'Validity', 'Consistency', 'Accuracy'], ans: 1 },
+    { q: 'What does a Data Steward primarily do?', opts: ['Write code for databases', 'Ensure data quality in their domain', 'Delete old records', 'Install antivirus software'], ans: 1 },
+    { q: 'If the same customer has different addresses in two systems, this is a problem of:', opts: ['Completeness', 'Timeliness', 'Consistency', 'Uniqueness'], ans: 2 },
+    { q: 'Inventory data that is updated weekly instead of real-time has a problem with:', opts: ['Accuracy', 'Timeliness', 'Validity', 'Completeness'], ans: 1 }
+  ],
+  4: [
+    { q: 'The CIA Triad stands for:', opts: ['Confidentiality, Intelligence, Access', 'Confidentiality, Integrity, Availability', 'Control, Integrity, Authentication', 'Cybersecurity, Information, Assurance'], ans: 1 },
+    { q: 'What type of attack tricks users into revealing credentials via fake emails?', opts: ['DDoS', 'SQL Injection', 'Phishing', 'Ransomware'], ans: 2 },
+    { q: 'In the PAPA Framework, the "P" in the first position stands for:', opts: ['Property', 'Privacy', 'Protection', 'Processing'], ans: 1 },
+    { q: 'The Data Privacy Act of the Philippines is:', opts: ['RA 10175', 'RA 10173', 'RA 8293', 'RA 9165'], ans: 1 },
+    { q: 'Multi-Factor Authentication (MFA) primarily protects:', opts: ['Availability', 'Integrity', 'Confidentiality', 'Timeliness'], ans: 2 }
+  ],
+  5: [
+    { q: '"Renting a fully furnished condo" is an analogy for which cloud model?', opts: ['IaaS', 'PaaS', 'SaaS', 'DaaS'], ans: 2 },
+    { q: 'IoT stands for:', opts: ['Internet of Transactions', 'Internet of Things', 'Integration of Technology', 'Internal Optimization Tools'], ans: 1 },
+    { q: 'Which technology enables Netflix to recommend shows you might like?', opts: ['IoT', 'Blockchain', 'Machine Learning', 'Cloud Storage'], ans: 2 },
+    { q: 'Industry 4.0 is characterized by:', opts: ['Steam power', 'Electric assembly lines', 'Basic computers', 'AI, IoT, and cyber-physical systems'], ans: 3 },
+    { q: 'GCash and Maya are examples of:', opts: ['Cloud Computing', 'Mobile Payments', 'IoT Devices', 'AI Chatbots'], ans: 1 }
+  ]
+};
+
+// ============ STATE ============
+let currentWeek = 3;
+let quizStates = { 3: {}, 4: {}, 5: {} };
+
+// ============ NAVIGATION ============
+function switchWeek(week) {
+  currentWeek = week;
+  document.querySelectorAll('.week-content').forEach(el => el.style.display = 'none');
+  document.getElementById('week' + week).style.display = 'block';
+
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-week="${week}"]`).classList.add('active');
+
+  // Update progress dots
+  const dots = document.querySelectorAll('.progress-dot');
+  dots.forEach((d, i) => {
+    d.className = 'progress-dot';
+    if (i + 3 < week) d.classList.add('completed');
+    if (i + 3 === week) d.classList.add('active');
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchSubTab(week, tab) {
+  const prefix = 'w' + week;
+  document.querySelectorAll(`#week${week} .sub-content`).forEach(el => el.style.display = 'none');
+  document.getElementById(`${prefix}-${tab}`).style.display = 'block';
+
+  document.querySelectorAll(`#${prefix}SubTabs .sub-tab`).forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ============ BUILD DATA QUALITY DIMENSIONS ============
+function buildDQDimensions() {
+  const container = document.getElementById('dqDimensions');
+  dqDimensions.forEach((dim, i) => {
+    const el = document.createElement('div');
+    el.style.cssText = 'padding:16px;border-radius:12px;background:rgba(108,92,231,0.04);border:1px solid rgba(108,92,231,0.1);cursor:pointer;transition:all 0.3s;';
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:22px;">${dim.icon}</span>
+          <div>
+            <strong style="font-size:15px;">${dim.name}</strong>
+            <p style="margin:2px 0 0;font-size:13px;color:rgba(232,237,245,0.6);">${dim.desc}</p>
+          </div>
+        </div>
+        <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(232,237,245,0.4);transition:transform 0.3s;" class="dim-chevron-${i}"></i>
+      </div>
+      <div class="expandable-content" id="dim-expand-${i}">
+        <div style="margin-top:12px;padding:12px;background:rgba(0,206,201,0.06);border-radius:8px;">
+          <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.7);">💡 <strong>Example:</strong> ${dim.example}</p>
+        </div>
+      </div>
+    `;
+    el.addEventListener('click', () => {
+      const exp = document.getElementById(`dim-expand-${i}`);
+      const chev = document.querySelector(`.dim-chevron-${i}`);
+      exp.classList.toggle('open');
+      chev.style.transform = exp.classList.contains('open') ? 'rotate(180deg)' : '';
+    });
+    container.appendChild(el);
+  });
+}
+
+// ============ BUILD THREATS ============
+function buildThreats() {
+  const container = document.getElementById('threatsList');
+  threats.forEach((t, i) => {
+    const el = document.createElement('div');
+    el.style.cssText = 'padding:14px;border-radius:12px;background:rgba(108,92,231,0.04);border:1px solid rgba(108,92,231,0.1);cursor:pointer;transition:all 0.3s;';
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:22px;">${t.icon}</span>
+          <div>
+            <strong style="font-size:15px;">${t.name}</strong>
+            <span style="font-size:11px;color:#ff7675;margin-left:8px;">Targets: ${t.target}</span>
+          </div>
+        </div>
+        <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(232,237,245,0.4);transition:transform 0.3s;" class="threat-chevron-${i}"></i>
+      </div>
+      <div class="expandable-content" id="threat-expand-${i}">
+        <div style="margin-top:10px;padding:10px;background:rgba(214,48,49,0.06);border-radius:8px;">
+          <p style="margin:0;font-size:13px;color:rgba(232,237,245,0.7);">${t.desc}</p>
+        </div>
+      </div>
+    `;
+    el.addEventListener('click', () => {
+      const exp = document.getElementById(`threat-expand-${i}`);
+      const chev = document.querySelector(`.threat-chevron-${i}`);
+      exp.classList.toggle('open');
+      chev.style.transform = exp.classList.contains('open') ? 'rotate(180deg)' : '';
+    });
+    container.appendChild(el);
+  });
+}
+
+// ============ BUILD QUIZZES ============
+function buildQuiz(week) {
+  const container = document.getElementById(`w${week}QuizContainer`);
+  const questions = quizData[week];
+  quizStates[week] = {};
+
+  questions.forEach((q, qi) => {
+    const qDiv = document.createElement('div');
+    qDiv.style.cssText = 'margin-bottom:20px;';
+    qDiv.innerHTML = `
+      <p style="font-size:15px;font-weight:600;margin:0 0 10px;"><span style="color:var(--secondary);">Q${qi+1}.</span> ${q.q}</p>
+      <div style="display:flex;flex-direction:column;gap:8px;" id="w${week}-q${qi}-opts"></div>
+      <div id="w${week}-q${qi}-feedback" style="margin-top:8px;font-size:13px;display:none;"></div>
+    `;
+    container.appendChild(qDiv);
+
+    const optsContainer = document.getElementById(`w${week}-q${qi}-opts`);
+    q.opts.forEach((opt, oi) => {
+      const btn = document.createElement('div');
+      btn.className = 'quiz-option';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => handleQuizAnswer(week, qi, oi));
+      optsContainer.appendChild(btn);
+    });
+  });
+}
+
+function handleQuizAnswer(week, qi, selectedIdx) {
+  if (quizStates[week][qi] !== undefined) return;
+  quizStates[week][qi] = selectedIdx;
+
+  const correct = quizData[week][qi].ans;
+  const opts = document.querySelectorAll(`#w${week}-q${qi}-opts .quiz-option`);
+  const feedback = document.getElementById(`w${week}-q${qi}-feedback`);
+
+  opts.forEach((o, i) => {
+    o.style.cursor = 'default';
+    if (i === correct) o.classList.add('correct');
+    if (i === selectedIdx && i !== correct) o.classList.add('wrong');
+  });
+
+  feedback.style.display = 'block';
+  if (selectedIdx === correct) {
+    feedback.innerHTML = '<span style="color:#55efc4;">✅ Correct! Well done.</span>';
+  } else {
+    feedback.innerHTML = `<span style="color:#ff7675;">❌ Incorrect.</span> The correct answer is: <strong style="color:#55efc4;">${quizData[week][qi].opts[correct]}</strong>`;
+  }
+}
+
+// ============ INIT ============
+buildDQDimensions();
+buildThreats();
+buildQuiz(3);
+buildQuiz(4);
+buildQuiz(5);
+
+lucide.createIcons();
+
+// ============ ELEMENT SDK ============
+const defaultConfig = {
+  course_title: 'IS101',
+  instructor_name: 'MKDB',
+  background_color: '#0f1729',
+  surface_color: '#1a2542',
+  text_color: '#e8edf5',
+  primary_color: '#6c5ce7',
+  secondary_color: '#00cec9',
+  font_family: 'DM Sans',
+  font_size: 15
+};
+
+function applyConfig(config) {
+  const c = { ...defaultConfig, ...config };
+
+  document.getElementById('courseLabel').textContent = c.course_title;
+  document.getElementById('instructorLabel').textContent = c.instructor_name;
+  document.getElementById('footerText').textContent = `${c.course_title} — Information Systems Fundamentals  |  Instructor: ${c.instructor_name}`;
+
+  const root = document.documentElement;
+  root.style.setProperty('--bg', c.background_color);
+  root.style.setProperty('--surface', c.surface_color);
+  root.style.setProperty('--text', c.text_color);
+  root.style.setProperty('--primary', c.primary_color);
+  root.style.setProperty('--secondary', c.secondary_color);
+
+  document.querySelector('.app-shell').style.background = c.background_color;
+  document.querySelector('.app-shell').style.color = c.text_color;
+
+  const font = c.font_family + ', DM Sans, sans-serif';
+  document.body.style.fontFamily = font;
+
+  const baseSize = c.font_size || 15;
+  document.querySelectorAll('.lesson-card p, .scenario-box p, .activity-card p').forEach(el => {
+    el.style.fontSize = baseSize + 'px';
+  });
+  document.querySelectorAll('h1').forEach(el => el.style.fontSize = (baseSize * 2.8) + 'px');
+  document.querySelectorAll('h2').forEach(el => el.style.fontSize = (baseSize * 1.47) + 'px');
+}
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => applyConfig(config),
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.primary_color || defaultConfig.primary_color, set: (v) => { config.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } },
+      { get: () => config.secondary_color || defaultConfig.secondary_color, set: (v) => { config.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } }
+    ],
+    borderables: [],
+    fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+    fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ['course_title', config.course_title || defaultConfig.course_title],
+    ['instructor_name', config.instructor_name || defaultConfig.instructor_name]
+  ])
+});
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9fad0bfa61d9fec3',t:'MTc3ODYyNjkwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
